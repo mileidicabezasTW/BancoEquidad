@@ -1,5 +1,6 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.exceptions.NegativeValuesException;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -28,17 +29,32 @@ public class CurrentAccountTest {
         CurrentAccount currentAccount = new CurrentAccount();
 
         assertThat(expectedStatusAccount, is(currentAccount.getAccountStatus()));
-
     }
 
     @Test
-    public void shouldHaveDefaultInterestWhenAcountIsCreated(){
+    public void shouldHaveDefaultInterestWhenAccountIsCreated(){
 
         final double expectedInterest = 0.00015;
 
         CurrentAccount currentAccount = new CurrentAccount();
 
         assertThat(expectedInterest, is(currentAccount.getInterest()));
+    }
+
+    @Test(expected = NegativeValuesException.class )
+    public void shouldThrowErrorWhenReceiveNegativeValues() throws NegativeValuesException {
+
+        CurrentAccount currentAccount = new CurrentAccount();
+
+        currentAccount.deposit(-0.9);
+    }
+
+    @Test
+    public void shouldDoNotThrowErrorWhenReceivePositiveValues() throws NegativeValuesException {
+        double expectedAmount = 0.1;
+        CurrentAccount currentAccount = new CurrentAccount();
+        currentAccount.deposit(0.1);
+
 
     }
 }

@@ -1,5 +1,7 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.exceptions.NegativeValuesException;
+
 public class CurrentAccount {
 
     private int id;
@@ -26,5 +28,12 @@ public class CurrentAccount {
 
     public AccountStatus getAccountStatus() {
         return accountStatus;
+    }
+
+    public void deposit(double amount) throws NegativeValuesException {
+        if(amount < 0){
+            throw new NegativeValuesException();
+        }
+
     }
 }

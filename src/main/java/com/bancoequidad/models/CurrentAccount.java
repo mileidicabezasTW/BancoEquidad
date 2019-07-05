@@ -1,6 +1,7 @@
 package com.bancoequidad.models;
 
 import com.bancoequidad.exceptions.NegativeValuesException;
+import com.bancoequidad.exceptions.OutRangeValuesException;
 
 public class CurrentAccount {
 
@@ -30,10 +31,39 @@ public class CurrentAccount {
         return accountStatus;
     }
 
-    public void deposit(double amount) throws NegativeValuesException {
-        if(amount < 0){
+    public void deposit(double depositAmount) throws NegativeValuesException {
+        if (depositAmount < 0) {
             throw new NegativeValuesException();
         }
+        this.balance = this.balance + depositAmount;
+    }
 
+    public void withdraw(double withdrawalAmount) throws NegativeValuesException, OutRangeValuesException {
+        if (withdrawalAmount < 0) {
+            throw new NegativeValuesException();
+        }else if(withdrawalAmount > 2000.0){
+            throw new OutRangeValuesException();
+        }
+        this.balance = withdrawalAmount - this.balance;
+    }
+
+    public void disable() {
+       this.accountStatus = AccountStatus.LOCKED;
+    }
+
+    public void enable() {
+        this.accountStatus = AccountStatus.ACTIVE;
+    }
+
+    public double makeDeposit() throws NegativeValuesException {
+        final double amount = 0.0;
+        deposit(amount);
+        return  amount;
+    }
+
+    public double makeWithdrawal() throws NegativeValuesException, OutRangeValuesException {
+        final double amount = 0.0;
+        withdraw(amount);
+        return  amount;
     }
 }

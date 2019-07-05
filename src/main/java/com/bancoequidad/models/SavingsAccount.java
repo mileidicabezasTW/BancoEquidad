@@ -23,4 +23,7 @@ public class SavingsAccount {
     public AccountStatus getAccountStatus() {
         return accountStatus;
     }
+
+    public void withdraw(double withdrawalAmount) {
+    }
 }

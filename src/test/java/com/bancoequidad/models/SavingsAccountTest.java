@@ -1,5 +1,7 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.exceptions.NegativeValuesException;
+import com.bancoequidad.exceptions.OutRangeValuesException;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -48,6 +50,13 @@ public class SavingsAccountTest {
 
         assertThat(interest, is(savingsAccount.getInterest()));
 
+    }
+
+    @Test(expected = OutRangeValuesException.class)
+    public void shouldThrowErrorWhenMaximumAmountIsExceeded() throws OutRangeValuesException {
+        SavingsAccount currentAccount = new SavingsAccount();
+
+        currentAccount.withdraw(1500.0);
     }
 
 }

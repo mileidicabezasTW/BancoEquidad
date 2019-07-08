@@ -41,24 +41,23 @@ public class Account {
     public void withdraw(double withdrawalAmount) throws NegativeValuesException, OutRangeValuesException {
         if (withdrawalAmount < 0) {
             throw new NegativeValuesException();
-        }else if(withdrawalAmount > 2000.0){
+        } else if (withdrawalAmount > 2000.0) {
             throw new OutRangeValuesException();
         }
         this.balance = withdrawalAmount - this.balance;
     }
 
     public void disable() {
-       this.accountStatus = AccountStatus.LOCKED;
+        this.accountStatus = AccountStatus.LOCKED;
     }
 
     public void enable() {
         this.accountStatus = AccountStatus.ACTIVE;
     }
 
-
     public String print() {
-        final String detail = "Id Account "+this.id +" Balance Account "+ this.balance
-                              + " Account Status " + getAccountStatus();
+        final String detail = "Id Account " + this.id + " Balance Account " + this.balance
+                + " Account Status " + getAccountStatus();
         return detail;
     }
 

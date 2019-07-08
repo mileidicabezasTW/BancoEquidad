@@ -2,7 +2,6 @@ package com.bancoequidad.models;
 
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -10,7 +9,7 @@ import static org.junit.Assert.*;
 public class AccountTest {
 
     @Test
-    public void shouldHaveAllNecessaryAttributes(){
+    public void shouldHaveAllNecessaryAttributes() {
 
         final int EXPECTEDID = 0;
         final double EXPECTEDINTEREST = 0.00015;
@@ -24,7 +23,7 @@ public class AccountTest {
     }
 
     @Test
-    public void shouldHaveStateActiveWhenAccountIsCreated(){
+    public void shouldHaveStateActiveWhenAccountIsCreated() {
         AccountStatus expectedStatusAccount = AccountStatus.ACTIVE;
 
         Account currentAccount = new Account();
@@ -33,7 +32,7 @@ public class AccountTest {
     }
 
     @Test
-    public void shouldHaveDefaultInterestWhenAccountIsCreated(){
+    public void shouldHaveDefaultInterestWhenAccountIsCreated() {
 
         final double EXPECTEDINTEREST = 0.00015;
 
@@ -52,7 +51,7 @@ public class AccountTest {
         assertThat(currentAccount.getBalance(), is(EXPECTEDAMOUNT));
     }
 
-    @Test(expected = NegativeValuesException.class )
+    @Test(expected = NegativeValuesException.class)
     public void shouldThrowErrorWhenReceiveNegativeValuesDeposit() throws NegativeValuesException {
         final double EXPECTEDAMOUNT = -0.9;
         Account currentAccount = new Account();
@@ -62,8 +61,8 @@ public class AccountTest {
 
     @Test
     public void shouldDoNotThrowErrorWhenReceivePositiveValues() throws NegativeValuesException {
-       final double EXPECTEDAMOUNT = 0.1;
-       Account currentAccount = new Account();
+        final double EXPECTEDAMOUNT = 0.1;
+        Account currentAccount = new Account();
 
         currentAccount.deposit(EXPECTEDAMOUNT);
     }
@@ -73,19 +72,19 @@ public class AccountTest {
         Account currentAccount = new Account();
         final double EXPECTEDAMOUNT = 0;
 
-        currentAccount.deposit(EXPECTEDAMOUNT );
+        currentAccount.deposit(EXPECTEDAMOUNT);
 
-        assertThat(currentAccount.getBalance() , is(EXPECTEDAMOUNT));
+        assertThat(currentAccount.getBalance(), is(EXPECTEDAMOUNT));
     }
 
     @Test
     public void shouldWithdrawalToBeMake() throws NegativeValuesException, OutRangeValuesException {
         Account currentAccount = new Account();
-        final double EXPECTEDAMOUNT  = 0;
+        final double EXPECTEDAMOUNT = 0;
 
         currentAccount.deposit(EXPECTEDAMOUNT);
 
-        assertThat(currentAccount.getBalance() , is(EXPECTEDAMOUNT));
+        assertThat(currentAccount.getBalance(), is(EXPECTEDAMOUNT));
     }
 
     @Test(expected = OutRangeValuesException.class)
@@ -107,32 +106,31 @@ public class AccountTest {
         assertThat(currentAccount.getBalance(), is(EXPECTEDBALANCEAMOUNT));
     }
 
-
-   @Test
-    public void shouldDeactivateAccountWhenThisBeDisabled(){
+    @Test
+    public void shouldDeactivateAccountWhenThisBeDisabled() {
         Account currentAccount = new Account();
         AccountStatus expectedStatus = AccountStatus.LOCKED;
         currentAccount.disable();
 
-        assertThat(currentAccount.getAccountStatus(),is(expectedStatus));
-   }
+        assertThat(currentAccount.getAccountStatus(), is(expectedStatus));
+    }
 
     @Test
-    public void shouldActiveAccountWhenThisBeEnable(){
+    public void shouldActiveAccountWhenThisBeEnable() {
         Account currentAccount = new Account();
         AccountStatus expectedStatus = AccountStatus.ACTIVE;
         currentAccount.enable();
 
-        assertThat(currentAccount.getAccountStatus(),is(expectedStatus));
+        assertThat(currentAccount.getAccountStatus(), is(expectedStatus));
     }
 
     @Test
-    public void shouldDetailToBePrinted(){
+    public void shouldDetailToBePrinted() {
         Account account = new Account();
 
-        final String expectedDetail = "Id Account " +account.getId() +" Balance Account "+ account.getBalance()
-                                      +" Account Status "+ account.getAccountStatus();
+        final String expectedDetail = "Id Account " + account.getId() + " Balance Account " + account.getBalance()
+                + " Account Status " + account.getAccountStatus();
 
-        assertThat(expectedDetail,is(account.print()));
+        assertThat(expectedDetail, is(account.print()));
     }
 }

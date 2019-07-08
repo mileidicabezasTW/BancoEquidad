@@ -14,20 +14,20 @@ public class ClientTest {
     public void shouldThatWhenClientIsCreatedThisHaveTheNecessaryAttributes(){
 
         Client client = new Client();
-        final String expectedName = client.getName();
-        final String expectedIdNumber = client.getIdNumber();
-        MaritalStatus expectedMaritalStatus = MaritalStatus.SINGLE;
+        final String EXPECTED_NAME = client.getName();
+        final String EXPECTED_ID_NUMBER = client.getIdNumber();
+        final MaritalStatus EXPECTED_MARITAL_STATUS = MaritalStatus.SINGLE;
 
 
-        assertThat(expectedName, is(client.getName()));
-        assertThat(expectedIdNumber, is(client.getIdNumber()));
-        assertThat(expectedMaritalStatus, is(client.getMaritalStatus(MaritalStatus.SINGLE)));
+        assertThat(EXPECTED_NAME, is(client.getName()));
+        assertThat(EXPECTED_ID_NUMBER, is(client.getIdNumber()));
+        assertThat(EXPECTED_MARITAL_STATUS, is(client.getMaritalStatus(MaritalStatus.SINGLE)));
     }
 
     @Test
     public void shouldClientHaveAAccountsList(){
         Client client = new Client();
-        List <Account> expectedAccountList = new ArrayList();
+        List <CurrentAccount> expectedAccountList = new ArrayList();
 
         assertThat(client.clientAccount, is(expectedAccountList));
     }
@@ -35,10 +35,10 @@ public class ClientTest {
     @Test
     public void shouldPrintDetail(){
         Client client = new Client();
-        String EXPECTEDDETAIL = "Name "+client.getName()+" Id Number "+client.getIdNumber()+
+        String EXPECTED_DETAIL = "Name "+client.getName()+" Id Number "+client.getIdNumber()+
                                 " Marital Status "+client.getMaritalStatus(MaritalStatus.SINGLE);
 
-        assertThat(client.print(),is(EXPECTEDDETAIL));
+        assertThat(client.print(),is(EXPECTED_DETAIL));
     }
 
 

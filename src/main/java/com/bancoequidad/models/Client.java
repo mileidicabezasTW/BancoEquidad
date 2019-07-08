@@ -7,7 +7,7 @@ public class Client {
     private String name;
     private String idNumber;
     private MaritalStatus maritalStatus;
-    List<Account> clientAccount = new ArrayList<>();
+    List<CurrentAccount> clientAccount = new ArrayList<>();
 
 
     public String getName() {

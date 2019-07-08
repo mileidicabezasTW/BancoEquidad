@@ -12,19 +12,13 @@ public class SavingsAccountTest {
     @Test
     public void shouldHaveAllNecessaryAttributes(){
 
-        //Arrange - Preparar
-
         SavingsAccount savingsAccount = new SavingsAccount();
 
-        final int id = 0;
-        final double expectedBalance = 0;
+        final int ID = 0;
+        final double EXPECTED_BALANCE = 0;
 
-        //Act - Actuar
-
-        //Assert - Afirmar
-
-        assertThat(id, is(savingsAccount.getId()));
-        assertThat(expectedBalance, is(savingsAccount.balance));
+        assertThat(ID, is(savingsAccount.getId()));
+        assertThat(EXPECTED_BALANCE, is(savingsAccount.balance));
 
     }
 
@@ -44,19 +38,30 @@ public class SavingsAccountTest {
     @Test
     public void shouldHaveDefaultlInsterestWhenAccountIsCreated(){
 
-        double interest = 0.0001;
+        final double INTEREST = 0.0001;
 
         SavingsAccount savingsAccount = new SavingsAccount();
 
-        assertThat(interest, is(savingsAccount.getInterest()));
+        assertThat(INTEREST, is(savingsAccount.getInterest()));
 
     }
 
     @Test(expected = OutRangeValuesException.class)
-    public void shouldThrowErrorWhenMaximumAmountIsExceeded() throws OutRangeValuesException {
-        SavingsAccount currentAccount = new SavingsAccount();
+    public void shouldThrowErrorWhenMaximumAmountIsExceeded() throws OutRangeValuesException, NegativeValuesException {
+        SavingsAccount savingsAccount = new SavingsAccount();
 
-        currentAccount.withdraw(1500.0);
+        savingsAccount.withdraw(3000.0);
+    }
+
+    @Test
+    public void shouldSubtractTheWithdrawalAmountToTheCurrentAmount() throws NegativeValuesException, OutRangeValuesException {
+        SavingsAccount savingsAccount = new SavingsAccount();
+        final double EXPECTED_BALANCE_AMOUNT = 45.56;
+        final double BALANCE_AMOUNT = 45.56;
+
+        savingsAccount.withdraw(BALANCE_AMOUNT);
+
+        assertThat(savingsAccount.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
 }

@@ -56,14 +56,14 @@ public class CurrentAccount {
     }
 
     public double makeDeposit() throws NegativeValuesException {
-        final double amount = 0.0;
-        deposit(amount);
-        return  amount;
+        final double AMOUNT = 0.0;
+        deposit(AMOUNT);
+        return  AMOUNT;
     }
 
     public double makeWithdrawal() throws NegativeValuesException, OutRangeValuesException {
-        final double amount = 0.0;
-        withdraw(amount);
-        return  amount;
+        final double AMOUNT = 0.0;
+        withdraw(AMOUNT);
+        return  AMOUNT;
     }
 }

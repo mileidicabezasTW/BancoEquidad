@@ -3,6 +3,7 @@ package com.bancoequidad.models;
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -15,7 +16,7 @@ public class CurrentAccountTest {
         final double EXPECTED_INTEREST = 0.00015;
         final double EXPECTED_BALANCE = 0.0;
 
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
 
         assertThat(EXPECTED_ID, is(currentAccount.getId()));
         assertThat(EXPECTED_INTEREST, is(currentAccount.getInterest()));
@@ -26,7 +27,7 @@ public class CurrentAccountTest {
     public void shouldHaveStateActiveWhenAccountIsCreated() {
         AccountStatus expectedStatusAccount = AccountStatus.ACTIVE;
 
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
 
         assertThat(expectedStatusAccount, is(currentAccount.getAccountStatus()));
     }
@@ -36,14 +37,14 @@ public class CurrentAccountTest {
 
         final double EXPECTED_INTEREST = 0.00015;
 
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
 
         assertThat(EXPECTED_INTEREST, is(currentAccount.getInterest()));
     }
 
     @Test
     public void shouldAddDepositAmountToTheBalance() throws NegativeValuesException {
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
         final double EXPECTED_AMOUNT = 45.56;
 
         currentAccount.deposit(EXPECTED_AMOUNT);
@@ -54,7 +55,7 @@ public class CurrentAccountTest {
     @Test(expected = NegativeValuesException.class)
     public void shouldThrowErrorWhenReceiveNegativeValuesDeposit() throws NegativeValuesException {
         final double EXPECTED_AMOUNT = -0.9;
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
 
         currentAccount.deposit(EXPECTED_AMOUNT);
     }
@@ -62,14 +63,14 @@ public class CurrentAccountTest {
     @Test
     public void shouldDoNotThrowErrorWhenReceivePositiveValues() throws NegativeValuesException {
         final double EXPECTED_AMOUNT = 0.1;
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
 
         currentAccount.deposit(EXPECTED_AMOUNT);
     }
 
     @Test
     public void shouldDepositToBeMake() throws NegativeValuesException {
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
         final double EXPECTED_AMOUNT = 0;
 
         currentAccount.deposit(EXPECTED_AMOUNT);
@@ -79,7 +80,7 @@ public class CurrentAccountTest {
 
     @Test
     public void shouldWithdrawalToBeMake() throws NegativeValuesException, OutRangeValuesException {
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
         final double EXPECTED_AMOUNT = 0;
 
         currentAccount.deposit(EXPECTED_AMOUNT);
@@ -89,7 +90,7 @@ public class CurrentAccountTest {
 
     @Test(expected = OutRangeValuesException.class)
     public void shouldThrowErrorWhenMaximumAmountIsExceeded() throws OutRangeValuesException, NegativeValuesException {
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
         final double WITHDRAWAL_AMOUNT = 4000.0;
 
         currentAccount.withdraw(WITHDRAWAL_AMOUNT);
@@ -97,7 +98,7 @@ public class CurrentAccountTest {
 
     @Test
     public void shouldSubtractTheWithdrawalAmountToTheCurrentAmount() throws NegativeValuesException, OutRangeValuesException {
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
         final double EXPECTED_BALANCE_AMOUNT = 45.56;
         final double BALANCE_AMOUNT = 45.56;
 
@@ -108,7 +109,7 @@ public class CurrentAccountTest {
 
     @Test
     public void shouldDeactivateAccountWhenThisBeDisabled() {
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
         AccountStatus expectedStatus = AccountStatus.LOCKED;
         currentAccount.disable();
 
@@ -117,7 +118,7 @@ public class CurrentAccountTest {
 
     @Test
     public void shouldActiveAccountWhenThisBeEnable() {
-        CurrentAccount currentAccount = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
         AccountStatus expectedStatus = AccountStatus.ACTIVE;
         currentAccount.enable();
 
@@ -126,11 +127,11 @@ public class CurrentAccountTest {
 
     @Test
     public void shouldDetailToBePrinted() {
-        CurrentAccount account = new CurrentAccount();
+        Account currentAccount = new CurrentAccount();
 
-        final String expectedDetail = "Id Account " + account.getId() + " Balance Account " + account.getBalance()
-                + " Account Status " + account.getAccountStatus();
+        final String expectedDetail = "Id Account " + currentAccount.getId() + " Balance Account " + currentAccount.getBalance()
+                + " Account Status " + currentAccount.getAccountStatus();
 
-        assertThat(expectedDetail, is(account.print()));
+        assertThat(expectedDetail, is(currentAccount.print()));
     }
 }

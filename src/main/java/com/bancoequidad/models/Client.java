@@ -7,8 +7,7 @@ public class Client {
     private String name;
     private String idNumber;
     private MaritalStatus maritalStatus;
-    List<CurrentAccount> clientAccount = new ArrayList<>();
-
+    List<Account> clientAccount = new ArrayList<Account>();
 
     public String getName() {
         return name;
@@ -22,9 +21,15 @@ public class Client {
         return maritalStatus;
     }
 
+    public List<Account> getClientAccount() {
+
+        return clientAccount;
+    }
+
     public String print() {
         String detail = "Name "+this.getName()+" Id Number "+this.getIdNumber()+
                         " Marital Status "+this.getMaritalStatus(maritalStatus.SINGLE);
         return detail;
     }
+
 }

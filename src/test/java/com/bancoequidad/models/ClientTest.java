@@ -27,7 +27,7 @@ public class ClientTest {
     @Test
     public void shouldClientHaveAAccountsList(){
         Client client = new Client();
-        List <CurrentAccount> expectedAccountList = new ArrayList();
+        List <Account> expectedAccountList = new ArrayList();
 
         assertThat(client.clientAccount, is(expectedAccountList));
     }
@@ -40,7 +40,4 @@ public class ClientTest {
 
         assertThat(client.print(),is(EXPECTED_DETAIL));
     }
-
-
-
 }

@@ -5,18 +5,19 @@ import java.util.List;
 
 public class Bank {
 
+    Account savingsAccount = new SavingsAccount();
+    Account currentAccount = new CurrentAccount();
+    Client client = new Client();
 
     protected List<Account> accountList = new ArrayList<>();
     protected List<Client> clientList = new ArrayList<>();
-
-    Client client = new Client();
 
     public List<Client> getClientList() {
         return clientList;
     }
 
     public void clientList(){
-        Client client = new Client();
+
         client.getIdNumber();
         client.getName();
         client.getMaritalStatus(MaritalStatus.SINGLE);

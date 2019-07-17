@@ -1,7 +1,10 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.exceptions.InsufficientValuesException;
+import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,50 +15,107 @@ import static org.junit.Assert.*;
 
 public class BankTest {
 
-    @Test
-    public void shouldHaveAllNecessaryAttributes(){
-        Bank bank = new Bank();
-        List<Account> expectedAccountsList = new ArrayList<Account>();
-        List<Client> expectedClientList = new ArrayList<Client>();
-        assertThat(expectedAccountsList,is(bank.accountList));
-        assertThat(expectedClientList, is(bank.clientList));
+    Bank bank;
+
+    @Before
+    public void init() {
+        bank = new Bank();
     }
 
     @Test
-    public void shouldHaveAClientLIst(){
-        List<Client> expectedClientList = new ArrayList<>();
-        Bank bank = new Bank();
-        Client client = new Client();
-        client.getIdNumber();
-        client.getName();
-        client.getMaritalStatus(MaritalStatus.SINGLE);
-        expectedClientList.add(client);
-
+    public void shouldHaveAllNecessaryAttributes() {
+        List<Account> expectedAccountsList = new ArrayList<Account>();
+        List<Client> expectedClientList = new ArrayList<Client>();
+        assertThat(expectedAccountsList, is(bank.accountList));
         assertThat(expectedClientList, is(bank.getClientList()));
     }
 
     @Test
-    public void shouldHaveMakeDeposit() throws NegativeValuesException {
-        Bank bank = new Bank();
-        final double EXPECTED_AMOUNT = 34.0;
-        bank.savingsAccount.deposit(EXPECTED_AMOUNT);
-        assertThat(EXPECTED_AMOUNT,is(bank.savingsAccount.getBalance()));
+    public void shouldHaveAClientList() {
+        List<Client> expectedList = new ArrayList<>();
+        Client client = new Client();
+        expectedList.add(client);
+
+        bank.setClientList(expectedList);
+
+        assertThat(bank.getClientList(), is(expectedList));
     }
 
     @Test
-    public void shouldHaveWithdrawalMake() throws NegativeValuesException, OutRangeValuesException  {
-        Bank bank = new Bank();
-        final double EXPECTED_AMOUNT = 3.0;
-        bank.savingsAccount.withdraw(EXPECTED_AMOUNT);
-        assertThat(EXPECTED_AMOUNT, is(bank.savingsAccount.getBalance()));
+    public void shouldHaveASavingsAccountList() {
+        List<Account> expectedAccount = new ArrayList<>();
+        Account account = new SavingsAccount();
+        expectedAccount.add(account);
 
+        bank.setAccountList(expectedAccount);
 
+        assertThat(bank.getAccountList(), is(expectedAccount));
     }
 
+    @Test
+    public void shouldHaveACurrentAccountList() {
+        List<Account> expectedAccount = new ArrayList<>();
+        Account account = new CurrentAccount();
+        expectedAccount.add(account);
 
+        bank.setAccountList(expectedAccount);
 
+        assertThat(bank.getAccountList(),is(expectedAccount));
+    }
 
+    @Test
+    public void shouldHaveTransferMade() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
+        final Account ACCOUNT_NUMBER_ONE = new SavingsAccount();
+        final Account ACCOUNT_NUMBER_TWO = new SavingsAccount();
+        final double DEPOSIT_AMOUNT = 4.67;
 
+        bank.doTransfer(ACCOUNT_NUMBER_ONE,ACCOUNT_NUMBER_TWO,DEPOSIT_AMOUNT);
+        ACCOUNT_NUMBER_ONE.deposit(DEPOSIT_AMOUNT);
+        ACCOUNT_NUMBER_TWO.getBalance();
 
+        assertThat(bank.doTransfer(ACCOUNT_NUMBER_ONE,ACCOUNT_NUMBER_TWO,DEPOSIT_AMOUNT), is(ACCOUNT_NUMBER_TWO.getBalance()));
+    }
 
+    @Test
+    public void shouldHaveMadeDepositInSavingsAccount() throws NegativeValuesException, InvalidValuesException {
+        final double EXPECTED_AMOUNT = 60.0;
+        final double AMOUNT = 60.0;
+        bank.savingsAccount.deposit(AMOUNT);
+        assertThat(bank.savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
+    }
+
+    @Test
+    public void shouldHaveWithdrawalMadeInSavingsAccount() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
+        final double EXPECTED_AMOUNT = 53.0;
+        final double AMOUNT_TO_DEPOSIT = 60.0;
+        final double AMOUNT_TO_WITHDRAWAL = 7.0;
+        bank.savingsAccount.deposit(AMOUNT_TO_DEPOSIT);
+        bank.savingsAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
+        assertThat(bank.savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
+    }
+
+    @Test
+    public void shouldHaveMakeDepositInCurrentAccount() throws NegativeValuesException, InvalidValuesException {
+        final double EXPECTED_AMOUNT = 33.66;
+        final double AMOUNT = 34.0;
+        bank.currentAccount.deposit(AMOUNT);
+        assertThat(bank.currentAccount.getBalance(), is(EXPECTED_AMOUNT));
+    }
+
+    @Test
+    public void shouldHaveWithdrawalMakeInCurrentAccount() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
+        final double EXPECTED_AMOUNT = 52.4;
+        final double AMOUNT_TO_DEPOSIT = 60.0;
+        final double AMOUNT_TO_WITHDRAWAL = 7.0;
+
+        bank.currentAccount.deposit(AMOUNT_TO_DEPOSIT);
+        bank.currentAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
+
+        assertThat(bank.currentAccount.getBalance(), is(EXPECTED_AMOUNT));
+    }
+
+    @Test
+    public void shouldHaveTransferMakeInSavingsAccount() {
+
+    }
 }

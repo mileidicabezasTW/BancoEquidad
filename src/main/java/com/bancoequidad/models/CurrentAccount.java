@@ -1,5 +1,7 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.exceptions.InsufficientValuesException;
+import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
 
@@ -11,36 +13,40 @@ public class CurrentAccount extends Account {
     }
 
     @Override
-    public void deposit(double depositAmount) throws NegativeValuesException {
+    public void deposit(double depositAmount) throws NegativeValuesException, InvalidValuesException {
         final double MINIMAL_DEPOSIT_VALUE = 0;
+        double percentageAmount = 1.0;
+        double percentageTotal = 100.0;
         if (depositAmount < MINIMAL_DEPOSIT_VALUE) {
             throw new NegativeValuesException();
         }
-        this.balance = this.balance + depositAmount;
+        if (depositAmount == MINIMAL_DEPOSIT_VALUE) {
+            throw new InvalidValuesException();
+        }
+        percentageAmount = (depositAmount *  percentageAmount) / percentageTotal;
+        this.balance = (this.balance + depositAmount) - percentageAmount;
     }
 
     @Override
-    public void withdraw(double withdrawalAmount) throws NegativeValuesException, OutRangeValuesException {
+    public void withdraw(double withdrawalAmount) throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
         final double MINIMAL_WITHDRAWAL_VALUE = 0;
         final double MAXIMAL_WITHDRAWAL_VALUE = 2000.0;
 
         if (withdrawalAmount < MINIMAL_WITHDRAWAL_VALUE) {
             throw new NegativeValuesException();
-        } else if (withdrawalAmount > MAXIMAL_WITHDRAWAL_VALUE) {
+        }
+        if (withdrawalAmount > MAXIMAL_WITHDRAWAL_VALUE) {
             throw new OutRangeValuesException();
         }
-        this.balance = withdrawalAmount - this.balance;
+        if (withdrawalAmount == MINIMAL_WITHDRAWAL_VALUE) {
+            throw new InvalidValuesException();
+        }
+        if (withdrawalAmount > this.balance) {
+            throw new InsufficientValuesException();
+        }
+        this.balance = this.balance - withdrawalAmount;
     }
 
-    @Override
-    public void disable() {
-        this.accountStatus = AccountStatus.LOCKED;
-    }
-
-    @Override
-    public void enable() {
-        this.accountStatus = AccountStatus.ACTIVE;
-    }
 
     @Override
     public String print() {

@@ -1,5 +1,6 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
 
@@ -11,32 +12,32 @@ public class SavingsAccount extends Account{
     }
 
     @Override
-    public void deposit(double depositAmount) throws NegativeValuesException {
+    public void deposit(double depositAmount) throws NegativeValuesException, InvalidValuesException {
         final double MINIMAL_DEPOSIT_VALUE = 0;
         if (depositAmount < MINIMAL_DEPOSIT_VALUE) {
             throw new NegativeValuesException();
+        }
+        if(depositAmount == MINIMAL_DEPOSIT_VALUE){
+            throw new InvalidValuesException();
         }
         this.balance = this.balance + depositAmount;
     }
 
     @Override
-    public void withdraw(double withdrawalAmount) throws NegativeValuesException, OutRangeValuesException {
-        if (withdrawalAmount < 0) {
-            throw new NegativeValuesException();
-        } else if (withdrawalAmount > 1000.0) {
+    public void withdraw(double withdrawalAmount) throws OutRangeValuesException, InvalidValuesException, NegativeValuesException {
+        final double MINIMAL_WITHDRAWAL_VALUE = 0;
+        final double MAXIMAL_WITHDRAWAL_VALUE = 1000.0;
+
+         if (withdrawalAmount > MAXIMAL_WITHDRAWAL_VALUE) {
             throw new OutRangeValuesException();
         }
-        this.balance = withdrawalAmount - this.balance;
-    }
-
-    @Override
-    public void disable() {
-        this.accountStatus = AccountStatus.LOCKED;
-    }
-
-    @Override
-    public void enable() {
-        this.accountStatus = AccountStatus.ACTIVE;
+         if(withdrawalAmount < MINIMAL_WITHDRAWAL_VALUE){
+             throw new NegativeValuesException();
+         }
+        if(withdrawalAmount == MINIMAL_WITHDRAWAL_VALUE){
+            throw new InvalidValuesException();
+        }
+        this.balance = this.balance - withdrawalAmount;
     }
 
     @Override

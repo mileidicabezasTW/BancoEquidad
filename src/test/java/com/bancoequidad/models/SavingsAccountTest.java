@@ -1,7 +1,11 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.Enum.AccountStatus;
+import com.bancoequidad.exceptions.InsufficientValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
+import com.bancoequidad.exceptions.InvalidValuesException;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -9,10 +13,14 @@ import static org.junit.Assert.*;
 
 public class SavingsAccountTest {
 
+    private Account savingsAccount;
+    @Before
+    public void init(){
+        savingsAccount = new SavingsAccount();
+    }
+
     @Test
     public void shouldHaveAllNecessaryAttributes() {
-        Account savingsAccount = new SavingsAccount();
-
         final int ID = 0;
         final double EXPECTED_BALANCE = 0;
 
@@ -22,15 +30,10 @@ public class SavingsAccountTest {
 
     @Test
     public void shouldHaveStateActiveWhenAccountIsCreated() {
-        //Arrange
+
         AccountStatus status = AccountStatus.ACTIVE;
 
-        //act
-        Account savingsAccount = new SavingsAccount();
-
-        //Assert
         assertThat(status, is(savingsAccount.getAccountStatus()));
-
     }
 
     @Test
@@ -38,78 +41,65 @@ public class SavingsAccountTest {
 
         final double INTEREST = 0.0001;
 
-        Account savingsAccount = new SavingsAccount();
-
         assertThat(INTEREST, is(savingsAccount.getInterest()));
     }
 
     @Test
-    public void shouldAddDepositAmountToTheBalance() throws NegativeValuesException {
-        Account savingsAccount = new SavingsAccount();
+    public void shouldAddDepositAmountToTheBalance() throws NegativeValuesException, InvalidValuesException {
         final double EXPECTED_AMOUNT = 45.56;
-
         savingsAccount.deposit(EXPECTED_AMOUNT);
 
         assertThat(savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
     }
 
     @Test(expected = NegativeValuesException.class)
-    public void shouldThrowErrorWhenReceiveNegativeValuesDeposit() throws NegativeValuesException {
+    public void shouldThrowErrorWhenReceiveNegativeValuesDeposit() throws NegativeValuesException, InvalidValuesException {
         final double EXPECTED_AMOUNT = -0.9;
-        Account savingsAccount = new SavingsAccount();
 
         savingsAccount.deposit(EXPECTED_AMOUNT);
     }
 
-    @Test
-    public void shouldDoNotThrowErrorWhenReceivePositiveValues() throws NegativeValuesException {
-        final double EXPECTED_AMOUNT = 0.1;
-        Account savingsAccount = new SavingsAccount();
+    @Test(expected = NegativeValuesException.class)
+    public void shouldThrowErrorWhenReceiveNegativeValuesWithdrawal() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+        final double EXPECTED_AMOUNT = -0.9;
 
-        savingsAccount.deposit(EXPECTED_AMOUNT);
-    }
-
-    @Test
-    public void shouldDepositToBeMake() throws NegativeValuesException {
-        Account savingsAccount = new SavingsAccount();
-        final double EXPECTED_AMOUNT = 0;
-
-        savingsAccount.deposit(EXPECTED_AMOUNT);
-
-        assertThat(savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
+        savingsAccount.withdraw(EXPECTED_AMOUNT);
     }
 
     @Test(expected = OutRangeValuesException.class)
-    public void shouldThrowErrorWhenMaximumWithdrawalAmountIsExceeded() throws OutRangeValuesException, NegativeValuesException {
-        Account savingsAccount = new SavingsAccount();
+    public void shouldThrowErrorWhenMaximumWithdrawalAmountIsExceeded() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
 
         savingsAccount.withdraw(3000.0);
     }
 
-    @Test
-    public void shouldSubtractTheWithdrawalAmountToTheCurrentAmount() throws NegativeValuesException, OutRangeValuesException {
-        Account savingsAccount = new SavingsAccount();
-        final double EXPECTED_BALANCE_AMOUNT = 45.56;
-        final double BALANCE_AMOUNT = 45.56;
+    @Test(expected = InvalidValuesException.class)
+    public void shouldThrowErrorWhenDepositAmountIsZero() throws NegativeValuesException, InvalidValuesException {
+        final double AMOUNT = 0;
 
-        savingsAccount.withdraw(BALANCE_AMOUNT);
+       savingsAccount.deposit(AMOUNT);
+    }
+
+    @Test(expected = InvalidValuesException.class)
+    public void shouldThrowErrorWhenWithdrawalAmountIsZero() throws NegativeValuesException, InvalidValuesException, OutRangeValuesException, InsufficientValuesException {
+        final double AMOUNT = 0;
+
+        savingsAccount.withdraw(AMOUNT);
+    }
+
+    @Test
+    public void shouldSubtractTheWithdrawalAmountFromTheCurrentAmount() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
+        final double AMOUNT_TO_DEPOSIT = 60.0;
+        final double AMOUNT_TO_WITHDRAWAL = 7.0;
+        final double EXPECTED_BALANCE_AMOUNT = AMOUNT_TO_DEPOSIT - AMOUNT_TO_WITHDRAWAL;
+        savingsAccount.deposit(AMOUNT_TO_DEPOSIT);
+
+        savingsAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
 
         assertThat(savingsAccount.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
     @Test
-    public void shouldWithdrawalToBeMake() throws NegativeValuesException, OutRangeValuesException {
-        Account currentAccount = new CurrentAccount();
-        final double EXPECTED_AMOUNT = 0;
-
-        currentAccount.deposit(EXPECTED_AMOUNT);
-
-        assertThat(currentAccount.getBalance(), is(EXPECTED_AMOUNT));
-    }
-
-    @Test
     public void shouldDeactivateAccountWhenThisBeDisabled() {
-        Account savingsAccount = new SavingsAccount();
         AccountStatus expectedStatus = AccountStatus.LOCKED;
         savingsAccount.disable();
 
@@ -118,7 +108,6 @@ public class SavingsAccountTest {
 
     @Test
     public void shouldActiveAccountWhenThisBeEnable() {
-        Account savingsAccount = new SavingsAccount();
         AccountStatus expectedStatus = AccountStatus.ACTIVE;
         savingsAccount.enable();
 
@@ -127,8 +116,6 @@ public class SavingsAccountTest {
 
     @Test
     public void shouldDetailToBePrinted() {
-        Account savingsAccount = new SavingsAccount();
-
         final String expectedDetail = "Id Account " + savingsAccount.getId() + " Balance Account " + savingsAccount.getBalance()
                 + " Account Status " + savingsAccount.getAccountStatus();
 

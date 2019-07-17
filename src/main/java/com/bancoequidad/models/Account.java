@@ -1,9 +1,13 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.Enum.AccountStatus;
+import com.bancoequidad.exceptions.InsufficientValuesException;
+import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
 
 public abstract class Account {
+    protected int accountNumber;
     protected int id;
     protected double interest;
     protected double balance;
@@ -11,9 +15,11 @@ public abstract class Account {
 
     public Account() {
         this.accountStatus = AccountStatus.ACTIVE;
-        this.interest = interest;
     }
 
+    public int getAccountNumber() {
+        return accountNumber;
+    }
 
     public int getId() {
         return id;
@@ -35,13 +41,17 @@ public abstract class Account {
         return accountStatus;
     }
 
-    public abstract void deposit(double depositAmount) throws NegativeValuesException;
+    public abstract void deposit(double depositAmount) throws NegativeValuesException, InvalidValuesException;
 
-    public abstract void withdraw(double withdrawalAmount) throws NegativeValuesException, OutRangeValuesException;
+    public abstract void withdraw(double withdrawalAmount) throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException;
 
-    public abstract void disable();
+    public void disable(){
+        this.accountStatus = AccountStatus.LOCKED;
+    }
 
-    public abstract void enable();
+    public void enable(){
+        this.accountStatus = AccountStatus.ACTIVE;
+    }
 
     public abstract String print();
 

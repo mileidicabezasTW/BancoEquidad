@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Bank {
 
-    Account savingsAccount = new SavingsAccount();
-    Account currentAccount = new CurrentAccount();
+    Account savingsAccount = new SavingsAccount(0);
+    Account currentAccount = new CurrentAccount(0);
     Client client = new Client();
 
     protected List<Account> accountList = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Bank {
     }
 
     public double doTransfer(Account accountNumberOne, Account accountNumberTwo, double depositAmount) throws NegativeValuesException, InvalidValuesException {
-        accountNumberOne = new SavingsAccount();
+        accountNumberOne = new SavingsAccount(0);
         accountNumberOne .deposit(depositAmount);
         accountNumberOne = accountNumberTwo;
 

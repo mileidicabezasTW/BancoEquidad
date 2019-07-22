@@ -12,21 +12,22 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class CurrentAccountTest {
-
+    final int EXPECTED_NUMBER_ACCOUNT = 1234987643;
+    final int NUMBER_ACCOUNT = 1234987643;
     private Account currentAccount;
     @Before
     public void init(){
-        currentAccount = new CurrentAccount();
+        currentAccount = new CurrentAccount(NUMBER_ACCOUNT);
     }
 
     @Test
     public void shouldHaveAllNecessaryAttributes() {
-
         final int EXPECTED_ID = 0;
         final double EXPECTED_BALANCE = 0.0;
 
         assertThat(EXPECTED_ID, is(currentAccount.getId()));
         assertThat(EXPECTED_BALANCE, is(currentAccount.getBalance()));
+        assertThat(EXPECTED_NUMBER_ACCOUNT, is(currentAccount.getAccountNumber()));
     }
 
     @Test
@@ -128,9 +129,12 @@ public class CurrentAccountTest {
     @Test
     public void shouldDetailToBePrinted() {
 
-        final String expectedDetail = "Id Account " + currentAccount.getId() + " Balance Account " + currentAccount.getBalance()
-                + " Account Status " + currentAccount.getAccountStatus();
+        int expectedId = 0;
+        double expectedBalance = currentAccount.getBalance();
+        final AccountStatus expectedAccountStatus = AccountStatus.ACTIVE;
+        final String EXPECTED_DETAIL = "Id Account " + expectedId + " Balance Account " + expectedBalance
+                + " Account Status " + expectedAccountStatus;
 
-        assertThat(expectedDetail, is(currentAccount.print()));
+        assertThat(EXPECTED_DETAIL, is(currentAccount.print()));
     }
 }

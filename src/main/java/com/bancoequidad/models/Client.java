@@ -10,7 +10,7 @@ public class Client {
     private String name;
     private String idNumber;
     private MaritalStatus maritalStatus;
-    private List<Account> AccountsList = new ArrayList<Account>();
+    private List<Account> accountsList = new ArrayList<Account>();
 
     public String getName() {
         return name;
@@ -37,21 +37,22 @@ public class Client {
     }
 
     public List<Account> getAccountsList() {
-        return AccountsList;
+        return accountsList;
     }
 
-    public void setAccountsList(List<Account> accountsList) throws RepeatedValuesExeptions {
-        final boolean ALREADY_CONTAINS_ACCOUNT = true;
-        Account account = new CurrentAccount();
-        account.getId();
-        account.getInterest();
-        account.getBalance();
-        accountsList.add(account);
-        if(accountsList.contains(account) == ALREADY_CONTAINS_ACCOUNT){
-            throw new RepeatedValuesExeptions();
-        }
-        this.AccountsList = accountsList;
+    public void addAccount(Account account) throws RepeatedValuesExeptions {
+
+      if(accountsList.contains(account)){
+          throw new RepeatedValuesExeptions();
+       }
+        this.accountsList.add(account);
+
+
     }
+
+
+
+
 
     public String print() {
         String detail = "Name "+this.getName()+" Id Number "+this.getIdNumber()+

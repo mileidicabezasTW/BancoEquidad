@@ -44,7 +44,7 @@ public class BankTest {
     @Test
     public void shouldHaveASavingsAccountList() {
         List<Account> expectedAccount = new ArrayList<>();
-        Account account = new SavingsAccount();
+        Account account = new SavingsAccount(0);
         expectedAccount.add(account);
 
         bank.setAccountList(expectedAccount);
@@ -55,7 +55,7 @@ public class BankTest {
     @Test
     public void shouldHaveACurrentAccountList() {
         List<Account> expectedAccount = new ArrayList<>();
-        Account account = new CurrentAccount();
+        Account account = new CurrentAccount(0);
         expectedAccount.add(account);
 
         bank.setAccountList(expectedAccount);
@@ -65,8 +65,8 @@ public class BankTest {
 
     @Test
     public void shouldHaveTransferMade() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
-        final Account ACCOUNT_NUMBER_ONE = new SavingsAccount();
-        final Account ACCOUNT_NUMBER_TWO = new SavingsAccount();
+        final Account ACCOUNT_NUMBER_ONE = new SavingsAccount(0);
+        final Account ACCOUNT_NUMBER_TWO = new SavingsAccount(0);
         final double DEPOSIT_AMOUNT = 4.67;
 
         bank.doTransfer(ACCOUNT_NUMBER_ONE,ACCOUNT_NUMBER_TWO,DEPOSIT_AMOUNT);
@@ -112,10 +112,5 @@ public class BankTest {
         bank.currentAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
 
         assertThat(bank.currentAccount.getBalance(), is(EXPECTED_AMOUNT));
-    }
-
-    @Test
-    public void shouldHaveTransferMakeInSavingsAccount() {
-
     }
 }

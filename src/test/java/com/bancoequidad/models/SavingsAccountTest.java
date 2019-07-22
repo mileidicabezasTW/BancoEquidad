@@ -12,11 +12,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class SavingsAccountTest {
-
+    final int EXPECTED_NUMBER_ACCOUNT = 1234987643;
+    final int ACCOUNT_NUMBER = 1234987643;
     private Account savingsAccount;
     @Before
     public void init(){
-        savingsAccount = new SavingsAccount();
+        savingsAccount = new SavingsAccount(ACCOUNT_NUMBER);
     }
 
     @Test
@@ -24,8 +25,9 @@ public class SavingsAccountTest {
         final int ID = 0;
         final double EXPECTED_BALANCE = 0;
 
-        assertThat(ID, is(savingsAccount.getId()));
-        assertThat(EXPECTED_BALANCE, is(savingsAccount.balance));
+        assertThat(savingsAccount.getId(), is(ID));
+        assertThat(savingsAccount.balance, is(EXPECTED_BALANCE));
+        assertThat(savingsAccount.getAccountNumber(),is(EXPECTED_NUMBER_ACCOUNT));
     }
 
     @Test
@@ -116,9 +118,12 @@ public class SavingsAccountTest {
 
     @Test
     public void shouldDetailToBePrinted() {
-        final String expectedDetail = "Id Account " + savingsAccount.getId() + " Balance Account " + savingsAccount.getBalance()
-                + " Account Status " + savingsAccount.getAccountStatus();
+        int expectedId = 0;
+        double expectedBalance = savingsAccount.getBalance();
+        final AccountStatus EXPECTED_ACCOUNT_STATUS = AccountStatus.ACTIVE;
+        final String EXPECTED_DETAIL = "Id Account " + expectedId + " Balance Account " + expectedBalance
+                + " Account Status " + EXPECTED_ACCOUNT_STATUS;
 
-        assertThat(expectedDetail, is(savingsAccount.print()));
+        assertThat(savingsAccount.print(),is(EXPECTED_DETAIL));
     }
 }

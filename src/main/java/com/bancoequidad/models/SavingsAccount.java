@@ -7,8 +7,10 @@ import com.bancoequidad.exceptions.OutRangeValuesException;
 public class SavingsAccount extends Account{
     final double INTEREST_AMOUNT = 0.0001;
 
-    public SavingsAccount() {
+    public SavingsAccount(int accountNumber) {
         this.interest = INTEREST_AMOUNT;
+        this.accountNumber = accountNumber;
+
     }
 
     @Override

@@ -35,53 +35,30 @@ public class ClientTest {
 
     @Test
     public void shouldHaveAAccountsLists() throws RepeatedValuesExeptions {
-        Account account = new CurrentAccount();
-        List<Account> accountList = new ArrayList<>();
-        account.getId();
-        account.getInterest();
-        account.getBalance();
-        accountList.add(account);
+        Account account = new SavingsAccount(124567);
+         //trow exception because there are repeated values.
+       client.addAccount(account);
 
-        List<Account> expectedAccount = new ArrayList<>();
-        account.getId();
-        account.getInterest();
-        account.getBalance();
-        expectedAccount.add(account);
-
-        client.setAccountsList(expectedAccount);
-        client.setAccountsList(accountList);
-
-        assertThat(client.getAccountsList(),is(expectedAccount));
+      assertTrue(client.getAccountsList().contains(account));
     }
 
     @Test(expected = RepeatedValuesExeptions.class)
     public void shouldClientDoNotHaveRepeatAccount() throws RepeatedValuesExeptions {
-        Account account = new CurrentAccount();
-        List<Account> expectedAccounts = new ArrayList<>();
-        expectedAccounts.add(account);
-        expectedAccounts.contains(account);
+        Account account = new CurrentAccount(11119);
 
-        client.setAccountsList(expectedAccounts);
-
-        assertThat(client.getAccountsList(), is(expectedAccounts));
-    }
-
-    public void shouldPrintDetail(){
-        String expectedName = "Jiras";
-        int expectedId = 1;
-        MaritalStatus expectedMaritalStatus = MaritalStatus.SINGLE;
-
-          String EXPECTED_DETAIL = "Name "+expectedName+" Id Number "+expectedId+
-                                " Marital Status "+expectedMaritalStatus;
-
-        assertThat(client.print(),is(EXPECTED_DETAIL));
+        client.addAccount(account);
+        client.addAccount(account);
     }
 
     @Test
-    public void mytest(){
-        Account a = new SavingsAccount();
-        Account b = new SavingsAccount();
+    public void shouldPrintDetail(){
+       final String EXPECTED_NAME = null;
+       final String EXPECTED_ID = null;
+       final MaritalStatus EXPECTED_MARITAL_STATUS = MaritalStatus.SINGLE;
 
-        assertThat(a, is(b));
+          String EXPECTED_DETAIL = "Name "+EXPECTED_NAME+" Id Number "+EXPECTED_ID+
+                                " Marital Status "+EXPECTED_MARITAL_STATUS;
+
+        assertThat(client.print(),is(EXPECTED_DETAIL));
     }
 }

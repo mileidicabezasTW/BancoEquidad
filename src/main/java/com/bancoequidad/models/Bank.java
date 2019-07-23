@@ -30,7 +30,7 @@ public class Bank {
     public void setClientList(List<Client> clientList) {
         this.clientList = clientList;
     }
-
+    //mal hacer otra vez con todAS LAS PRUEBAS NECESARIAS
     public double doTransfer(Account accountNumberOne, Account accountNumberTwo, double depositAmount) throws NegativeValuesException, InvalidValuesException {
         accountNumberOne = new SavingsAccount(0);
         accountNumberOne .deposit(depositAmount);

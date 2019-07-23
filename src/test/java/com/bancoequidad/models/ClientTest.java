@@ -12,8 +12,8 @@ public class ClientTest {
 
 
     Client client;
-    final String NAME = null;
-    final String ID = null;
+    final String NAME = "juan";
+    final String ID = "1234987";
     final MaritalStatus MARITAL_STATUS = MaritalStatus.MARRIED;
     @Before
     public void init(){
@@ -21,24 +21,21 @@ public class ClientTest {
     }
 
     @Test
-    public void shouldHaveTheNecessaryAttributesWhenClientIsCreated(){
-
-        final String EXPECTED_NAME = null;
-        final String EXPECTED_ID_NUMBER = null;
-        final MaritalStatus EXPECTED_MARITAL_STATUS = MaritalStatus.MARRIED;
+    public void shouldHaveTheNecessaryParameterToCreateAClient(){
         final int EXPECTED_SIZE_VALUE = 0;
 
-        assertThat(EXPECTED_NAME, is(client.getName()));
-        assertThat(EXPECTED_ID_NUMBER, is(client.getIdNumber()));
-        assertThat(EXPECTED_MARITAL_STATUS, is(client.getMaritalStatus()));
+        new Client(NAME, ID,MARITAL_STATUS);
+
+        assertThat(client.getName(),is(NAME));
+        assertThat(client.getIdNumber(),is(ID));
+        assertThat(client.getMaritalStatus(),is(MARITAL_STATUS));
         assertThat(client.getAccountsList().size(),is(EXPECTED_SIZE_VALUE));
     }
 
     @Test
     public void shouldHaveAAccountsLists() throws RepeatedValuesExeptions {
         Account account = new SavingsAccount(124567);
-         //trow exception because there are repeated values.
-       client.addAccount(account);
+        client.addAccount(account);
 
       assertTrue(client.getAccountsList().contains(account));
     }
@@ -52,27 +49,9 @@ public class ClientTest {
     }
 
     @Test
-    public void shouldHaveTheNecessaryParameterForCreateAClient(){
-        String expectedName = null;
-        String expectedId = null;
-        MaritalStatus expectedMaritalStatus = MaritalStatus.MARRIED;
-
-        assertThat(client.getName(),is(expectedName));
-        assertThat(client.getIdNumber(),is(expectedId));
-        assertThat(client.getMaritalStatus(),is(expectedMaritalStatus));
-
-
-
-    }
-
-    @Test
     public void shouldPrintDetail(){
-       final String EXPECTED_NAME = null;
-       final String EXPECTED_ID = null;
-       final MaritalStatus EXPECTED_MARITAL_STATUS = MaritalStatus.SINGLE;
-
-          String EXPECTED_DETAIL = "Name "+EXPECTED_NAME+" Id Number "+EXPECTED_ID+
-                                " Marital Status "+EXPECTED_MARITAL_STATUS;
+          String EXPECTED_DETAIL = "Name "+NAME+" Id Number "+ID+
+                                " Marital Status "+MARITAL_STATUS;
 
         assertThat(client.print(),is(EXPECTED_DETAIL));
     }

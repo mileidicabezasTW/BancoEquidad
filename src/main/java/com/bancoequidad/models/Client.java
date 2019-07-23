@@ -22,23 +22,14 @@ public class Client {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getIdNumber() {
         return idNumber;
     }
 
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
-    }
 
     public MaritalStatus getMaritalStatus() {
         return maritalStatus;
-    }
-    public void setMaritalStatus(MaritalStatus maritalStatus) {
-        this.maritalStatus = maritalStatus;
     }
 
     public List<Account> getAccountsList() {

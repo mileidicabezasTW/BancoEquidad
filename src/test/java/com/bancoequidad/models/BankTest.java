@@ -23,16 +23,16 @@ public class BankTest {
         bank = new Bank();
     }
 
-    @Test
+    @Test//Mal
     public void shouldHaveAllNecessaryAttributes() {
         List<Account> expectedAccountsList = new ArrayList<Account>();
-        List<Client> expectedClientList = new ArrayList<Client>();
+        List<Client> expectedClientList = new ArrayList<>();
         assertThat(expectedAccountsList, is(bank.accountList));
         assertThat(expectedClientList, is(bank.getClientList()));
     }
 
     @Test
-    public void shouldHaveAClientList() {
+    public void shouldHaveAClientList() {//Mal
         List<Client> expectedList = new ArrayList<>();
         Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
         expectedList.add(client);
@@ -41,31 +41,10 @@ public class BankTest {
 
         assertThat(bank.getClientList(), is(expectedList));
     }
+    
 
     @Test
-    public void shouldHaveASavingsAccountList() {
-        List<Account> expectedAccount = new ArrayList<>();
-        Account account = new SavingsAccount(0);
-        expectedAccount.add(account);
-
-        bank.setAccountList(expectedAccount);
-
-        assertThat(bank.getAccountList(), is(expectedAccount));
-    }
-
-    @Test
-    public void shouldHaveACurrentAccountList() {
-        List<Account> expectedAccount = new ArrayList<>();
-        Account account = new CurrentAccount(0);
-        expectedAccount.add(account);
-
-        bank.setAccountList(expectedAccount);
-
-        assertThat(bank.getAccountList(),is(expectedAccount));
-    }
-
-    @Test
-    public void shouldHaveTransferMade() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
+    public void shouldHaveTransferMade() throws NegativeValuesException, InvalidValuesException {
         final Account ACCOUNT_NUMBER_ONE = new SavingsAccount(0);
         final Account ACCOUNT_NUMBER_TWO = new SavingsAccount(0);
         final double DEPOSIT_AMOUNT = 4.67;
@@ -114,4 +93,6 @@ public class BankTest {
 
         assertThat(bank.currentAccount.getBalance(), is(EXPECTED_AMOUNT));
     }
+
+
 }

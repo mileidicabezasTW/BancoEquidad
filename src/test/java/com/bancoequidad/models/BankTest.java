@@ -1,5 +1,6 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.InsufficientValuesException;
 import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
@@ -33,7 +34,7 @@ public class BankTest {
     @Test
     public void shouldHaveAClientList() {
         List<Client> expectedList = new ArrayList<>();
-        Client client = new Client();
+        Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
         expectedList.add(client);
 
         bank.setClientList(expectedList);

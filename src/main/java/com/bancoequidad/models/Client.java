@@ -10,7 +10,13 @@ public class Client {
     private String name;
     private String idNumber;
     private MaritalStatus maritalStatus;
-    private List<Account> accountsList = new ArrayList<Account>();
+    private List<Account> accountsList = new ArrayList<>();
+
+    public Client(String name, String idNumber, MaritalStatus marital_status) {
+        this.name = name;
+        this.idNumber = idNumber;
+        this.maritalStatus = marital_status;
+    }
 
     public String getName() {
         return name;
@@ -28,10 +34,9 @@ public class Client {
         this.idNumber = idNumber;
     }
 
-    public MaritalStatus getMaritalStatus(MaritalStatus maritalStatus) {
+    public MaritalStatus getMaritalStatus() {
         return maritalStatus;
     }
-
     public void setMaritalStatus(MaritalStatus maritalStatus) {
         this.maritalStatus = maritalStatus;
     }
@@ -50,13 +55,9 @@ public class Client {
 
     }
 
-
-
-
-
     public String print() {
         String detail = "Name "+this.getName()+" Id Number "+this.getIdNumber()+
-                        " Marital Status "+this.getMaritalStatus(maritalStatus.SINGLE);
+                        " Marital Status "+this.getMaritalStatus();
         return detail;
     }
 

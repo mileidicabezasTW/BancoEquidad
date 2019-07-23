@@ -1,5 +1,6 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
 
@@ -10,7 +11,7 @@ public class Bank {
 
     Account savingsAccount = new SavingsAccount(0);
     Account currentAccount = new CurrentAccount(0);
-    Client client = new Client();
+    Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
 
     protected List<Account> accountList = new ArrayList<>();
     private List<Client> clientList = new ArrayList<>();

@@ -5,18 +5,19 @@ import com.bancoequidad.exceptions.RepeatedValuesExeptions;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class ClientTest {
 
+
     Client client;
+    final String NAME = null;
+    final String ID = null;
+    final MaritalStatus MARITAL_STATUS = MaritalStatus.MARRIED;
     @Before
     public void init(){
-        client = new Client();
+        client = new Client(NAME, ID,MARITAL_STATUS);
     }
 
     @Test
@@ -29,7 +30,7 @@ public class ClientTest {
 
         assertThat(EXPECTED_NAME, is(client.getName()));
         assertThat(EXPECTED_ID_NUMBER, is(client.getIdNumber()));
-        assertThat(EXPECTED_MARITAL_STATUS, is(client.getMaritalStatus(MaritalStatus.MARRIED)));
+        assertThat(EXPECTED_MARITAL_STATUS, is(client.getMaritalStatus()));
         assertThat(client.getAccountsList().size(),is(EXPECTED_SIZE_VALUE));
     }
 
@@ -48,6 +49,20 @@ public class ClientTest {
 
         client.addAccount(account);
         client.addAccount(account);
+    }
+
+    @Test
+    public void shouldHaveTheNecessaryParameterForCreateAClient(){
+        String expectedName = null;
+        String expectedId = null;
+        MaritalStatus expectedMaritalStatus = MaritalStatus.MARRIED;
+
+        assertThat(client.getName(),is(expectedName));
+        assertThat(client.getIdNumber(),is(expectedId));
+        assertThat(client.getMaritalStatus(),is(expectedMaritalStatus));
+
+
+
     }
 
     @Test

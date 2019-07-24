@@ -61,12 +61,18 @@ public class BankTest {
 
     @Test//new Test for transfer
     public void shouldHaveTransferMade() {
+        
 
     }
 
     @Test//new Test for transfer
     public void shouldHaveTransferMadeInDestinationAccount() {
-        
+
+    }
+
+    @Test //new Test for transfer
+    public void shouldAmountWithdrawalToBeEqualToAmountDeposit(){
+
     }
 
     @Test

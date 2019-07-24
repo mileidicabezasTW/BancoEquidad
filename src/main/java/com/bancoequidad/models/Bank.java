@@ -1,8 +1,10 @@
 package com.bancoequidad.models;
 
 import com.bancoequidad.Enum.MaritalStatus;
+import com.bancoequidad.exceptions.InsufficientValuesException;
 import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
+import com.bancoequidad.exceptions.OutRangeValuesException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +29,15 @@ public class Bank {
     public void setClientList(List<Client> clientList) {
         this.clientList = clientList;
     }
-    //mal hacer otra vez con todAS LAS PRUEBAS NECESARIAS
-    public double doTransfer(Account accountNumberOne, Account accountNumberTwo, double depositAmount) throws NegativeValuesException, InvalidValuesException {
-        accountNumberOne = new SavingsAccount(0);
-        accountNumberOne .deposit(depositAmount);
-        accountNumberOne = accountNumberTwo;
-
-    return accountNumberTwo.getBalance();
-    }
 
     public void addClient(Client client) {
         this.clientList.add(client);
+    }
+
+    public double transfer(Account account1, Account account2, double amount) throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+        account1.withdraw(amount);
+        account2.deposit(amount);
+
+       return 0;
     }
 }

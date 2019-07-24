@@ -60,9 +60,16 @@ public class BankTest {
     }
 
     @Test//new Test for transfer
-    public void shouldHaveTransferMade() {
-        
+    public void shouldHaveTransferMadeInSavingAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+        final double AMOUNT_DEPOSIT = 46.9;
+        Account account1 = new SavingsAccount(123476844);
+        Account account2 = new SavingsAccount(234567890);
 
+        account1.withdraw(AMOUNT_DEPOSIT);
+        account2.deposit(AMOUNT_DEPOSIT);
+        bank.transfer(account1,account2,AMOUNT_DEPOSIT);
+
+        assertThat(bank.savingsAccount.getBalance(),is(account2.getBalance()));
     }
 
     @Test//new Test for transfer

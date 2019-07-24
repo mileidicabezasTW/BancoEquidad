@@ -8,9 +8,6 @@ import com.bancoequidad.exceptions.OutRangeValuesException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -38,7 +35,22 @@ public class BankTest {
 
         assertTrue(bank.getClientList().contains(client));
     }
-    
+
+
+    @Test//new Test for transfer
+    public void shouldThrowErrorWhenWithdrawalAmountIsEqualOrLessThenZero(){
+
+    }
+
+    @Test//new Test for transfer
+    public void shouldThrowErrorWhenAccountOriginToHaveABalanceSmallerThenWithdrawalAmount(){
+
+    }
+
+    @Test //new Test for transfer
+    public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceeded(){
+
+    }
 
     @Test//mall
     public void shouldHaveTransferMade() throws NegativeValuesException, InvalidValuesException {

@@ -40,6 +40,13 @@ public class BankTest {
     @Test//new Test for transfer
     public void shouldThrowErrorWhenWithdrawalAmountIsEqualOrLessThenZero(){
 
+
+    }
+
+    @Test//new Test for transfer
+    public void shouldThrowErrorWhenDepositAmountIsEqualOrLessThenZero(){
+
+
     }
 
     @Test//new Test for transfer
@@ -52,17 +59,14 @@ public class BankTest {
 
     }
 
-    @Test//mall
-    public void shouldHaveTransferMade() throws NegativeValuesException, InvalidValuesException {
-        final Account ACCOUNT_NUMBER_ONE = new SavingsAccount(0);
-        final Account ACCOUNT_NUMBER_TWO = new SavingsAccount(0);
-        final double DEPOSIT_AMOUNT = 4.67;
+    @Test//new Test for transfer
+    public void shouldHaveTransferMade() {
 
-        bank.doTransfer(ACCOUNT_NUMBER_ONE,ACCOUNT_NUMBER_TWO,DEPOSIT_AMOUNT);
-        ACCOUNT_NUMBER_ONE.deposit(DEPOSIT_AMOUNT);
-        ACCOUNT_NUMBER_TWO.getBalance();
+    }
 
-        assertThat(bank.doTransfer(ACCOUNT_NUMBER_ONE,ACCOUNT_NUMBER_TWO,DEPOSIT_AMOUNT), is(ACCOUNT_NUMBER_TWO.getBalance()));
+    @Test//new Test for transfer
+    public void shouldHaveTransferMadeInDestinationAccount() {
+        
     }
 
     @Test

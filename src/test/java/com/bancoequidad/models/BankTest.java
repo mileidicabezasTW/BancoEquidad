@@ -25,25 +25,22 @@ public class BankTest {
 
     @Test//Mal
     public void shouldHaveAllNecessaryAttributes() {
-        List<Account> expectedAccountsList = new ArrayList<Account>();
-        List<Client> expectedClientList = new ArrayList<>();
-        assertThat(expectedAccountsList, is(bank.accountList));
-        assertThat(expectedClientList, is(bank.getClientList()));
+        final int EXPECTED_SIZE_VALUE = 0;
+        assertThat(bank.getAccountList().size(),is(EXPECTED_SIZE_VALUE));
+        assertThat(bank.getAccountList().size(),is(EXPECTED_SIZE_VALUE));
     }
 
     @Test
-    public void shouldHaveAClientList() {//Mal
-        List<Client> expectedList = new ArrayList<>();
+    public void shouldHaveAClientList() {
         Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
-        expectedList.add(client);
 
-        bank.setClientList(expectedList);
+        bank.addClient(client);
 
-        assertThat(bank.getClientList(), is(expectedList));
+        assertTrue(bank.getClientList().contains(client));
     }
     
 
-    @Test
+    @Test//mall
     public void shouldHaveTransferMade() throws NegativeValuesException, InvalidValuesException {
         final Account ACCOUNT_NUMBER_ONE = new SavingsAccount(0);
         final Account ACCOUNT_NUMBER_TWO = new SavingsAccount(0);

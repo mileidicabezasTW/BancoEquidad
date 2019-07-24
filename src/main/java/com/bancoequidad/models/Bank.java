@@ -20,9 +20,6 @@ public class Bank {
         return accountList;
     }
 
-    public void setAccountList(List<Account> accountList) {
-        this.accountList = accountList;
-    }
     public List<Client> getClientList() {
         return clientList;
     }
@@ -37,6 +34,9 @@ public class Bank {
         accountNumberOne = accountNumberTwo;
 
     return accountNumberTwo.getBalance();
+    }
 
+    public void addClient(Client client) {
+        this.clientList.add(client);
     }
 }

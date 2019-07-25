@@ -37,49 +37,54 @@ public class BankTest {
     }
 
 
-    @Test//new Test for transfer
-    public void shouldThrowErrorWhenWithdrawalAmountIsEqualOrLessThenZero(){
+    @Test(expected = NegativeValuesException.class)//new Test for transfer
+    public void shouldThrowErrorWhenTransferAmountIsLessThenZero() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException {
+        final double TRANSFER_AMOUNT = -89.0;
+        Account account1 = new SavingsAccount(123476844);
+        Account account2 = new SavingsAccount(234567890);
 
+        bank.transfer(account1,account2,TRANSFER_AMOUNT);
+    }
+
+    @Test(expected = InvalidValuesException.class)//new Test for transfer
+    public void shouldThrowErrorWhenTransferAmountIsEqualToZero() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException {
+        final double TRANSFER_AMOUNT = 0;
+        Account account1 = new SavingsAccount(123476844);
+        Account account2 = new SavingsAccount(234567890);
+
+        bank.transfer(account1,account2,TRANSFER_AMOUNT );
+    }
+//pasar esta prueba
+    @Test(expected = InsufficientValuesException.class)//new Test for transfer
+    public void shouldThrowErrorWhenAccountOriginToHaveABalanceSmallerThenWithdrawalAmount() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
+        final double AMOUNT_DEPOSIT = 46.9;
+        final double AMOUNT_WITHDRAWAL = 66.9;
+        Account account1 = new SavingsAccount(123476844);
+        Account account2 = new SavingsAccount(234567890);
+
+        account1.deposit(AMOUNT_DEPOSIT);
+        account2.withdraw(AMOUNT_WITHDRAWAL);
+    }
+
+    @Test(expected = OutRangeValuesException.class)//new Test for transfer
+    public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceeded() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException {
+        final double TRANSFER_AMOUNT  = 5000.0;
+        Account account1 = new SavingsAccount(123476844);
+        Account account2 = new SavingsAccount(234567890);
+
+        bank.transfer(account1,account2,TRANSFER_AMOUNT );
 
     }
 
     @Test//new Test for transfer
-    public void shouldThrowErrorWhenDepositAmountIsEqualOrLessThenZero(){
-
-
-    }
-
-    @Test//new Test for transfer
-    public void shouldThrowErrorWhenAccountOriginToHaveABalanceSmallerThenWithdrawalAmount(){
-
-    }
-
-    @Test //new Test for transfer
-    public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceeded(){
-
-    }
-
-    @Test//new Test for transfer
-    public void shouldHaveTransferMadeInSavingAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+    public void  shouldHaveTransferMadeInDestinationAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
         final double AMOUNT_DEPOSIT = 46.9;
         Account account1 = new SavingsAccount(123476844);
         Account account2 = new SavingsAccount(234567890);
 
-        account1.withdraw(AMOUNT_DEPOSIT);
-        account2.deposit(AMOUNT_DEPOSIT);
         bank.transfer(account1,account2,AMOUNT_DEPOSIT);
 
-        assertThat(bank.savingsAccount.getBalance(),is(account2.getBalance()));
-    }
-
-    @Test//new Test for transfer
-    public void shouldHaveTransferMadeInDestinationAccount() {
-
-    }
-
-    @Test //new Test for transfer
-    public void shouldAmountWithdrawalToBeEqualToAmountDeposit(){
-
+        assertThat(account2.getBalance(),is(AMOUNT_DEPOSIT));
     }
 
     @Test
@@ -98,14 +103,6 @@ public class BankTest {
         bank.savingsAccount.deposit(AMOUNT_TO_DEPOSIT);
         bank.savingsAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
         assertThat(bank.savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
-    }
-
-    @Test
-    public void shouldHaveMakeDepositInCurrentAccount() throws NegativeValuesException, InvalidValuesException {
-        final double EXPECTED_AMOUNT = 33.66;
-        final double AMOUNT = 34.0;
-        bank.currentAccount.deposit(AMOUNT);
-        assertThat(bank.currentAccount.getBalance(), is(EXPECTED_AMOUNT));
     }
 
     @Test

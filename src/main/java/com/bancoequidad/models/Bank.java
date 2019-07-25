@@ -38,6 +38,6 @@ public class Bank {
         account1.withdraw(amount);
         account2.deposit(amount);
 
-       return 0;
+       return account2.getBalance();
     }
 }

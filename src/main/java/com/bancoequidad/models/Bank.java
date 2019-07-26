@@ -34,7 +34,10 @@ public class Bank {
         this.clientList.add(client);
     }
 
-    public double transfer(Account account1, Account account2, double amount) throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+    public double transfer(Account account1, Account account2, double amount) throws NegativeValuesException, OutRangeValuesException, InsufficientValuesException, InvalidValuesException {
+        if (amount > account1.getBalance()) {
+            throw new InsufficientValuesException();
+        }
         account1.withdraw(amount);
         account2.deposit(amount);
 

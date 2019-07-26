@@ -69,8 +69,7 @@ public class SavingsAccountTest {
     }
 
     @Test(expected = OutRangeValuesException.class)
-    public void shouldThrowErrorWhenMaximumWithdrawalAmountIsExceeded() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
-
+    public void shouldThrowErrorWhenWithdrawalMaximumAmountIsExceeded() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
         savingsAccount.withdraw(3000.0);
     }
 
@@ -98,6 +97,13 @@ public class SavingsAccountTest {
         savingsAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
 
         assertThat(savingsAccount.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
+    }
+
+    @Test(expected = InsufficientValuesException.class)
+    public void shouldThrowErrorWhenWithdrawalAmountIsGreaterThanBalance() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
+        final double AMOUNT = 55.9;
+
+        savingsAccount.withdraw(AMOUNT);
     }
 
     @Test

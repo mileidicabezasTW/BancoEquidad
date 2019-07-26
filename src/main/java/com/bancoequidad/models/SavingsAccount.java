@@ -1,5 +1,6 @@
 package com.bancoequidad.models;
 
+import com.bancoequidad.exceptions.InsufficientValuesException;
 import com.bancoequidad.exceptions.InvalidValuesException;
 import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
@@ -26,7 +27,7 @@ public class SavingsAccount extends Account{
     }
 
     @Override
-    public void withdraw(double withdrawalAmount) throws OutRangeValuesException, InvalidValuesException, NegativeValuesException {
+    public void withdraw(double withdrawalAmount) throws OutRangeValuesException, InvalidValuesException, NegativeValuesException, InsufficientValuesException {
         final double MINIMAL_WITHDRAWAL_VALUE = 0;
         final double MAXIMAL_WITHDRAWAL_VALUE = 1000.0;
 
@@ -38,6 +39,9 @@ public class SavingsAccount extends Account{
          }
         if(withdrawalAmount == MINIMAL_WITHDRAWAL_VALUE){
             throw new InvalidValuesException();
+        }
+        if(this.balance < withdrawalAmount){
+            throw new InsufficientValuesException();
         }
         this.balance = this.balance - withdrawalAmount;
     }

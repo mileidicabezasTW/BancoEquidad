@@ -54,17 +54,16 @@ public class BankTest {
 
         bank.transfer(account1,account2,TRANSFER_AMOUNT );
     }
-//pasar esta prueba
-//    @Test(expected = InsufficientValuesException.class)//new Test for transfer
-//    public void shouldThrowErrorWhenAccountOriginToHaveABalanceSmallerThenWithdrawalAmount() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
-//        final double AMOUNT_DEPOSIT = 46.9;
-//        final double AMOUNT_WITHDRAWAL = 66.9;
-//        Account account1 = new SavingsAccount(123476844);
-//        Account account2 = new SavingsAccount(234567890);
-//
-//        account1.deposit(AMOUNT_DEPOSIT);
-//        account2.withdraw(AMOUNT_WITHDRAWAL);
-//    }
+
+    @Test(expected = InsufficientValuesException.class)//new Test for transfer
+    public void shouldThrowErrorWhenAccountOriginToHaveABalanceSmallerThenWithdrawalAmount() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
+        final double AMOUNT = 0.9;
+        Account account1 = new CurrentAccount(123476844);
+        Account account2 = new SavingsAccount(234568890);
+        bank.transfer(account1,account2,AMOUNT);
+
+        account1.withdraw(AMOUNT);
+    }
 
     @Test(expected = OutRangeValuesException.class)//new Test for transfer
     public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceeded() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException {

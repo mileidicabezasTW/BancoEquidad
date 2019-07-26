@@ -42,9 +42,9 @@ public class CurrentAccount extends Account {
         if (withdrawalAmount == MINIMAL_WITHDRAWAL_VALUE) {
             throw new InvalidValuesException();
         }
-        if (withdrawalAmount > this.balance) {
-            throw new InsufficientValuesException();
-        }
+//        if (withdrawalAmount > this.balance) {
+//            throw new InsufficientValuesException();
+//        }
         this.balance = this.balance - withdrawalAmount;
     }
 

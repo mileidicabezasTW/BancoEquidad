@@ -15,7 +15,7 @@ public class Bank {
     Account currentAccount = new CurrentAccount(0);
     Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
 
-    protected List<Account> accountList = new ArrayList<>();
+    private List<Account> accountList = new ArrayList<>();
     private List<Client> clientList = new ArrayList<>();
 
     public List<Account> getAccountList() {
@@ -24,10 +24,6 @@ public class Bank {
 
     public List<Client> getClientList() {
         return clientList;
-    }
-
-    public void setClientList(List<Client> clientList) {
-        this.clientList = clientList;
     }
 
     public void addClient(Client client) {

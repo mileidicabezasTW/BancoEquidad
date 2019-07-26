@@ -8,11 +8,14 @@ import com.bancoequidad.exceptions.OutRangeValuesException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class BankTest {
-
+    Account account1;
+    Account account2;
     Bank bank;
 
     @Before
@@ -23,12 +26,14 @@ public class BankTest {
     @Test//Mal
     public void shouldHaveAllNecessaryAttributes() {
         final int EXPECTED_SIZE_VALUE = 0;
+        
         assertThat(bank.getAccountList().size(),is(EXPECTED_SIZE_VALUE));
         assertThat(bank.getAccountList().size(),is(EXPECTED_SIZE_VALUE));
+
     }
 
     @Test//Cambiar el nombre a algo mas descriptivo, aqui estas probando que los usuarios se agreguen, no que tenga una lista.
-    public void shouldHaveAClientList() {
+    public void shouldHaveAddClientToListOfClients() {
         Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
 
         bank.addClient(client);
@@ -56,7 +61,7 @@ public class BankTest {
     }
 
     @Test(expected = InsufficientValuesException.class)//new Test for transfer
-    public void shouldThrowErrorWhenAccountOriginToHaveABalanceSmallerThenWithdrawalAmount() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
+    public void shouldThrowErrorWhenAccountOriginHaveASmallerBalanceThanWithdrawalAmount() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
         final double AMOUNT = 0.9;
         Account account1 = new CurrentAccount(123476844);
         Account account2 = new SavingsAccount(234568890);
@@ -68,34 +73,55 @@ public class BankTest {
     @Test(expected = OutRangeValuesException.class)//new Test for transfer
     public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceeded() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException {
         final double TRANSFER_AMOUNT  = 5000.0;
-        Account account1 = new SavingsAccount(123476844);
-        Account account2 = new SavingsAccount(234567890);
+
 
         bank.transfer(account1,account2,TRANSFER_AMOUNT );
 
     }
 
-    @Test//new Test for transfer
+    @Test//new Test for transfer for CurrentAccounts
     public void  shouldHaveTransferMadeInDestinationAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
         final double AMOUNT_DEPOSIT = 46.9;
-        Account account1 = new SavingsAccount(123476844);
-        Account account2 = new SavingsAccount(234567890);
+         account1 = new SavingsAccount(123476844);
+         account2 = new SavingsAccount(234567890);
+         account1.deposit(AMOUNT_DEPOSIT);
 
         bank.transfer(account1,account2,AMOUNT_DEPOSIT);
 
         assertThat(account2.getBalance(),is(AMOUNT_DEPOSIT));
     }
 
-    @Test
-    public void shouldHaveMadeDepositInSavingsAccount() throws NegativeValuesException, InvalidValuesException {
-        final double EXPECTED_AMOUNT = 60.0;
-        final double AMOUNT = 60.0;
-        bank.savingsAccount.deposit(AMOUNT);
-        assertThat(bank.savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
-    }
+//    @Test//new Test for transfer for CurrentAccounts espera que la transferencia se hecha en dicha cuenta
+//    public void  shouldHaveTransferSavingAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+//        final double AMOUNT_DEPOSIT = 46.9;
+//        account1 = new SavingsAccount(123476844);
+//        account2 = new SavingsAccount(234567890);
+//        account1.deposit(AMOUNT_DEPOSIT);
+//
+//        bank.transfer(account1,account2,AMOUNT_DEPOSIT);
+//
+//        assertThat(account2.getBalance(),is(AMOUNT_DEPOSIT));
+//    }
+
+    //new Test for transfer for CurrentAccounts
+    //new Test for transfer for CurrentAccounts and SavingsAccount juntas
+
+// ya esta, hay que revisar   @Test
+//    public void shouldHaveMadeDepositInSavingsAccount() throws NegativeValuesException, InvalidValuesException {
+//        final double EXPECTED_AMOUNT = 60.0;
+//        final double AMOUNT = 60.0;
+//
+//        bank.savingsAccount.deposit(AMOUNT);
+//        assertThat(bank.savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
+//    }
 
     @Test
-    public void shouldHaveWithdrawalMadeInSavingsAccount() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
+    public void shouldHaveTransferAmountInDestinationAccountAndMakeTheWithdrawalAmountFromTheOriginAccount(){
+
+    }
+
+    @Test//probar con cuentas 1 y 2
+    public void shouldHaveWithdrawalMadeInAccount() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
         final double EXPECTED_AMOUNT = 53.0;
         final double AMOUNT_TO_DEPOSIT = 60.0;
         final double AMOUNT_TO_WITHDRAWAL = 7.0;
@@ -104,7 +130,7 @@ public class BankTest {
         assertThat(bank.savingsAccount.getBalance(), is(EXPECTED_AMOUNT));
     }
 
-    @Test
+    @Test//tu estas mal hay que borrarte y poner las cuentas 1 y 2
     public void shouldHaveWithdrawalMakeInCurrentAccount() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
         final double EXPECTED_AMOUNT = 52.4;
         final double AMOUNT_TO_DEPOSIT = 60.0;

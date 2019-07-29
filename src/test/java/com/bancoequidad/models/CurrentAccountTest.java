@@ -12,8 +12,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class CurrentAccountTest {
-    final int EXPECTED_NUMBER_ACCOUNT = 1234987643;
-    final int NUMBER_ACCOUNT = 1234987643;
+    final String EXPECTED_NUMBER_ACCOUNT = "1234987643";
+    final String NUMBER_ACCOUNT = "1234987643";
     private Account currentAccount;
     @Before
     public void init(){
@@ -63,17 +63,6 @@ public class CurrentAccountTest {
 
         currentAccount.deposit(EXPECTED_AMOUNT);
     }
-    @Test
-    public void shouldWithdrawalToBeMade() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
-        final double AMOUNT_TO_DEPOSIT = 60.0;
-        currentAccount.deposit(AMOUNT_TO_DEPOSIT);
-        final double AMOUNT_TO_WITHDRAWAL = 7.0;
-        final double EXPECTED_AMOUNT = currentAccount.getBalance() - AMOUNT_TO_WITHDRAWAL;
-
-        currentAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
-
-        assertThat(currentAccount.getBalance(), is(EXPECTED_AMOUNT));
-    }
 
     @Test(expected = OutRangeValuesException.class)
     public void shouldThrowErrorWhenWithdrawalMaximumAmountIsExceeded() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
@@ -103,12 +92,26 @@ public class CurrentAccountTest {
         currentAccount.withdraw(AMOUNT);
     }
 
-//    @Test(expected = InsufficientValuesException.class)
-//    public void shouldThrowErrorWhenWithdrawalAmountIsGreaterThenActualBalance() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
-//        final double AMOUNT = 9;
-//
-//        currentAccount.withdraw(AMOUNT);
-//    }
+    @Test(expected = InsufficientValuesException.class)
+    public void shouldThrowErrorWhenWithdrawalAmountIsGreaterThenActualBalance() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+        final double AMOUNT = 9;
+
+        currentAccount.withdraw(AMOUNT);
+    }
+
+    @Test
+    public void shouldSubtractTheWithdrawalAmountFromTheCurrentAmount() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
+        final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
+        final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
+        final double AMOUNT_TO_DEPOSIT = 60.0;
+        final double AMOUNT_TO_WITHDRAWAL = 7.0;
+        final double DISCOUNTED_AMOUNT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
+        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT- DISCOUNTED_AMOUNT) - AMOUNT_TO_WITHDRAWAL ;
+
+        currentAccount.deposit(AMOUNT_TO_DEPOSIT);
+        currentAccount.withdraw(AMOUNT_TO_WITHDRAWAL);
+        assertThat(currentAccount.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
+    }
 
     @Test
     public void shouldDeactivateAccountWhenThisIsDisabled() {

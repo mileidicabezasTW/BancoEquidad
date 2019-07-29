@@ -34,7 +34,7 @@ public class ClientTest {
 
     @Test
     public void shouldHaveAAccountsLists() throws RepeatedValuesExeptions {
-        Account account = new SavingsAccount(124567);
+        Account account = new SavingsAccount("18776543");
         client.addAccount(account);
 
       assertTrue(client.getAccountsList().contains(account));
@@ -42,7 +42,7 @@ public class ClientTest {
 
     @Test(expected = RepeatedValuesExeptions.class)
     public void shouldClientDoNotHaveRepeatAccount() throws RepeatedValuesExeptions {
-        Account account = new CurrentAccount(11119);
+        Account account = new CurrentAccount("31468511");
 
         client.addAccount(account);
         client.addAccount(account);

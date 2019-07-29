@@ -1,18 +1,15 @@
 package com.bancoequidad.models;
 
 import com.bancoequidad.Enum.MaritalStatus;
-import com.bancoequidad.exceptions.InsufficientValuesException;
-import com.bancoequidad.exceptions.InvalidValuesException;
-import com.bancoequidad.exceptions.NegativeValuesException;
-import com.bancoequidad.exceptions.OutRangeValuesException;
+import com.bancoequidad.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bank {
 
-    Account savingsAccount = new SavingsAccount(0);
-    Account currentAccount = new CurrentAccount(0);
+    Account savingsAccount = new SavingsAccount("111024657");
+    Account currentAccount = new CurrentAccount("751111122");
     Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
 
     private List<Account> accountList = new ArrayList<>();
@@ -30,13 +27,26 @@ public class Bank {
         this.clientList.add(client);
     }
 
-    public double transfer(Account account1, Account account2, double amount) throws NegativeValuesException, OutRangeValuesException, InsufficientValuesException, InvalidValuesException {
+    public double transfer(Account account1, Account account2, double amount) throws NegativeValuesException, OutRangeValuesException, InsufficientValuesException, InvalidValuesException, RepeatedValuesExeptions {
         if (amount > account1.getBalance()) {
             throw new InsufficientValuesException();
+        }
+        if(account1.accountNumber == account2.accountNumber){
+            throw new RepeatedValuesExeptions();
         }
         account1.withdraw(amount);
         account2.deposit(amount);
 
        return account2.getBalance();
+    }
+
+    public String createCurrentAccount(String accountNumber) {
+
+    return accountNumber;
+    }
+
+    public String createSavingsAccount(String accountNumber) {
+
+        return accountNumber;
     }
 }

@@ -12,8 +12,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class SavingsAccountTest {
-    final int EXPECTED_NUMBER_ACCOUNT = 1234987643;
-    final int ACCOUNT_NUMBER = 1234987643;
+    final String EXPECTED_NUMBER_ACCOUNT = "1234987643";
+    final String ACCOUNT_NUMBER = "1234987643";
     private Account savingsAccount;
     @Before
     public void init(){

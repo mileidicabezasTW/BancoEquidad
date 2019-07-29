@@ -7,7 +7,7 @@ import com.bancoequidad.exceptions.NegativeValuesException;
 import com.bancoequidad.exceptions.OutRangeValuesException;
 
 public abstract class Account {
-    protected int accountNumber;
+    protected String accountNumber;
     protected int id;
     protected double interest;
     protected double balance;
@@ -17,7 +17,7 @@ public abstract class Account {
         this.accountStatus = AccountStatus.ACTIVE;
     }
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 

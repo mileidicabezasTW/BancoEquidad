@@ -8,7 +8,7 @@ import com.bancoequidad.exceptions.OutRangeValuesException;
 public class CurrentAccount extends Account {
     final double INTEREST_AMOUNT = 0.00015;
 
-    public CurrentAccount(int accountNumber) {
+    public CurrentAccount(String accountNumber) {
         this.interest = INTEREST_AMOUNT;
         this.accountNumber = accountNumber;
     }
@@ -42,9 +42,9 @@ public class CurrentAccount extends Account {
         if (withdrawalAmount == MINIMAL_WITHDRAWAL_VALUE) {
             throw new InvalidValuesException();
         }
-//        if (withdrawalAmount > this.balance) {
-//            throw new InsufficientValuesException();
-//        }
+        if (withdrawalAmount > this.balance) {
+            throw new InsufficientValuesException();
+        }
         this.balance = this.balance - withdrawalAmount;
     }
 

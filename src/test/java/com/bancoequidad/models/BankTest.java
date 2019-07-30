@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 public class BankTest {
     Account account1;
     Account account2;
+    Client client;
     Bank bank;
 
     @Before
@@ -22,23 +23,33 @@ public class BankTest {
     public void shouldHaveAllNecessaryAttributes() {
         final int EXPECTED_SIZE_VALUE = 0;
 
-        assertThat(bank.getAccountList().size(), is(EXPECTED_SIZE_VALUE));
-        assertThat(bank.getAccountList().size(), is(EXPECTED_SIZE_VALUE));
+        assertThat(bank.getAccountsList().size(), is(EXPECTED_SIZE_VALUE));
+        assertThat(bank.getAccountsList().size(), is(EXPECTED_SIZE_VALUE));
+        assertThat(bank.getClientList().size(),is(EXPECTED_SIZE_VALUE));
     }
     //Here start test for client
    
     @Test//check me out
     public void shouldHaveAddClientToListOfClients() {
-        Client client = new Client("luz", "12357954", MaritalStatus.SINGLE);
+        client = new Client("luz", "12357954", MaritalStatus.SINGLE);
 
         bank.addClient(client);
 
         assertTrue(bank.getClientList().contains(client));
     }
 
+    @Test
+    public void shouldHaveAddAccountToListOfAccounts() throws RepeatedValuesExeptions {
+        account1 = new SavingsAccount("1123321100");
+
+        bank.addAccount(account1);
+
+        assertTrue(bank.getAccountsList().contains(account1));
+    }
+
     //Here start test for create current account
     @Test
-    public void shouldHaveCreatedACurrentAccountWithAccountNumber() throws RepeatedValuesExeptions {
+    public void shouldHaveCreatedACurrentAccountWithAccountNumber() {
         final String accountNumber = "134556589";
 
         account1 = new CurrentAccount(accountNumber);
@@ -48,7 +59,7 @@ public class BankTest {
 
     //Here start test for create savings account
     @Test
-    public void shouldHaveCreatedASavingsAccountWithAccountNumber() throws RepeatedValuesExeptions {
+    public void shouldHaveCreatedASavingsAccountWithAccountNumber() {
         final String accountNumber = "134556589";
 
         account1 = new SavingsAccount(accountNumber);
@@ -162,4 +173,6 @@ public class BankTest {
         bank.transfer(account1,account2,AMOUNT_TO_DEPOSIT);
         assertThat(account2.getBalance(), is(AMOUNT_TO_DEPOSIT));
     }
+
+    
 }

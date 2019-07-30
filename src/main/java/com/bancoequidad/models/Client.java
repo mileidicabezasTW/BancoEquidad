@@ -42,8 +42,6 @@ public class Client {
           throw new RepeatedValuesExeptions();
        }
         this.accountsList.add(account);
-
-
     }
 
     public String print() {

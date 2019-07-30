@@ -1,8 +1,10 @@
 package com.bancoequidad.models;
+
 import com.bancoequidad.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Bank {
 
@@ -22,9 +24,6 @@ public class Bank {
         this.clientList.add(client);
     }
 
-    public void addAccount(Account account1) {
-         this.accountsList.add(account1);
-    }
 
     public double transfer(Account account1, Account account2, double amount) throws NegativeValuesException, OutRangeValuesException, InsufficientValuesException, InvalidValuesException, RepeatedValuesExeptions {
         if (amount > account1.getBalance()) {
@@ -39,11 +38,20 @@ public class Bank {
        return account2.getBalance();
     }
 
-    public String createCurrentAccount(String accountNumber) {
-    return accountNumber;
+    public Account createCurrentAccount(String accountNumber) {
+        Account account = new CurrentAccount(accountNumber);
+        accountsList.add(account);
+        return account;
     }
 
-    public String createSavingsAccount(String accountNumber) {
-        return accountNumber;
+    public Account createSavingsAccount(String accountNumber) {
+         Account account = new SavingsAccount(accountNumber);
+         accountsList.add(account);
+         return account;
+    }
+
+    public String printDetail(String ci) {
+        final List<Client> clients = clientList.stream().filter(client -> client.getIdNumber().equals(ci)).collect(Collectors.toList());
+        return clients.get(0).print();
     }
 }

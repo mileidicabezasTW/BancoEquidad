@@ -24,10 +24,9 @@ public class BankTest {
 
         assertThat(bank.getAccountList().size(), is(EXPECTED_SIZE_VALUE));
         assertThat(bank.getAccountList().size(), is(EXPECTED_SIZE_VALUE));
-
     }
     //Here start test for client
-
+   
     @Test//check me out
     public void shouldHaveAddClientToListOfClients() {
         Client client = new Client("luz", "12357954", MaritalStatus.SINGLE);

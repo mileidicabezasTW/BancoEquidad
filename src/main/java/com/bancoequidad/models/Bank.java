@@ -8,10 +8,6 @@ import java.util.List;
 
 public class Bank {
 
-    Account savingsAccount = new SavingsAccount("111024657");
-    Account currentAccount = new CurrentAccount("751111122");
-    Client client = new Client("luz","12357954", MaritalStatus.SINGLE);
-
     private List<Account> accountList = new ArrayList<>();
     private List<Client> clientList = new ArrayList<>();
 
@@ -41,12 +37,10 @@ public class Bank {
     }
 
     public String createCurrentAccount(String accountNumber) {
-
     return accountNumber;
     }
 
     public String createSavingsAccount(String accountNumber) {
-
         return accountNumber;
     }
 }

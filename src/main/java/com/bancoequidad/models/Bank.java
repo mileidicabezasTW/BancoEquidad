@@ -54,4 +54,6 @@ public class Bank {
         final List<Client> clients = clientList.stream().filter(client -> client.getIdNumber().equals(ci)).collect(Collectors.toList());
         return clients.get(0).print();
     }
+
+
 }

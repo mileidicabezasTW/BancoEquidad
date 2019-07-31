@@ -188,16 +188,16 @@ public class BankTest {
         assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
     }
 
-    @Test
-    public void shouldPrintDetail(){
-        final String NAME = "Juan";
-        final String ID = "1234987";
-        final MaritalStatus MARITAL_STATUS = MaritalStatus.MARRIED;
-        final String EXPECTED_DETAIL = "Name "+NAME+" Id Number "+ID+
-                " Marital Status " + MARITAL_STATUS;
-
-//        assertThat(bank.printDetail(),is(EXPECTED_DETAIL));
-    }
+//    @Test
+//    public void shouldPrintClientDetail(){
+//        final String NAME = "Juan";
+//        final String ID = "1234987";
+//        final MaritalStatus MARITAL_STATUS = MaritalStatus.MARRIED;
+//        final String EXPECTED_DETAIL = "Name "+NAME+" Id Number "+ID+
+//                " Marital Status " + MARITAL_STATUS;
+//
+//       assertThat(bank.printDetail("12345892"),is(EXPECTED_DETAIL));
+//    }
 
     @Test
     public void shouldPrintAccountDetail(){
@@ -208,5 +208,7 @@ public class BankTest {
 
         assertThat(result, is(client.print()));
     }
+
+
 
 }

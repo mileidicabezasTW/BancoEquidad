@@ -26,6 +26,10 @@ public abstract class Account {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public double getInterest() {
         return interest;
     }

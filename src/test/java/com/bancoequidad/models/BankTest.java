@@ -1,12 +1,8 @@
 package com.bancoequidad.models;
-
 import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -187,17 +183,18 @@ public class BankTest {
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
         assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
     }
-
+ //informacion de las cuentas asociadas al cliente falta
 //    @Test
-//    public void shouldPrintAccountDetail() throws RepeatedValuesExeptions {
+//    public void shouldPrintAccountDetail() {
 //        final String ACCOUNT_NUMBER = "111220030";
 //        final String ID_NUMBER = "11123";
 //        account1 = new SavingsAccount(ACCOUNT_NUMBER);
-//        client.addAccount(account1);
+//        account1.setId(ID_NUMBER);
 //
+//        bank.getAccountsList().add(account1);
 //        String result = bank.printDetailAccount(ID_NUMBER);
 //
-//        assertThat(account1.getId(),is(account1.print()));
+//        assertThat(result,is(account1.print()));
 //    }
 
     @Test
@@ -209,7 +206,4 @@ public class BankTest {
 
         assertThat(result, is(client.print()));
     }
-
-
-
 }

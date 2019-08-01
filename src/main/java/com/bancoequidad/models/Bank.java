@@ -1,6 +1,4 @@
 package com.bancoequidad.models;
-
-import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.*;
 
 import java.util.ArrayList;

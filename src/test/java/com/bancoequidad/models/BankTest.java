@@ -26,7 +26,7 @@ public class BankTest {
         assertThat(bank.getAccountList().size(), is(EXPECTED_SIZE_VALUE));
     }
     //Here start test for client
-   
+
     @Test//check me out
     public void shouldHaveAddClientToListOfClients() {
         Client client = new Client("luz", "12357954", MaritalStatus.SINGLE);
@@ -132,13 +132,10 @@ public class BankTest {
         bank.transfer(account1,account2,AMOUNT_TO_DEPOSIT);
 
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
-        System.out.println("account1: " + account1.getBalance());
-        System.out.println("Expected balance: " + EXPECTED_BALANCE_AMOUNT);
-        System.out.println("account1: " + account2.getBalance());
     }
 
     @Test//check me out
-    public void  shouldHaveTransferCurrentAccountAndCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
+    public void  shouldHaveTransferCurrentAccountToCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new SavingsAccount("711111112");
         account2 = new CurrentAccount("742111111");
         final double TOTAL_AMOUNT_PERCENTAGE = 100.0;

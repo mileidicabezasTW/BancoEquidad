@@ -50,7 +50,7 @@ public class ClientTest {
 
     @Test
     public void shouldPrintDetail(){
-          String EXPECTED_DETAIL = "Name "+NAME+" Id Number "+ID+
+         final  String EXPECTED_DETAIL = "Name "+NAME+" Id Number "+ID+
                                 " Marital Status "+MARITAL_STATUS;
 
         assertThat(client.print(),is(EXPECTED_DETAIL));

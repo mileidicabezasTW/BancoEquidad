@@ -3,14 +3,15 @@ import com.bancoequidad.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Bank {
 
-    private List<Account> accountList = new ArrayList<>();
+    private List<Account> accountsList = new ArrayList<>();
     private List<Client> clientList = new ArrayList<>();
 
-    public List<Account> getAccountList() {
-        return accountList;
+    public List<Account> getAccountsList() {
+        return accountsList;
     }
 
     public List<Client> getClientList() {
@@ -18,8 +19,10 @@ public class Bank {
     }
 
     public void addClient(Client client) {
+
         this.clientList.add(client);
     }
+
 
     public double transfer(Account account1, Account account2, double amount) throws NegativeValuesException, OutRangeValuesException, InsufficientValuesException, InvalidValuesException, RepeatedValuesExeptions {
         if (amount > account1.getBalance()) {
@@ -34,11 +37,26 @@ public class Bank {
        return account2.getBalance();
     }
 
-    public String createCurrentAccount(String accountNumber) {
-    return accountNumber;
+    public Account createCurrentAccount(String accountNumber) {
+        Account account = new CurrentAccount(accountNumber);
+        accountsList.add(account);
+        return account;
     }
 
-    public String createSavingsAccount(String accountNumber) {
-        return accountNumber;
+    public Account createSavingsAccount(String accountNumber) {
+         Account account = new SavingsAccount(accountNumber);
+         accountsList.add(account);
+         return account;
+    }
+
+    public String printDetailClient(String ci) {
+        final List<Client> clients = clientList.stream().filter(client -> client.getIdNumber().equals(ci)).collect(Collectors.toList());
+        return clients.get(0).print();
+    }
+
+
+    public String printDetailAccount(String id) {
+        final List<Account> accounts = accountsList.stream().filter(account -> account.getId().equals(id)).collect(Collectors.toList());
+        return accounts.get(0).print();
     }
 }

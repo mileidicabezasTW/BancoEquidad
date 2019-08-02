@@ -37,14 +37,76 @@ public class App
 
        switch (option){
            case 1:
-               System.out.println("Has seleccionado la opcion 1");
+               int maritalStatusOptions;
+               MaritalStatus maritalStatus;
+               System.out.println("-----------Enter your detail-----------\n");
+               System.out.println("Enter your Id");
+               String id = read.next();
+               System.out.println("Enter your name");
+               String name = read.next();
+               System.out.println("Choose your marital status");
+               System.out.println("1. Married");
+               System.out.println("2. Singled");
+               System.out.println("3. Divorced");
+               System.out.println("4. Others");
+               maritalStatusOptions = read.nextInt();
+               if (maritalStatusOptions > 4){
+                   System.out.println("This option is not available");
+               }
+               if(maritalStatusOptions == 1) {
+                   maritalStatus = MaritalStatus.MARRIED;
+               }else if(maritalStatusOptions == 2) {
+                   maritalStatus = MaritalStatus.SINGLE;
+               }else if(maritalStatusOptions == 3) {
+                   maritalStatus = MaritalStatus.DIVORCED;
+               }else{
+                   maritalStatus = MaritalStatus.OTHERS;
+               }
+               Client client = new Client(id, name,maritalStatus);
+               bank.addClient(client);
 
                break;
            case 2:
-               System.out.println("Has seleccionado la opcion 2");
+               System.out.println("-----------Enter the account detail-----------\\n");
+               System.out.println("Enter the account number");
+               String accountNumber = read.next();
+               bank.createSavingsAccount(accountNumber);
                break;
            case 3:
-               System.out.println("Has seleccionado la opcion 3");
+               int maritalStatusOption;
+               MaritalStatus maritalStatusClient;
+               System.out.println("-----------Enter your detail-----------\n");
+               System.out.println("Enter your Id");
+               String idNumber = read.next();
+               System.out.println("Enter your name");
+               String clientName = read.next();
+               System.out.println("Choose your marital status");
+               System.out.println("1. Married");
+               System.out.println("2. Singled");
+               System.out.println("3. Divorced");
+               System.out.println("4. Others");
+               maritalStatusOptions = read.nextInt();
+               if (maritalStatusOptions > 4){
+                   System.out.println("This option is not available");
+               }
+               if(maritalStatusOptions == 1) {
+                   maritalStatusClient = MaritalStatus.MARRIED;
+               }else if(maritalStatusOptions == 2) {
+                   maritalStatusClient = MaritalStatus.SINGLE;
+               }else if(maritalStatusOptions == 3) {
+                   maritalStatusClient = MaritalStatus.DIVORCED;
+               }else{
+                   maritalStatusClient = MaritalStatus.OTHERS;
+               }
+               System.out.println("-----------Enter the account detail-----------\\n");
+               System.out.println("Enter the account number");
+               String accountOfNumber = read.next();
+               bank.createSavingsAccount(accountOfNumber);
+               Client client1;
+               client1 = new Client(idNumber,clientName,maritalStatusClient);
+               bank.addClient(client1);
+               client1.addAccount();
+
                break;
            case 4:
                System.out.println("Has seleccionado la opcion 4");

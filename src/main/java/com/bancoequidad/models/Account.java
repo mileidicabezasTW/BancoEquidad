@@ -8,7 +8,7 @@ import com.bancoequidad.exceptions.OutRangeValuesException;
 
 public abstract class Account {
     protected String accountNumber;
-    protected String id;
+    protected int id;
     protected double interest;
     protected double balance;
     protected AccountStatus accountStatus;
@@ -22,11 +22,11 @@ public abstract class Account {
         return accountNumber;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

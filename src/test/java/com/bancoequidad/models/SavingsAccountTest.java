@@ -22,7 +22,7 @@ public class SavingsAccountTest {
 
     @Test
     public void shouldHaveAllNecessaryAttributes() {
-        final String ID = null;
+        final int ID = 0;
         final double EXPECTED_BALANCE = 0;
 
         assertThat(savingsAccount.getId(), is(ID));
@@ -124,7 +124,7 @@ public class SavingsAccountTest {
 
     @Test
     public void shouldDetailToBePrinted() {
-        String expectedId = null;
+        int expectedId = 0;
         double expectedBalance = savingsAccount.getBalance();
         final AccountStatus EXPECTED_ACCOUNT_STATUS = AccountStatus.ACTIVE;
         final String EXPECTED_DETAIL = "Id Account " + expectedId + " Balance Account " + expectedBalance

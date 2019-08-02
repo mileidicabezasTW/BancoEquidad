@@ -187,7 +187,7 @@ public class BankTest {
 //    @Test
 //    public void shouldPrintAccountDetail() {
 //        final String ACCOUNT_NUMBER = "111220030";
-//        final String ID_NUMBER = "11123";
+//        final String ID_NUMBER = 11123;
 //        account1 = new SavingsAccount(ACCOUNT_NUMBER);
 //        account1.setId(ID_NUMBER);
 //

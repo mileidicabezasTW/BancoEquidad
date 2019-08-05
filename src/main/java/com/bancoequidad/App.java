@@ -1,12 +1,10 @@
 package com.bancoequidad;
 
 import com.bancoequidad.Enum.MaritalStatus;
-import com.bancoequidad.models.Bank;
-import com.bancoequidad.models.Client;
+import com.bancoequidad.exceptions.*;
+import com.bancoequidad.models.*;
 
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 /**
  * Hello world!
@@ -14,8 +12,7 @@ import java.util.stream.Collectors;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws RepeatedValuesExeptions, InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
 
         Bank bank = new Bank();
         Scanner read = new Scanner(System.in);
@@ -64,23 +61,27 @@ public class App
                }
                Client client = new Client(id, name,maritalStatus);
                bank.addClient(client);
-
+               System.out.println("Successful registration\n");
+               System.out.println("-----------Client detail-----------");
+               System.out.println(client.print());
                break;
            case 2:
                System.out.println("-----------Enter the account detail-----------\\n");
                System.out.println("Enter the account number");
                String accountNumber = read.next();
                bank.createSavingsAccount(accountNumber);
+               System.out.println("Successful registration");
+               System.out.println("-----------Account detail-----------");
+
                break;
            case 3:
-               int maritalStatusOption;
                MaritalStatus maritalStatusClient;
-               System.out.println("-----------Enter your detail-----------\n");
-               System.out.println("Enter your Id");
+               System.out.println("-----------Enter the client detail-----------\n");
+               System.out.println("Client id");
                String idNumber = read.next();
-               System.out.println("Enter your name");
+               System.out.println("Client name");
                String clientName = read.next();
-               System.out.println("Choose your marital status");
+               System.out.println("Choose Client marital status");
                System.out.println("1. Married");
                System.out.println("2. Singled");
                System.out.println("3. Divorced");
@@ -98,24 +99,70 @@ public class App
                }else{
                    maritalStatusClient = MaritalStatus.OTHERS;
                }
-               System.out.println("-----------Enter the account detail-----------\\n");
                System.out.println("Enter the account number");
                String accountOfNumber = read.next();
                bank.createSavingsAccount(accountOfNumber);
                Client client1;
                client1 = new Client(idNumber,clientName,maritalStatusClient);
+               client1.getIdNumber();
+               client1.getName();
+               client1.getMaritalStatus();
+               client1.getAccountsList();
                bank.addClient(client1);
-               client1.addAccount();
-
+               Account account1 = new SavingsAccount(accountOfNumber);
+               client1.addAccount(account1);
+               System.out.println("      Successful assignment\n" );
+               System.out.println("-----------Client detail-----------");
+               System.out.println("ID: "+client1.getIdNumber()+"\nName: "+client1.getName()+"\nMarital status: "+
+                                   client1.getMaritalStatus()+"\nAccount number: "+client1.getAccountsList());
                break;
            case 4:
-               System.out.println("Has seleccionado la opcion 4");
+               String accountNumberOrigin = "1232122233";
+               String accountNumberDestination = "1232122433";
+               Account accountOrigin = new CurrentAccount(accountNumberOrigin);
+               Account accountDestination = new SavingsAccount(accountNumberDestination);
+               double amountDeposit = 50.98;
+               double transferAmount = 0.0;
+               System.out.println("Enter the account destination");
+               accountNumberDestination  = read.next();
+               System.out.println("Enter the transfer amount");
+               transferAmount = read.nextDouble();
+               accountOrigin.deposit(amountDeposit);
+               bank.transfer(accountOrigin,accountDestination,transferAmount);
+               System.out.println("         Successful transfer\n");
+               System.out.println("-----------Transfer Detail-----------");
+               System.out.println("Amount transfer: "+transferAmount +"\nAccount number destination: "+
+                                  accountNumberDestination+ "\nActual balance account origin: "+ accountOrigin.getBalance()+"\n");
                break;
            case 5:
-               System.out.println("Has seleccionado la opcion 5");
+               String number = "1232122233";
+               Account accountOne = new CurrentAccount(number);
+               double amount = 0.0;
+               System.out.println("Enter the account destination");
+               accountNumberDestination  = read.next();
+               System.out.println("Enter the deposit amount");
+               amount = read.nextDouble();
+               accountOne.deposit(amount);
+               System.out.println("         Successful deposit\n");
+               System.out.println("-----------Deposit detail-----------");
+               System.out.println("Amount deposit: "+amount+"\nAccount number destination: "+
+                       accountOne.getAccountNumber()+ "\nActual balance account deposit destination: "+ accountOne.getBalance()+"\n");
                break;
            case 6:
-               System.out.println("Has seleccionado la opcion 6");
+               String AccountNumberOne = "1232122233";
+               Account accountTwo = new CurrentAccount(AccountNumberOne);
+               double depositAmount = 55.98;
+               double amountWithdrawal = 0.0;
+               accountTwo.deposit(depositAmount);
+               System.out.println("Enter the account destination");
+               AccountNumberOne  = read.next();
+               System.out.println("Enter the withdrawal amount");
+               amountWithdrawal = read.nextDouble();
+               accountTwo.withdraw(amountWithdrawal);
+               System.out.println("         Successful deposit\n");
+               System.out.println("-----------Withdrawal detail-----------");
+               System.out.println("Amount withdrawal: "+amountWithdrawal+"\nAccount number destination: "+
+                       accountTwo.getAccountNumber()+ "\nActual balance in account: "+ accountTwo.getBalance()+"\n");
                break;
            case 7:
                System.out.println("Has seleccionado la opcion 7");

@@ -7,26 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
-    private String name;
     private String idNumber;
+    private String name;
     private MaritalStatus maritalStatus;
     private List<Account> accountsList = new ArrayList<>();
 
-    public Client(String name, String idNumber, MaritalStatus marital_status) {
-        this.name = name;
+    public Client( String idNumber,String name, MaritalStatus marital_status) {
         this.idNumber = idNumber;
+        this.name = name;
         this.maritalStatus = marital_status;
     }
-
-    public String getName() {
-        return name;
-    }
-
-
     public String getIdNumber() {
         return idNumber;
     }
-
+    public String getName() {
+        return name;
+    }
 
     public MaritalStatus getMaritalStatus() {
         return maritalStatus;
@@ -45,7 +41,7 @@ public class Client {
     }
 
     public String print() {
-        String detail = "Name "+this.getName()+" Id Number "+this.getIdNumber()+
+        String detail = " Id Number "+this.getIdNumber()+"Name "+this.getName()+
                         " Marital Status "+this.getMaritalStatus();//+ "Account number" + getAccountsList()
         return detail;
     }

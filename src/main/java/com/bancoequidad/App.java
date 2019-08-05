@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class App 
 {
-    public static void main( String[] args ) throws RepeatedValuesExeptions, InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+    public static void main( String[] args ) throws RepeatedValuesExeptions, InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, OnlyStringException {
 
         Bank bank = new Bank();
         Scanner read = new Scanner(System.in);
@@ -59,11 +59,14 @@ public class App
                }else{
                    maritalStatus = MaritalStatus.OTHERS;
                }
+
                Client client = new Client(id, name,maritalStatus);
                bank.addClient(client);
                System.out.println("Successful registration\n");
                System.out.println("-----------Client detail-----------");
-               System.out.println(client.print());
+               System.out.println(client.print());//todo viene del banco
+               System.out.println("-----------------------------------");
+
                break;
            case 2:
                System.out.println("-----------Enter the account detail-----------\\n");
@@ -74,7 +77,9 @@ public class App
                System.out.println("-----------Account detail-----------");
 
                break;
-           case 3:
+           case 3://hacerte mas simple
+               //crear metodo que reciba el numero de cdula y de cuenta, buscar el cliente con dicha cedula, buscar la cuenta con la cedula,
+               //asignar lo que encuetre a lo que encuentre. hacer en el banco con pruebas
                MaritalStatus maritalStatusClient;
                System.out.println("-----------Enter the client detail-----------\n");
                System.out.println("Client id");
@@ -112,19 +117,18 @@ public class App
                Account account1 = new SavingsAccount(accountOfNumber);
                client1.addAccount(account1);
                System.out.println("      Successful assignment\n" );
-               System.out.println("-----------Client detail-----------");
-               System.out.println("ID: "+client1.getIdNumber()+"\nName: "+client1.getName()+"\nMarital status: "+
-                                   client1.getMaritalStatus()+"\nAccount number: "+client1.getAccountsList());
+
                break;
            case 4:
-               String accountNumberOrigin = "1232122233";
-               String accountNumberDestination = "1232122433";
+               //metodo que busque cuentas por medio de numero de cuentas, paratros 1 numero de cuenta, hacer en el banco con pruebas
+               String accountNumberOrigin = "";
+               String accountNumberDestination;
                Account accountOrigin = new CurrentAccount(accountNumberOrigin);
                Account accountDestination = new SavingsAccount(accountNumberDestination);
                double amountDeposit = 50.98;
                double transferAmount = 0.0;
                System.out.println("Enter the account destination");
-               accountNumberDestination  = read.next();
+               accountNumberDestination  = read.next();//anadir otro print para la cuenta de origen
                System.out.println("Enter the transfer amount");
                transferAmount = read.nextDouble();
                accountOrigin.deposit(amountDeposit);
@@ -154,24 +158,62 @@ public class App
                double depositAmount = 55.98;
                double amountWithdrawal = 0.0;
                accountTwo.deposit(depositAmount);
-               System.out.println("Enter the account destination");
-               AccountNumberOne  = read.next();
                System.out.println("Enter the withdrawal amount");
                amountWithdrawal = read.nextDouble();
                accountTwo.withdraw(amountWithdrawal);
                System.out.println("         Successful deposit\n");
                System.out.println("-----------Withdrawal detail-----------");
-               System.out.println("Amount withdrawal: "+amountWithdrawal+"\nAccount number destination: "+
-                       accountTwo.getAccountNumber()+ "\nActual balance in account: "+ accountTwo.getBalance()+"\n");
+               System.out.println("Amount withdrawal: "+amountWithdrawal+
+                                  "\nActual balance in account: "+ accountTwo.getBalance()+"\n");
                break;
            case 7:
-               System.out.println("Has seleccionado la opcion 7");
+               MaritalStatus maritalStatusClientOne;
+               System.out.println("-----------Enter the client detail-----------\n");
+               System.out.println("Client id");
+               String idNumberOne = read.next();
+               System.out.println("Client name");
+               String clientNameOne = read.next();
+               System.out.println("Choose Client marital status");
+               System.out.println("1. Married");
+               System.out.println("2. Singled");
+               System.out.println("3. Divorced");
+               System.out.println("4. Others");
+               maritalStatusOptions = read.nextInt();
+               if (maritalStatusOptions > 4){
+                   System.out.println("This option is not available");
+               }
+               if(maritalStatusOptions == 1) {
+                   maritalStatusClientOne = MaritalStatus.MARRIED;
+               }else if(maritalStatusOptions == 2) {
+                   maritalStatusClientOne = MaritalStatus.SINGLE;
+               }else if(maritalStatusOptions == 3) {
+                   maritalStatusClientOne = MaritalStatus.DIVORCED;
+               }else{
+                   maritalStatusClientOne = MaritalStatus.OTHERS;
+               }
+               System.out.println("Enter the account number");
+               String accountOfNumberOne = read.next();
+               bank.createSavingsAccount(accountOfNumberOne);
+               Client clientOne;
+               clientOne = new Client(idNumberOne,clientNameOne,maritalStatusClientOne);
+               clientOne.getIdNumber();
+               clientOne.getName();
+               clientOne.getMaritalStatus();
+               clientOne.getAccountsList();
+               bank.addClient(clientOne);
+               Account accountThree = new SavingsAccount(accountOfNumberOne);
+               clientOne.addAccount(accountThree);
+               System.out.println("      Successful assignment\n" );
+               System.out.println("-----------Client detail-----------");
+               System.out.println("ID: "+clientOne.getIdNumber()+"\nName: "+clientOne.getName()+"\nMarital status: "+
+                       clientOne.getMaritalStatus()+"\nAccount number: "+clientOne.getAccountsList());
+               System.out.println("-----------------------------------");
                break;
            case 0:
                exist = true;
                break;
            default:
-               System.out.println("Solo números entre 0 y 7");
+               System.out.println("Only number between 0 and 7");
        }
     }
 

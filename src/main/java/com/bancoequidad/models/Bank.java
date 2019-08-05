@@ -18,6 +18,7 @@ public class Bank {
         return clientList;
     }
 
+    //renplazar por crear cliente
     public void addClient(Client client) {
 
         this.clientList.add(client);
@@ -55,8 +56,8 @@ public class Bank {
     }
 
 
-//    public String printDetailAccount(int id) {
-//        final List<Account> accounts = accountsList.stream().filter(account -> account.getId().equals(id)).collect(Collectors.toList());
-//        return accounts.get(0).print();
-//    }
+    public String printDetailAccount(int id) {
+        final List<Account> accounts = accountsList.stream().filter(account -> account.getId() == id).collect(Collectors.toList());
+        return accounts.get(0).print();
+    }
 }

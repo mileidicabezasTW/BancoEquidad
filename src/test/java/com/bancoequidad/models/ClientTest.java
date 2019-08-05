@@ -1,6 +1,7 @@
 package com.bancoequidad.models;
 
 import com.bancoequidad.Enum.MaritalStatus;
+import com.bancoequidad.exceptions.OnlyStringException;
 import com.bancoequidad.exceptions.RepeatedValuesExeptions;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +13,12 @@ public class ClientTest {
 
 
     Client client;
-    final String NAME = "juan";
     final String ID = "1234987";
+    final String NAME = "juan";
     final MaritalStatus MARITAL_STATUS = MaritalStatus.MARRIED;
     @Before
     public void init(){
-        client = new Client(NAME, ID,MARITAL_STATUS);
+        client = new Client(ID,NAME,MARITAL_STATUS);
     }
 
     @Test
@@ -50,8 +51,8 @@ public class ClientTest {
 
     @Test
     public void shouldPrintDetail(){
-         final  String EXPECTED_DETAIL = "Name "+NAME+" Id Number "+ID+
-                                " Marital Status "+MARITAL_STATUS;
+         final  String EXPECTED_DETAIL = "Id Number: "+ID+ "\nName: "+NAME+
+                                "\nMarital Status: "+MARITAL_STATUS;
 
         assertThat(client.print(),is(EXPECTED_DETAIL));
     }

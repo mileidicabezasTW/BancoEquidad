@@ -41,8 +41,8 @@ public class Client {
     }
 
     public String print() {
-        String detail = " Id Number "+this.getIdNumber()+"Name "+this.getName()+
-                        " Marital Status "+this.getMaritalStatus();//+ "Account number" + getAccountsList()
+        String detail = "Id Number: "+this.getIdNumber()+"\nName: "+this.getName()+
+                        "\nMarital Status: "+this.getMaritalStatus();//+ "Account number" + getAccountsList()
         return detail;
     }
 

@@ -1,8 +1,10 @@
 package com.bancoequidad.models;
+import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Bank {
@@ -18,9 +20,12 @@ public class Bank {
         return clientList;
     }
 
-    //renplazar por crear cliente
+    //renplazar por crear cliente y agregar parametros
     public void createClient(Client client) {
-
+        String name = client.getName();
+        String id = client.getIdNumber();
+        MaritalStatus maritalStatus = client.getMaritalStatus();
+        client =  new Client(id,name,maritalStatus);
         this.clientList.add(client);
     }
 
@@ -61,8 +66,28 @@ public class Bank {
         return accounts.get(0).print();
     }
 
-    public void deposit(String accountNumber, double amount) throws NegativeValuesException, InvalidValuesException {
-        createCurrentAccount(accountNumber).deposit(amount);
+//    public void deposit(String accountNumber, double amount) throws NegativeValuesException, InvalidValuesException {
+//        createCurrentAccount(accountNumber).deposit(amount);
+//
+//    }
 
+    public Client searchClient(String id) {//cambiar y add test
+        final Client clients = clientList.stream().filter(client -> client.getIdNumber().equals(id)).findAny().get();
+        return  clients;
+    }
+
+    public Account searchAccount(String accountNumber) throws Exception {
+        final Optional<Account> result = accountsList.stream().filter(account ->account.getAccountNumber().equals(accountNumber)).findFirst();
+        if(result.isPresent()){
+            return result.get();
+        }//make test of ex
+        throw new Exception();
+    }
+
+    public void assignAccountToTheClient(String accountNumber, String id) {
+
+        createClient(searchClient(accountNumber));
+        searchAccount(createSavingsAccount(accountNumber).getAccountNumber());
+        getAccountsList().add(createSavingsAccount(accountNumber));
     }
 }

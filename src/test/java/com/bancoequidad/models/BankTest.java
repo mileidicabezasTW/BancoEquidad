@@ -183,24 +183,72 @@ public class BankTest {
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
         assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
     }
-    //Here start test for deposit
-    @Test //I am new
-    public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException, RepeatedValuesExeptions {
-        final String accountNumber = "1123321100";
-        final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
-        final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
-        final double AMOUNT_TO_DEPOSIT = 46.9;
-        final double DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
-        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT- DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT);
-        final String ACCOUNT_NUMBER = bank.createSavingsAccount(accountNumber).getAccountNumber();
 
-        account1 = bank.createCurrentAccount(accountNumber);
-        account1.deposit(AMOUNT_TO_DEPOSIT);
-        bank.createCurrentAccount(accountNumber).deposit(AMOUNT_TO_DEPOSIT);
+    //Here start test for searchClient
 
-        assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT));
-        assertThat(ACCOUNT_NUMBER,is(accountNumber));
+    @Test//cambiar a find the method search//arreglar the mess
+    public void shouldSearchAClientFromTheListOfClients(){
+    String id = "1222";
+    String name = "marc";
+    MaritalStatus maritalStatus = MaritalStatus.SINGLE;
+    client = new Client(id,name,maritalStatus);
+
+    bank.getClientList().add(client);
+    String idClient = bank.searchClient(id).getIdNumber();
+
+    assertThat(idClient,is(client.getIdNumber()));
     }
+
+    //test for search account list
+
+    
+    @Test//cambiar a find the method search
+    public void shouldSearchAAccountFromTheListOfAccounts(){
+        String accountNumber = "1110002200";
+        Account expectedAccountNumber = bank.createSavingsAccount(accountNumber);
+        String result = expectedAccountNumber.getAccountNumber();
+        //arregalr
+        String actualAccountNumber = bank.searchAccount(accountNumber).getAccountNumber();
+
+        assertThat(actualAccountNumber,is(result));
+    }
+
+    @Test
+    public void shouldAssignAAccountToTheClient() throws RepeatedValuesExeptions {
+        String accountNumber = "1110002200";
+        String id = "1123";
+        String name = "name";
+        MaritalStatus maritalStatus = MaritalStatus.SINGLE;
+        //
+        bank.createClient(client);
+        bank.searchClient(id);
+        client.addAccount(bank.createSavingsAccount(accountNumber));
+        bank.searchAccount(accountNumber);
+
+        bank.assignAccountToTheClient(id,accountNumber);
+
+        assertThat(client.getAccountsList(),is());
+    }
+
+    //Here start test for deposit
+//    @Test //I am new. i do not think this method is necessary.
+//    public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException, RepeatedValuesExeptions {
+//        final String accountNumber = "1123321100";
+//        final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
+//        final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
+//        final double AMOUNT_TO_DEPOSIT = 46.9;
+//        final double DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
+//        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT- DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT);
+//        final String ACCOUNT_NUMBER = bank.createSavingsAccount(accountNumber).getAccountNumber();
+//
+//        account1 = bank.createCurrentAccount(accountNumber);
+//        account1.deposit(AMOUNT_TO_DEPOSIT);
+//        bank.createCurrentAccount(accountNumber).deposit(AMOUNT_TO_DEPOSIT);
+//
+//        assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT));
+//        assertThat(ACCOUNT_NUMBER,is(accountNumber));
+//    }
+    //finish
 
 
  //informacion de las cuentas asociadas al cliente falta

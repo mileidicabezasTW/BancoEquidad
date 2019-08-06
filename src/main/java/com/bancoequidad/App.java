@@ -12,8 +12,12 @@ import java.util.Scanner;
  */
 public class App 
 {
-//    public static void main( String[] args ) throws RepeatedValuesExeptions, InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, OnlyStringException {
-//
+
+    public static void main( String[] args ) throws RepeatedValuesExeptions, InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, OnlyStringException {
+        Bank bank = new Bank();
+
+
+        //
 //        Bank bank = new Bank();
 //        Scanner read = new Scanner(System.in);
 //        boolean exist = false;
@@ -224,5 +228,5 @@ public class App
 //        //5 depositar en una cuenta, 6 Hacer retiro de una cuenta, 7 imprimir detalles de un cliente.
 //        //conocer el status por medio del menu,
 //
-//    }
+    }
 }

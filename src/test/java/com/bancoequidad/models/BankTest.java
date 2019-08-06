@@ -26,11 +26,11 @@ public class BankTest {
     }
     //Here start test for client
 
-    @Test//check me out
+    @Test
     public void shouldHaveAddClientToListOfClients() {
         client = new Client("luz", "12357954", MaritalStatus.SINGLE);
 
-        bank.addClient(client);
+        bank.createClient(client);
 
         assertTrue(bank.getClientList().contains(client));
     }
@@ -116,7 +116,7 @@ public class BankTest {
         assertThat(account2.getBalance(),is(AMOUNT_DEPOSIT));
     }
 
-    @Test//'Check me out' add assert for obtains the balance account 1
+    @Test
     public void  shouldHaveTransferCurrentAccountToOtherCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new CurrentAccount("122233111");
         account2 = new CurrentAccount("544411111");
@@ -133,7 +133,7 @@ public class BankTest {
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
-    @Test//check me out
+    @Test
     public void  shouldHaveTransferCurrentAccountToCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new SavingsAccount("711111112");
         account2 = new CurrentAccount("742111111");
@@ -151,7 +151,7 @@ public class BankTest {
         assertThat(account1.getBalance(),is(EXPECTED_BALANCE));
     }
 
-    @Test//check me out
+    @Test
     public void  shouldHaveTransferSavingsAccountToOtherSavingsAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new SavingsAccount("711111112");
         account2 = new SavingsAccount("742111111");
@@ -165,7 +165,7 @@ public class BankTest {
         assertThat(account1.getBalance(),is(EXPECTED_BALANCE));
     }
 
-    @Test//'Check me out' New test
+    @Test
     public void  shouldHaveTransferCurrentAccountToOtherSavingsAccounts() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new CurrentAccount("122233111");
         account2 = new SavingsAccount("544411111");
@@ -183,6 +183,26 @@ public class BankTest {
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
         assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
     }
+    //Here start test for deposit
+    @Test //I am new
+    public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException, RepeatedValuesExeptions {
+        final String accountNumber = "1123321100";
+        final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
+        final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
+        final double AMOUNT_TO_DEPOSIT = 46.9;
+        final double DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
+        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT- DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT);
+        final String ACCOUNT_NUMBER = bank.createSavingsAccount(accountNumber).getAccountNumber();
+
+        account1 = bank.createCurrentAccount(accountNumber);
+        account1.deposit(AMOUNT_TO_DEPOSIT);
+        bank.createCurrentAccount(accountNumber).deposit(AMOUNT_TO_DEPOSIT);
+
+        assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT));
+        assertThat(ACCOUNT_NUMBER,is(accountNumber));
+    }
+
+
  //informacion de las cuentas asociadas al cliente falta
 //    @Test
 //    public void shouldPrintAccountDetail() {
@@ -197,15 +217,15 @@ public class BankTest {
 //        assertThat(result,is(account1.print()));
 //    }
 
-    @Test
-    public void shouldPrintClientDetail(){
-        Client client = new Client("Jorge", "1234567890", MaritalStatus.MARRIED);
-        bank.addClient(client);
-
-        String result = bank.printDetailClient("1234567890");
-
-        assertThat(result, is(client.print()));
-    }
+//    @Test
+//    public void shouldPrintClientDetail(){
+//        Client client = new Client("Jorge", "1234567890", MaritalStatus.MARRIED);
+//        bank.createClient(client);
+//
+//        String result = bank.printDetailClient("1234567890");
+//
+//        assertThat(result, is(client.print()));
+//    }
     //buscar cuentas por numero d cuenta
     //
 }

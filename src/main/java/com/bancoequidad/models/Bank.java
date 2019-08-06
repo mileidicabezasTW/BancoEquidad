@@ -19,7 +19,7 @@ public class Bank {
     }
 
     //renplazar por crear cliente
-    public void addClient(Client client) {
+    public void createClient(Client client) {
 
         this.clientList.add(client);
     }
@@ -59,5 +59,10 @@ public class Bank {
     public String printDetailAccount(int id) {
         final List<Account> accounts = accountsList.stream().filter(account -> account.getId() == id).collect(Collectors.toList());
         return accounts.get(0).print();
+    }
+
+    public void deposit(String accountNumber, double amount) throws NegativeValuesException, InvalidValuesException {
+        createCurrentAccount(accountNumber).deposit(amount);
+
     }
 }

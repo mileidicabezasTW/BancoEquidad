@@ -21,11 +21,8 @@ public class Bank {
     }
 
     //renplazar por crear cliente y agregar parametros
-    public void createClient(Client client) {
-        String name = client.getName();
-        String id = client.getIdNumber();
-        MaritalStatus maritalStatus = client.getMaritalStatus();
-        client =  new Client(id,name,maritalStatus);
+    public void createClient(String id, String name, MaritalStatus maritalStatus) {
+        Client client = new Client(id, name, maritalStatus);
         this.clientList.add(client);
     }
 
@@ -34,13 +31,13 @@ public class Bank {
         if (amount > account1.getBalance()) {
             throw new InsufficientValuesException();
         }
-        if(account1.accountNumber == account2.accountNumber){
+        if (account1.accountNumber == account2.accountNumber) {
             throw new RepeatedValuesExeptions();
         }
         account1.withdraw(amount);
         account2.deposit(amount);
 
-       return account2.getBalance();
+        return account2.getBalance();
     }
 
     public Account createCurrentAccount(String accountNumber) {
@@ -50,9 +47,9 @@ public class Bank {
     }
 
     public Account createSavingsAccount(String accountNumber) {
-         Account account = new SavingsAccount(accountNumber);
-         accountsList.add(account);
-         return account;
+        Account account = new SavingsAccount(accountNumber);
+        accountsList.add(account);
+        return account;
     }
 
     public String printDetailClient(String ci) {
@@ -71,23 +68,26 @@ public class Bank {
 //
 //    }
 
-    public Client searchClient(String id) {//cambiar y add test
-        final Client clients = clientList.stream().filter(client -> client.getIdNumber().equals(id)).findAny().get();
-        return  clients;
-    }
-
-    public Account searchAccount(String accountNumber) throws Exception {
-        final Optional<Account> result = accountsList.stream().filter(account ->account.getAccountNumber().equals(accountNumber)).findFirst();
+    public Client findClient(String id) {//refactoring
+        final Optional<Client> result = clientList.stream().filter(client -> client.getIdNumber().equals(id)).findFirst();
         if(result.isPresent()){
             return result.get();
-        }//make test of ex
-        throw new Exception();
+        }
+        throw new NullPointerException();
     }
 
-    public void assignAccountToTheClient(String accountNumber, String id) {
+    public Account findAccount(String accountNumber) {
+        final Optional<Account> result = accountsList.stream().filter(account -> account.getAccountNumber().equals(accountNumber)).findFirst();
+        if (result.isPresent()) {
+            return result.get();
+        }
+        throw new NullPointerException();
+    }
 
-        createClient(searchClient(accountNumber));
-        searchAccount(createSavingsAccount(accountNumber).getAccountNumber());
-        getAccountsList().add(createSavingsAccount(accountNumber));
+    public void assignAccountToTheClient(Client client, String ACCOUNT_NUMBER) throws RepeatedValuesExeptions {
+        client.addAccount(createCurrentAccount(ACCOUNT_NUMBER));
+        findAccount(ACCOUNT_NUMBER);
+        clientList.add(client);
+
     }
 }

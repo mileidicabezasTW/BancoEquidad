@@ -28,9 +28,12 @@ public class BankTest {
 
     @Test
     public void shouldHaveAddClientToListOfClients() {
-        client = new Client("luz", "12357954", MaritalStatus.SINGLE);
+        String id = "1231";
+        String name = "marc";
+        MaritalStatus maritalStatus = MaritalStatus.SINGLE;
 
-        bank.createClient(client);
+        bank.createClient(id,name,maritalStatus);
+        bank.getClientList().add(client);
 
         assertTrue(bank.getClientList().contains(client));
     }
@@ -184,53 +187,74 @@ public class BankTest {
         assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
     }
 
-    //Here start test for searchClient
+    //Here start test for findClient
+    //i am new  check me
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowExceptionWhenDoNotFindElementInClientsList(){
+        String expectedId = "1522";
+        String id = "1222";
+        String name = "marc";
+        MaritalStatus maritalStatus = MaritalStatus.SINGLE;
+        client = new Client(id,name,maritalStatus);
 
-    @Test//cambiar a find the method search//arreglar the mess
-    public void shouldSearchAClientFromTheListOfClients(){
+        bank.getClientList().add(client);
+        bank.findClient(expectedId);
+    }
+
+    @Test//refactoring
+    public void shouldFindAClientFromTheListOfClients(){
     String id = "1222";
     String name = "marc";
     MaritalStatus maritalStatus = MaritalStatus.SINGLE;
     client = new Client(id,name,maritalStatus);
-
     bank.getClientList().add(client);
-    String idClient = bank.searchClient(id).getIdNumber();
 
-    assertThat(idClient,is(client.getIdNumber()));
+    Client idClient = bank.findClient(id);
+    final String ACTUAL_ID_CLIENT = idClient.getIdNumber();
+
+    assertThat(ACTUAL_ID_CLIENT,is(client.getIdNumber()));
     }
 
     //test for search account list
+    //a im new check me
+    @Test(expected = NullPointerException.class)
+    public void shouldThrowExceptionWhenDoNotFindElementInAccountsList(){
+       final String EXPECTED_ACCOUNT_NUMBER = "1110002200";
+       final String ACCOUNT_NUMBER = "1113302200";
+       bank.createSavingsAccount(EXPECTED_ACCOUNT_NUMBER);
 
-    
-    @Test//cambiar a find the method search
-    public void shouldSearchAAccountFromTheListOfAccounts(){
-        String accountNumber = "1110002200";
-        Account expectedAccountNumber = bank.createSavingsAccount(accountNumber);
-        String result = expectedAccountNumber.getAccountNumber();
-        //arregalr
-        String actualAccountNumber = bank.searchAccount(accountNumber).getAccountNumber();
+       bank.findAccount(ACCOUNT_NUMBER);
+    }
 
-        assertThat(actualAccountNumber,is(result));
+    @Test//refactoring
+    public void shouldFindAAccountFromTheListOfAccounts(){
+        final String ACCOUNT_NUMBER = "1110002200";
+        Account expectedAccount = bank.createSavingsAccount(ACCOUNT_NUMBER);
+        final String EXPECTED_ACCOUNT_NUMBER = expectedAccount.getAccountNumber();
+
+        Account actualAccount = bank.findAccount(EXPECTED_ACCOUNT_NUMBER);
+        String ACTUAL_ACCOUNT_NUMBER   = actualAccount.getAccountNumber();
+
+        assertThat(ACTUAL_ACCOUNT_NUMBER,is(EXPECTED_ACCOUNT_NUMBER));
     }
 
     @Test
     public void shouldAssignAAccountToTheClient() throws RepeatedValuesExeptions {
-        String accountNumber = "1110002200";
-        String id = "1123";
-        String name = "name";
-        MaritalStatus maritalStatus = MaritalStatus.SINGLE;
-        //
-        bank.createClient(client);
-        bank.searchClient(id);
-        client.addAccount(bank.createSavingsAccount(accountNumber));
-        bank.searchAccount(accountNumber);
+        final String ACCOUNT_NUMBER = "1110002200";
+        final String ID = "1123";
+        final String NAME = "name";
+        MaritalStatus MARITAL_STATUS = MaritalStatus.SINGLE;
 
-        bank.assignAccountToTheClient(id,accountNumber);
+        Client client = new Client(ID,NAME,MARITAL_STATUS);
 
-        assertThat(client.getAccountsList(),is());
+        client.addAccount(bank.createCurrentAccount(ACCOUNT_NUMBER));
+        bank.assignAccountToTheClient(client,ACCOUNT_NUMBER);
+        bank.findAccount(ACCOUNT_NUMBER);
+
+      assertTrue(client.getAccountsList().contains(ACCOUNT_NUMBER));
     }
 
-    //Here start test for deposit
+    //Here start test for depsit
 //    @Test //I am new. i do not think this method is necessary.
 //    public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException, RepeatedValuesExeptions {
 //        final String accountNumber = "1123321100";

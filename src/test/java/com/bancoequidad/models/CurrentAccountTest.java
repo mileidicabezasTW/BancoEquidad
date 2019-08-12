@@ -72,7 +72,7 @@ public class CurrentAccountTest {
     }
 
     @Test(expected = NegativeValuesException.class)
-    public void shouldThrowErrorWhenDepositAmountIsNegative() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+    public void shouldThrowErrorWhenWithdrawalAmountIsNegative() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
         final double EXPECTED_AMOUNT = -0.9;
 
         currentAccount.withdraw(EXPECTED_AMOUNT);

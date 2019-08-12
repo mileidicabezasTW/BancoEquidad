@@ -1,8 +1,10 @@
 package com.bancoequidad.models;
+
 import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -22,7 +24,7 @@ public class BankTest {
         final int EXPECTED_SIZE_VALUE = 0;
 
         assertThat(bank.getAccountsList().size(), is(EXPECTED_SIZE_VALUE));
-        assertThat(bank.getClientList().size(),is(EXPECTED_SIZE_VALUE));
+        assertThat(bank.getClientList().size(), is(EXPECTED_SIZE_VALUE));
     }
     //Here start test for client
 
@@ -32,7 +34,7 @@ public class BankTest {
         String name = "marc";
         MaritalStatus maritalStatus = MaritalStatus.SINGLE;
 
-        bank.createClient(id,name,maritalStatus);
+        bank.createClient(id, name, maritalStatus);
         bank.getClientList().add(client);
 
         assertTrue(bank.getClientList().contains(client));
@@ -104,23 +106,23 @@ public class BankTest {
         Account account1 = new SavingsAccount(ACCOUNT_NUMBER);
         Account account2 = new SavingsAccount(ACCOUNT_NUMBER);
         account1.deposit(AMOUNT);
-        bank.transfer(account1,account2, AMOUNT);
-}
-
-    @Test
-    public void  shouldHaveTransferMadeInDestinationSavingsAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
-        final double AMOUNT_DEPOSIT = 46.9;
-         account1 = new SavingsAccount("11221111");
-         account2 = new SavingsAccount("111222333");
-         account1.deposit(AMOUNT_DEPOSIT);
-
-        bank.transfer(account1,account2,AMOUNT_DEPOSIT);
-
-        assertThat(account2.getBalance(),is(AMOUNT_DEPOSIT));
+        bank.transfer(account1, account2, AMOUNT);
     }
 
     @Test
-    public void  shouldHaveTransferCurrentAccountToOtherCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
+    public void shouldHaveTransferMadeInDestinationSavingsAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
+        final double AMOUNT_DEPOSIT = 46.9;
+        account1 = new SavingsAccount("11221111");
+        account2 = new SavingsAccount("111222333");
+        account1.deposit(AMOUNT_DEPOSIT);
+
+        bank.transfer(account1, account2, AMOUNT_DEPOSIT);
+
+        assertThat(account2.getBalance(), is(AMOUNT_DEPOSIT));
+    }
+
+    @Test
+    public void shouldHaveTransferCurrentAccountToOtherCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new CurrentAccount("122233111");
         account2 = new CurrentAccount("544411111");
         final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
@@ -128,48 +130,48 @@ public class BankTest {
         final double AMOUNT_TO_DEPOSIT = 46.9;
         final double AMOUNT_DEPOSIT = 48.9;
         final double DISCOUNTED_AMOUNT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
-        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT- DISCOUNTED_AMOUNT);
+        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT - DISCOUNTED_AMOUNT);
 
         account1.deposit(AMOUNT_DEPOSIT);
-        bank.transfer(account1,account2,AMOUNT_TO_DEPOSIT);
+        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
     @Test
-    public void  shouldHaveTransferCurrentAccountToCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
+    public void shouldHaveTransferCurrentAccountToCurrentAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new SavingsAccount("711111112");
         account2 = new CurrentAccount("742111111");
         final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
         final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
         final double AMOUNT_TO_DEPOSIT = 46.9;
         final double DISCOUNTED_AMOUNT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
-        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT- DISCOUNTED_AMOUNT);
+        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT - DISCOUNTED_AMOUNT);
         final double EXPECTED_BALANCE = 0.0;
 
         account1.deposit(AMOUNT_TO_DEPOSIT);
-        bank.transfer(account1,account2,AMOUNT_TO_DEPOSIT);
+        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
-        assertThat(account2.getBalance(),is(EXPECTED_BALANCE_AMOUNT));
-        assertThat(account1.getBalance(),is(EXPECTED_BALANCE));
+        assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
+        assertThat(account1.getBalance(), is(EXPECTED_BALANCE));
     }
 
     @Test
-    public void  shouldHaveTransferSavingsAccountToOtherSavingsAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
+    public void shouldHaveTransferSavingsAccountToOtherSavingsAccount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new SavingsAccount("711111112");
         account2 = new SavingsAccount("742111111");
         final double AMOUNT_TO_DEPOSIT = 46.9;
         final double EXPECTED_BALANCE = 0.0;
 
         account1.deposit(AMOUNT_TO_DEPOSIT);
-        bank.transfer(account1,account2,AMOUNT_TO_DEPOSIT);
+        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
-        assertThat(account2.getBalance(),is(AMOUNT_TO_DEPOSIT));
-        assertThat(account1.getBalance(),is(EXPECTED_BALANCE));
+        assertThat(account2.getBalance(), is(AMOUNT_TO_DEPOSIT));
+        assertThat(account1.getBalance(), is(EXPECTED_BALANCE));
     }
 
     @Test
-    public void  shouldHaveTransferCurrentAccountToOtherSavingsAccounts() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
+    public void shouldHaveTransferCurrentAccountToOtherSavingsAccounts() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, RepeatedValuesExeptions {
         account1 = new CurrentAccount("122233111");
         account2 = new SavingsAccount("544411111");
         final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
@@ -181,61 +183,58 @@ public class BankTest {
         final double EXPECTED_BALANCE_AMOUNT_ACCOUNT1 = (AMOUNT_DEPOSIT - DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT) - AMOUNT_TO_DEPOSIT;
 
         account1.deposit(AMOUNT_DEPOSIT);
-        bank.transfer(account1,account2,AMOUNT_TO_DEPOSIT);
+        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
-        assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
+        assertThat(account1.getBalance(), is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
     }
 
     //Here start test for findClient
     //i am new  check me
     @Test(expected = NullPointerException.class)
-    public void shouldThrowExceptionWhenDoNotFindElementInClientsList(){
+    public void shouldThrowExceptionWhenDoNotFindElementInClientsList() {
         String expectedId = "1522";
         String id = "1222";
         String name = "marc";
         MaritalStatus maritalStatus = MaritalStatus.SINGLE;
-        client = new Client(id,name,maritalStatus);
+        bank.createClient(id, name, maritalStatus);
 
-        bank.getClientList().add(client);
         bank.findClient(expectedId);
     }
 
     @Test//refactoring
-    public void shouldFindAClientFromTheListOfClients(){
-    String id = "1222";
-    String name = "marc";
-    MaritalStatus maritalStatus = MaritalStatus.SINGLE;
-    client = new Client(id,name,maritalStatus);
-    bank.getClientList().add(client);
+    public void shouldFindAClientFromTheListOfClients() {
+        String id = "1222";
+        String name = "marc";
+        MaritalStatus maritalStatus = MaritalStatus.SINGLE;
+        Client expectedResult = bank.createClient(id, name, maritalStatus);
 
-    Client idClient = bank.findClient(id);
-    final String ACTUAL_ID_CLIENT = idClient.getIdNumber();
+        Client client = bank.findClient(id);
 
-    assertThat(ACTUAL_ID_CLIENT,is(client.getIdNumber()));
+        assertThat(client, is(expectedResult));
     }
 
     //test for search account list
     //a im new check me
     @Test(expected = NullPointerException.class)
-    public void shouldThrowExceptionWhenDoNotFindElementInAccountsList(){
-       final String EXPECTED_ACCOUNT_NUMBER = "1110002200";
-       final String ACCOUNT_NUMBER = "1113302200";
-       bank.createSavingsAccount(EXPECTED_ACCOUNT_NUMBER);
+    public void shouldThrowExceptionWhenDoNotFindElementInAccountsList() {
+        final String EXPECTED_ACCOUNT_NUMBER = "1110002200";
+        final String ACCOUNT_NUMBER = "1113302200";
+        bank.createSavingsAccount(EXPECTED_ACCOUNT_NUMBER);
 
-       bank.findAccount(ACCOUNT_NUMBER);
+        bank.findAccount(ACCOUNT_NUMBER);
     }
 
     @Test//refactoring
-    public void shouldFindAAccountFromTheListOfAccounts(){
+    public void shouldFindAAccountFromTheListOfAccounts() {
         final String ACCOUNT_NUMBER = "1110002200";
         Account expectedAccount = bank.createSavingsAccount(ACCOUNT_NUMBER);
         final String EXPECTED_ACCOUNT_NUMBER = expectedAccount.getAccountNumber();
 
         Account actualAccount = bank.findAccount(EXPECTED_ACCOUNT_NUMBER);
-        String ACTUAL_ACCOUNT_NUMBER   = actualAccount.getAccountNumber();
+        String ACTUAL_ACCOUNT_NUMBER = actualAccount.getAccountNumber();
 
-        assertThat(ACTUAL_ACCOUNT_NUMBER,is(EXPECTED_ACCOUNT_NUMBER));
+        assertThat(ACTUAL_ACCOUNT_NUMBER, is(EXPECTED_ACCOUNT_NUMBER));
     }
 
     @Test
@@ -244,38 +243,110 @@ public class BankTest {
         final String ID = "1123";
         final String NAME = "name";
         MaritalStatus MARITAL_STATUS = MaritalStatus.SINGLE;
+        Account expectedAccount = bank.createCurrentAccount(ACCOUNT_NUMBER);
+        bank.createClient(ID, NAME, MARITAL_STATUS);
 
-        Client client = new Client(ID,NAME,MARITAL_STATUS);
+        bank.assignAccountToTheClient(ID, ACCOUNT_NUMBER);
+        Client client = bank.findClient(ID);
 
-        client.addAccount(bank.createCurrentAccount(ACCOUNT_NUMBER));
-        bank.assignAccountToTheClient(client,ACCOUNT_NUMBER);
-        bank.findAccount(ACCOUNT_NUMBER);
-
-      assertTrue(client.getAccountsList().contains(ACCOUNT_NUMBER));
+        assertTrue(client.getAccountsList().contains(expectedAccount));
     }
 
-    //Here start test for depsit
-//    @Test //I am new. i do not think this method is necessary.
-//    public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException, RepeatedValuesExeptions {
-//        final String accountNumber = "1123321100";
-//        final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
-//        final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
-//        final double AMOUNT_TO_DEPOSIT = 46.9;
-//        final double DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
-//        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT- DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT);
-//        final String ACCOUNT_NUMBER = bank.createSavingsAccount(accountNumber).getAccountNumber();
+    //Here start test for deposit
+    @Test
+    public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException {
+        final String ACCOUNT_NUMBER = "1123321100";
+        final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
+        final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
+        final double AMOUNT_TO_DEPOSIT = 46.9;
+        final double DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
+        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT - DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT);
+
+        Account account = bank.createCurrentAccount(ACCOUNT_NUMBER);
+        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+
+        assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
+    }
+
+    @Test(expected = InvalidValuesException.class)//I am new
+    public void shouldThrowErrorWhenDepositAmountEqualToZero() throws NegativeValuesException, InvalidValuesException {
+        final String ACCOUNT_NUMBER = "1110002200";
+        final double EXPECTED_AMOUNT = 0.0;
+
+        bank.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
+    }
+
+    @Test(expected = NegativeValuesException.class)//I am new
+    public void shouldThrowErrorWhenReceiveNegativeValuesOfDeposit() throws NegativeValuesException, InvalidValuesException {
+        final String ACCOUNT_NUMBER = "1110002200";
+        final double EXPECTED_AMOUNT = -20.0;
+
+        bank.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
+    }
+
+    @Test//I am new
+    public void shouldMakeADepositInASavingAccount() throws NegativeValuesException, InvalidValuesException {
+        final String ACCOUNT_NUMBER = "1123321100";
+        final double AMOUNT_TO_DEPOSIT = 46.9;
+
+        Account account = bank.createSavingsAccount(ACCOUNT_NUMBER);
+        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+
+        assertThat(account.getBalance(), is(AMOUNT_TO_DEPOSIT));
+    }
+
+    //Here start test for withdrawal
+    @Test
+    public void shouldSubtractTheWithdrawalAmountFromCurrentAccountBalance() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
+        final String ACCOUNT_NUMBER = "1123321100";
+        final double TOTAL_AMOUNT_PERCENTAGE = 100.0;
+        final double DISCOUNT_DEPOSIT_PERCENTAGE = 1.0;
+        final double AMOUNT_TO_DEPOSIT = 60.0;
+        final double AMOUNT_TO_WITHDRAWAL = 7.0;
+        final double DISCOUNTED_AMOUNT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
+        final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT - DISCOUNTED_AMOUNT) - AMOUNT_TO_WITHDRAWAL;
+        Account account = bank.createCurrentAccount(ACCOUNT_NUMBER);
+
+        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+        bank.withdrawal(ACCOUNT_NUMBER, AMOUNT_TO_WITHDRAWAL);
+
+        assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
+    }
+
+    @Test
+    public void shouldSubtractTheWithdrawalAmountFromSavingsAccountBalance() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
+        final String ACCOUNT_NUMBER = "1123321100";
+        final double AMOUNT_TO_DEPOSIT = 60.0;
+        final double AMOUNT_TO_WITHDRAWAL = 7.0;
+        final double EXPECTED_BALANCE_AMOUNT = AMOUNT_TO_DEPOSIT - AMOUNT_TO_WITHDRAWAL;
+        Account account = bank.createSavingsAccount(ACCOUNT_NUMBER);
+
+        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+        bank.withdrawal(ACCOUNT_NUMBER, AMOUNT_TO_WITHDRAWAL);
+
+        assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
+    }
+
+        @Test(expected = OutRangeValuesException.class)
+    public void shouldThrowErrorWhenWithdrawalMaximumAmountIsExceededInCurrentAccount() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
+        final String ACCOUNT_NUMBER = "1123321100";
+        final double WITHDRAWAL_AMOUNT = 4000.0;
+
+        bank.withdrawal(ACCOUNT_NUMBER,WITHDRAWAL_AMOUNT);
+    }
 //
-//        account1 = bank.createCurrentAccount(accountNumber);
-//        account1.deposit(AMOUNT_TO_DEPOSIT);
-//        bank.createCurrentAccount(accountNumber).deposit(AMOUNT_TO_DEPOSIT);
+//    @Test(expected = NegativeValuesException.class)
+//    public void shouldThrowErrorWhenCurrentAccountHaveANegativeDepositAmount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+//        final double EXPECTED_AMOUNT = -0.9;
 //
-//        assertThat(account1.getBalance(),is(EXPECTED_BALANCE_AMOUNT));
-//        assertThat(ACCOUNT_NUMBER,is(accountNumber));
+//        currentAccount.withdraw(EXPECTED_AMOUNT);
 //    }
+
+
     //finish
 
 
- //informacion de las cuentas asociadas al cliente falta
+    //informacion de las cuentas asociadas al cliente falta
 //    @Test
 //    public void shouldPrintAccountDetail() {
 //        final String ACCOUNT_NUMBER = "111220030";

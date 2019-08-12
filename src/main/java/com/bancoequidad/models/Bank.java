@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Bank {
+    Client client;
 
     private List<Account> accountsList = new ArrayList<>();
     private List<Client> clientList = new ArrayList<>();
@@ -20,10 +21,11 @@ public class Bank {
         return clientList;
     }
 
-    //renplazar por crear cliente y agregar parametros
-    public void createClient(String id, String name, MaritalStatus maritalStatus) {
+//cambiar aretornar cliente
+    public Client createClient(String id, String name, MaritalStatus maritalStatus) {
         Client client = new Client(id, name, maritalStatus);
         this.clientList.add(client);
+        return client;
     }
 
 
@@ -84,10 +86,33 @@ public class Bank {
         throw new NullPointerException();
     }
 
-    public void assignAccountToTheClient(Client client, String ACCOUNT_NUMBER) throws RepeatedValuesExeptions {
-        client.addAccount(createCurrentAccount(ACCOUNT_NUMBER));
-        findAccount(ACCOUNT_NUMBER);
-        clientList.add(client);
+    public void assignAccountToTheClient(String id, String ACCOUNT_NUMBER) throws RepeatedValuesExeptions {
+        Client client = findClient(id);
+        Account account = findAccount(ACCOUNT_NUMBER);
+        client.addAccount(account);
+    }
 
+    public void deposit(String accountNumber, double amount_to_deposit) throws NegativeValuesException, InvalidValuesException {
+        final double MINIMAL_DEPOSIT_VALUE = 0;
+        if (amount_to_deposit < MINIMAL_DEPOSIT_VALUE) {
+            throw new NegativeValuesException();
+        }
+        if (amount_to_deposit == MINIMAL_DEPOSIT_VALUE) {
+            throw new InvalidValuesException();
+        }
+        Account account = findAccount(accountNumber);
+        account.deposit(amount_to_deposit);
+        account.getBalance();
+    }
+
+    public void withdrawal(String accountNumber, double amount_to_withdrawal) throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+        final double MINIMAL_WITHDRAWAL_VALUE = 0;
+        final double MAXIMAL_WITHDRAWAL_VALUE = 2000.0;
+        if (amount_to_withdrawal > MAXIMAL_WITHDRAWAL_VALUE) {
+            throw new OutRangeValuesException();
+        }
+        Account account = findAccount(accountNumber);
+        account.withdraw(amount_to_withdrawal);
+        account.getBalance();
     }
 }

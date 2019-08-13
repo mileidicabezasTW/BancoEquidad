@@ -54,22 +54,6 @@ public class Bank {
         return account;
     }
 
-    public String printDetailClient(String ci) {
-        final List<Client> clients = clientList.stream().filter(client -> client.getIdNumber().equals(ci)).collect(Collectors.toList());
-        return clients.get(0).print();
-    }
-
-
-    public String printDetailAccount(int id) {
-        final List<Account> accounts = accountsList.stream().filter(account -> account.getId() == id).collect(Collectors.toList());
-        return accounts.get(0).print();
-    }
-
-//    public void deposit(String accountNumber, double amount) throws NegativeValuesException, InvalidValuesException {
-//        createCurrentAccount(accountNumber).deposit(amount);
-//
-//    }
-
     public Client findClient(String id) {//refactoring
         final Optional<Client> result = clientList.stream().filter(client -> client.getIdNumber().equals(id)).findFirst();
         if(result.isPresent()){
@@ -93,26 +77,25 @@ public class Bank {
     }
 
     public void deposit(String accountNumber, double amount_to_deposit) throws NegativeValuesException, InvalidValuesException {
-        final double MINIMAL_DEPOSIT_VALUE = 0;
-        if (amount_to_deposit < MINIMAL_DEPOSIT_VALUE) {
-            throw new NegativeValuesException();
-        }
-        if (amount_to_deposit == MINIMAL_DEPOSIT_VALUE) {
-            throw new InvalidValuesException();
-        }
+
         Account account = findAccount(accountNumber);
         account.deposit(amount_to_deposit);
-        account.getBalance();
     }
 
     public void withdrawal(String accountNumber, double amount_to_withdrawal) throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
-        final double MINIMAL_WITHDRAWAL_VALUE = 0;
-        final double MAXIMAL_WITHDRAWAL_VALUE = 2000.0;
-        if (amount_to_withdrawal > MAXIMAL_WITHDRAWAL_VALUE) {
-            throw new OutRangeValuesException();
-        }
         Account account = findAccount(accountNumber);
         account.withdraw(amount_to_withdrawal);
-        account.getBalance();
     }
+
+    public String printDetailClient(String ci) {
+        final List<Client> clients = clientList.stream().filter(client -> client.getIdNumber().equals(ci)).collect(Collectors.toList());
+        return clients.get(0).print();
+    }
+
+
+    public String printDetailAccount(String accountNumber) {
+        final List<Account> accounts = accountsList.stream().filter(account -> account.getAccountNumber() == accountNumber).collect(Collectors.toList());
+        return accounts.get(0).print();
+    }
+
 }

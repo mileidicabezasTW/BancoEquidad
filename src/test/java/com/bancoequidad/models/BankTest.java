@@ -26,7 +26,6 @@ public class BankTest {
         assertThat(bank.getAccountsList().size(), is(EXPECTED_SIZE_VALUE));
         assertThat(bank.getClientList().size(), is(EXPECTED_SIZE_VALUE));
     }
-    //Here start test for client
 
     @Test
     public void shouldHaveAddClientToListOfClients() {
@@ -50,7 +49,6 @@ public class BankTest {
         assertThat(resultAccount.getAccountNumber(), is(accountNumber));
     }
 
-    //Here start test for create current account
     @Test
     public void shouldHaveCreatedACurrentAccountWithAccountNumber() {
         final String accountNumber = "1123321100";
@@ -61,7 +59,6 @@ public class BankTest {
         assertThat(expectedAccount.getAccountNumber(), is(accountNumber));
     }
 
-    //here start test for transfer
     @Test(expected = NegativeValuesException.class)
     public void shouldThrowErrorWhenTransferAmountIsLessThenZero() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException, RepeatedValuesExeptions {
         final double TRANSFER_AMOUNT = -89.0;
@@ -189,8 +186,6 @@ public class BankTest {
         assertThat(account1.getBalance(), is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
     }
 
-    //Here start test for findClient
-    //i am new  check me
     @Test(expected = NullPointerException.class)
     public void shouldThrowExceptionWhenDoNotFindElementInClientsList() {
         String expectedId = "1522";
@@ -202,7 +197,7 @@ public class BankTest {
         bank.findClient(expectedId);
     }
 
-    @Test//refactoring
+    @Test
     public void shouldFindAClientFromTheListOfClients() {
         String id = "1222";
         String name = "marc";
@@ -214,8 +209,6 @@ public class BankTest {
         assertThat(client, is(expectedResult));
     }
 
-    //test for search account list
-    //a im new check me
     @Test(expected = NullPointerException.class)
     public void shouldThrowExceptionWhenDoNotFindElementInAccountsList() {
         final String EXPECTED_ACCOUNT_NUMBER = "1110002200";
@@ -225,7 +218,7 @@ public class BankTest {
         bank.findAccount(ACCOUNT_NUMBER);
     }
 
-    @Test//refactoring
+    @Test
     public void shouldFindAAccountFromTheListOfAccounts() {
         final String ACCOUNT_NUMBER = "1110002200";
         Account expectedAccount = bank.createSavingsAccount(ACCOUNT_NUMBER);
@@ -252,7 +245,7 @@ public class BankTest {
         assertTrue(client.getAccountsList().contains(expectedAccount));
     }
 
-    //Here start test for deposit
+    //Here start test for deposit, all this block is new
     @Test
     public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
@@ -294,8 +287,8 @@ public class BankTest {
 
         assertThat(account.getBalance(), is(AMOUNT_TO_DEPOSIT));
     }
-
-    //Here start test for withdrawal
+//hacer las pruebas para los montos maximos por medio el numero de cuenta
+    //Here start test for withdrawal,all this block is new
     @Test
     public void shouldSubtractTheWithdrawalAmountFromCurrentAccountBalance() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
@@ -327,48 +320,44 @@ public class BankTest {
         assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
-        @Test(expected = OutRangeValuesException.class)
-    public void shouldThrowErrorWhenWithdrawalMaximumAmountIsExceededInCurrentAccount() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
+        @Test(expected = InvalidValuesException.class)
+    public void shouldThrowErrorWhenWithdrawalMaximumAmountIsEqualToZero() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
-        final double WITHDRAWAL_AMOUNT = 4000.0;
+        final double WITHDRAWAL_AMOUNT = 0;
 
         bank.withdrawal(ACCOUNT_NUMBER,WITHDRAWAL_AMOUNT);
     }
-//
-//    @Test(expected = NegativeValuesException.class)
-//    public void shouldThrowErrorWhenCurrentAccountHaveANegativeDepositAmount() throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
-//        final double EXPECTED_AMOUNT = -0.9;
-//
-//        currentAccount.withdraw(EXPECTED_AMOUNT);
-//    }
 
+    @Test(expected = NegativeValuesException.class)
+    public void shouldThrowErrorWhenReceiveNegativeValuesInTheWithdrawal() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, OutRangeValuesException {
+        final String ACCOUNT_NUMBER = "1110002200";
+        final double EXPECTED_AMOUNT = -20.0;
 
-    //finish
-
+        bank.withdrawal(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
+    }
 
     //informacion de las cuentas asociadas al cliente falta
-//    @Test
-//    public void shouldPrintAccountDetail() {
-//        final String ACCOUNT_NUMBER = "111220030";
-//        final String ID_NUMBER = 11123;
-//        account1 = new SavingsAccount(ACCOUNT_NUMBER);
-//        account1.setId(ID_NUMBER);
-//
-//        bank.getAccountsList().add(account1);
-//        String result = bank.printDetailAccount(ID_NUMBER);
-//
-//        assertThat(result,is(account1.print()));
-//    }
+    @Test
+   public void shouldPrintAccountDetail() {
+        final String ACCOUNT_NUMBER = "1110002200";
+        Account account = bank.createSavingsAccount(ACCOUNT_NUMBER);
 
-//    @Test
-//    public void shouldPrintClientDetail(){
-//        Client client = new Client("Jorge", "1234567890", MaritalStatus.MARRIED);
-//        bank.createClient(client);
-//
-//        String result = bank.printDetailClient("1234567890");
-//
-//        assertThat(result, is(client.print()));
-//    }
+        String result = bank.printDetailAccount(ACCOUNT_NUMBER);
+
+        assertThat(result,is(account.print()));
+    }
+
+    @Test
+    public void shouldPrintClientDetail(){
+        final String ID = "1123000001";
+        final String NAME = "name";
+        MaritalStatus MARITAL_STATUS = MaritalStatus.SINGLE;
+        Client client = bank.createClient(ID,NAME,MARITAL_STATUS);
+
+        String result = bank.printDetailClient(ID);
+
+        assertThat(result, is(client.print()));
+   }
     //buscar cuentas por numero d cuenta
     //
 }

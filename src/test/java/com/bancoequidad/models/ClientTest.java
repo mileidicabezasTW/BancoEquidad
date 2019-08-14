@@ -43,16 +43,21 @@ public class ClientTest {
 
     @Test(expected = RepeatedValuesExeptions.class)
     public void shouldClientDoNotHaveRepeatAccount() throws RepeatedValuesExeptions {
-        Account account = new CurrentAccount("31468511");
+        String accountNumber = "12000483";
+        Account account = new CurrentAccount(accountNumber);
 
         client.addAccount(account);
         client.addAccount(account);
     }
 
-    @Test
-    public void shouldPrintDetail(){
-         final  String EXPECTED_DETAIL = "Id Number: "+ID+ "\nName: "+NAME+
-                                "\nMarital Status: "+MARITAL_STATUS;
+    @Test//problems here
+    public void shouldPrintDetail() throws RepeatedValuesExeptions {
+        String accountNumber = "12000483";
+        Account account = new CurrentAccount(accountNumber);
+        client.addAccount(account);
+
+        final  String EXPECTED_DETAIL = "Id Number: "+ID+ "\nName: "+NAME+
+                                "\nMarital Status: "+MARITAL_STATUS+"\nAccount number: "+ client.getAccountsList();
 
         assertThat(client.print(),is(EXPECTED_DETAIL));
     }

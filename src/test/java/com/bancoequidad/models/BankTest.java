@@ -88,11 +88,28 @@ public class BankTest {
     }
 
     @Test(expected = OutRangeValuesException.class)
-    public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceeded() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException, RepeatedValuesExeptions {
-        Account account1 = new SavingsAccount("1112332110");
-        Account account2 = new SavingsAccount("1234432222");
+    public void shouldThroeExceptionWhenWithdrawalAmountIsExceededInCurrentAccount() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException, RepeatedValuesExeptions {
+        String accountNumber1 = "123200000";
+        String accountNumber2 = "576387900";
+        Account account1 = new CurrentAccount(accountNumber1);
+        Account account2 = new CurrentAccount(accountNumber2);
+        final double AMOUNT = 5000.0;
         final double TRANSFER_AMOUNT = 4000.0;
-        account1.deposit(TRANSFER_AMOUNT);
+        account1.withdraw(AMOUNT);
+        account2.deposit(AMOUNT);
+        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+    }
+
+    @Test(expected = OutRangeValuesException.class)
+    public void shouldThroeExceptionWhenWithdrawalAmountIsExceededInSavingsAccount() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, RepeatedValuesExeptions, OutRangeValuesException {
+        String accountNumber1 = "123200000";
+        String accountNumber2 = "576387900";
+        Account account1 = new SavingsAccount(accountNumber1);
+        Account account2 = new SavingsAccount(accountNumber2);
+        final double TRANSFER_AMOUNT = 3000.0;
+        final double DEPOSIT_AMOUNT = 3000.0;
+
+        account1.deposit(DEPOSIT_AMOUNT);
         bank.transfer(account1, account2, TRANSFER_AMOUNT);
     }
 
@@ -245,7 +262,6 @@ public class BankTest {
         assertTrue(client.getAccountsList().contains(expectedAccount));
     }
 
-    //Here start test for deposit, all this block is new
     @Test
     public void shouldMakeADepositInACurrentAccount() throws NegativeValuesException, InvalidValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
@@ -261,7 +277,7 @@ public class BankTest {
         assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
-    @Test(expected = InvalidValuesException.class)//I am new
+    @Test(expected = InvalidValuesException.class)
     public void shouldThrowErrorWhenDepositAmountEqualToZero() throws NegativeValuesException, InvalidValuesException {
         final String ACCOUNT_NUMBER = "1110002200";
         final double EXPECTED_AMOUNT = 0.0;
@@ -269,7 +285,7 @@ public class BankTest {
         bank.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
     }
 
-    @Test(expected = NegativeValuesException.class)//I am new
+    @Test(expected = NegativeValuesException.class)
     public void shouldThrowErrorWhenReceiveNegativeValuesOfDeposit() throws NegativeValuesException, InvalidValuesException {
         final String ACCOUNT_NUMBER = "1110002200";
         final double EXPECTED_AMOUNT = -20.0;
@@ -277,7 +293,7 @@ public class BankTest {
         bank.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
     }
 
-    @Test//I am new
+    @Test
     public void shouldMakeADepositInASavingAccount() throws NegativeValuesException, InvalidValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
         final double AMOUNT_TO_DEPOSIT = 46.9;
@@ -287,8 +303,7 @@ public class BankTest {
 
         assertThat(account.getBalance(), is(AMOUNT_TO_DEPOSIT));
     }
-//hacer las pruebas para los montos maximos por medio el numero de cuenta
-    //Here start test for withdrawal,all this block is new
+
     @Test
     public void shouldSubtractTheWithdrawalAmountFromCurrentAccountBalance() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
@@ -306,6 +321,32 @@ public class BankTest {
         assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
+    @Test(expected = OutRangeValuesException.class)
+    public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceededInSavingsAccount() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, RepeatedValuesExeptions, OutRangeValuesException {
+        String accountNumber1 = "123200000";
+        String accountNumber2 = "576387900";
+        final double TRANSFER_AMOUNT = 3000.0;
+        final double DEPOSIT_AMOUNT = 3000.0;
+        Account account1 = bank.createSavingsAccount(accountNumber1);
+        Account account2 = bank.createSavingsAccount(accountNumber2);
+
+        bank.deposit(accountNumber1,DEPOSIT_AMOUNT);
+        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+    }
+
+    @Test(expected = OutRangeValuesException.class)
+    public void shouldThroeExceptionWhenMaximumWithdrawalAmountIsExceededInCurrentAccount() throws InsufficientValuesException, InvalidValuesException, OutRangeValuesException, NegativeValuesException, RepeatedValuesExeptions {
+        String accountNumber1 = "123200000";
+        String accountNumber2 = "576387900";
+        final double TRANSFER_AMOUNT = 4000.0;
+        final double DEPOSIT_AMOUNT = 5000.0;
+        Account account1 = bank.createCurrentAccount(accountNumber1);
+        Account account2 = bank.createCurrentAccount(accountNumber2);
+
+        bank.deposit(accountNumber1,DEPOSIT_AMOUNT);
+        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+    }
+
     @Test
     public void shouldSubtractTheWithdrawalAmountFromSavingsAccountBalance() throws NegativeValuesException, OutRangeValuesException, InvalidValuesException, InsufficientValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
@@ -320,12 +361,12 @@ public class BankTest {
         assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
 
-        @Test(expected = InvalidValuesException.class)
+    @Test(expected = InvalidValuesException.class)
     public void shouldThrowErrorWhenWithdrawalMaximumAmountIsEqualToZero() throws OutRangeValuesException, NegativeValuesException, InvalidValuesException, InsufficientValuesException {
         final String ACCOUNT_NUMBER = "1123321100";
         final double WITHDRAWAL_AMOUNT = 0;
 
-        bank.withdrawal(ACCOUNT_NUMBER,WITHDRAWAL_AMOUNT);
+        bank.withdrawal(ACCOUNT_NUMBER, WITHDRAWAL_AMOUNT);
     }
 
     @Test(expected = NegativeValuesException.class)
@@ -338,26 +379,24 @@ public class BankTest {
 
     //informacion de las cuentas asociadas al cliente falta
     @Test
-   public void shouldPrintAccountDetail() {
+    public void shouldPrintAccountDetail() {
         final String ACCOUNT_NUMBER = "1110002200";
         Account account = bank.createSavingsAccount(ACCOUNT_NUMBER);
 
         String result = bank.printDetailAccount(ACCOUNT_NUMBER);
 
-        assertThat(result,is(account.print()));
+        assertThat(result, is(account.print()));
     }
 
     @Test
-    public void shouldPrintClientDetail(){
+    public void shouldPrintClientDetail() throws RepeatedValuesExeptions {
         final String ID = "1123000001";
         final String NAME = "name";
         MaritalStatus MARITAL_STATUS = MaritalStatus.SINGLE;
-        Client client = bank.createClient(ID,NAME,MARITAL_STATUS);
+        Client client = bank.createClient(ID, NAME, MARITAL_STATUS);
 
         String result = bank.printDetailClient(ID);
 
         assertThat(result, is(client.print()));
-   }
-    //buscar cuentas por numero d cuenta
-    //
+    }
 }

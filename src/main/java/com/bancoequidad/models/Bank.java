@@ -21,13 +21,11 @@ public class Bank {
         return clientList;
     }
 
-//cambiar aretornar cliente
     public Client createClient(String id, String name, MaritalStatus maritalStatus) {
         Client client = new Client(id, name, maritalStatus);
         this.clientList.add(client);
         return client;
     }
-
 
     public double transfer(Account account1, Account account2, double amount) throws NegativeValuesException, OutRangeValuesException, InsufficientValuesException, InvalidValuesException, RepeatedValuesExeptions {
         if (amount > account1.getBalance()) {
@@ -92,9 +90,9 @@ public class Bank {
         final double MINIMAL_WITHDRAWAL_VALUE = 0;
         final double MAXIMAL_WITHDRAWAL_VALUE = 1000.0;
 
-//        if (amount_to_withdrawal > MAXIMAL_WITHDRAWAL_VALUE) {
-//            throw new OutRangeValuesException();
-//        }
+        if (amount_to_withdrawal > MAXIMAL_WITHDRAWAL_VALUE) {
+            throw new OutRangeValuesException();
+        }
         if(amount_to_withdrawal < MINIMAL_WITHDRAWAL_VALUE){
             throw new NegativeValuesException();
         }
@@ -105,7 +103,7 @@ public class Bank {
         account.withdraw(amount_to_withdrawal);
     }
 
-    public String printDetailClient(String ci) {
+    public String printDetailClient(String ci) throws RepeatedValuesExeptions {
         final List<Client> clients = clientList.stream().filter(client -> client.getIdNumber().equals(ci)).collect(Collectors.toList());
         return clients.get(0).print();
     }

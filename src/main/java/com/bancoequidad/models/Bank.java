@@ -71,18 +71,36 @@ public class Bank {
     }
 
     public void assignAccountToTheClient(String id, String ACCOUNT_NUMBER) throws RepeatedValuesExeptions {
-        Client client = findClient(id);
         Account account = findAccount(ACCOUNT_NUMBER);
+        Client client = findClient(id);
         client.addAccount(account);
     }
 
     public void deposit(String accountNumber, double amount_to_deposit) throws NegativeValuesException, InvalidValuesException {
-
+        final double MINIMAL_DEPOSIT_VALUE = 0;
+        if (amount_to_deposit < MINIMAL_DEPOSIT_VALUE) {
+            throw new NegativeValuesException();
+        }
+        if(amount_to_deposit == MINIMAL_DEPOSIT_VALUE){
+            throw new InvalidValuesException();
+        }
         Account account = findAccount(accountNumber);
         account.deposit(amount_to_deposit);
     }
 
     public void withdrawal(String accountNumber, double amount_to_withdrawal) throws InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException {
+        final double MINIMAL_WITHDRAWAL_VALUE = 0;
+        final double MAXIMAL_WITHDRAWAL_VALUE = 1000.0;
+
+//        if (amount_to_withdrawal > MAXIMAL_WITHDRAWAL_VALUE) {
+//            throw new OutRangeValuesException();
+//        }
+        if(amount_to_withdrawal < MINIMAL_WITHDRAWAL_VALUE){
+            throw new NegativeValuesException();
+        }
+        if(amount_to_withdrawal == MINIMAL_WITHDRAWAL_VALUE){
+            throw new InvalidValuesException();
+        }
         Account account = findAccount(accountNumber);
         account.withdraw(amount_to_withdrawal);
     }

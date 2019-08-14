@@ -6,9 +6,6 @@ import com.bancoequidad.models.*;
 
 import java.util.Scanner;
 
-/**
- * Hello world!
- */
 public class App {
     Scanner read = new Scanner(System.in);
     Bank bank = new Bank();
@@ -54,18 +51,18 @@ public class App {
         String id = read.next();
         System.out.println("Enter the account number");
         String accountNumber = read.next();
-        bank.assignAccountToTheClient(accountNumber, id);
+        bank.assignAccountToTheClient(id,accountNumber);
         System.out.println("The account was assign to the client with success");
     }
 
-    public void transfer() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, RepeatedValuesExeptions, OutRangeValuesException {
-        //               //metodo que busque cuentas por medio de numero de cuentas, paratros 1 numero de cuenta, hacer en el banco con pruebas
+    public void transfer() throws NegativeValuesException, InvalidValuesException, InsufficientValuesException, RepeatedValuesExeptions, OutRangeValuesException {//               //metodo que busque cuentas por medio de numero de cuentas, paratros 1 numero de cuenta, hacer en el banco con pruebas
+        double depositAmount = 45.09;
+        double transferAmount = 0.0;
         String accountNumberOrigin = "";
         String accountNumberDestination = "";
         Account accountOrigin = bank.createSavingsAccount(accountNumberOrigin);
         Account accountDestination = bank.createSavingsAccount(accountNumberDestination);
-        double depositAmount = 45.09;
-        double transferAmount = 0.0;
+
 
         System.out.println("Enter the account origin");
         accountNumberOrigin = read.next();
@@ -73,7 +70,6 @@ public class App {
         accountNumberDestination = read.next();
         System.out.println("Enter the transfer amount");
         transferAmount = read.nextDouble();
-        bank.deposit(accountNumberOrigin,depositAmount);
         bank.transfer(accountOrigin, accountDestination, transferAmount);
 
 

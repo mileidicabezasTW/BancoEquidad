@@ -1,13 +1,17 @@
-package com.bancoequidad.models;
+package com.bancoequidad.services;
 import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.*;
+import com.bancoequidad.models.Account;
+import com.bancoequidad.models.Client;
+import com.bancoequidad.models.CurrentAccount;
+import com.bancoequidad.models.SavingsAccount;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Bank {
+public class BankDomainService {
     Client client;
 
     private List<Account> accountsList = new ArrayList<>();
@@ -28,10 +32,7 @@ public class Bank {
     }
 
     public double transfer(Account account1, Account account2, double amount) throws NegativeValuesException, OutRangeValuesException, InsufficientValuesException, InvalidValuesException, RepeatedValuesExeptions {
-        if (amount > account1.getBalance()) {
-            throw new InsufficientValuesException();
-        }
-        if (account1.accountNumber == account2.accountNumber) {
+        if (account1.getAccountNumber() == account2.getAccountNumber()) {
             throw new RepeatedValuesExeptions();
         }
         account1.withdraw(amount);
@@ -103,15 +104,23 @@ public class Bank {
         account.withdraw(amount_to_withdrawal);
     }
 
-    public String printDetailClient(String ci) throws RepeatedValuesExeptions {
+    public String printDetailClient(String ci) {
         final List<Client> clients = clientList.stream().filter(client -> client.getIdNumber().equals(ci)).collect(Collectors.toList());
-        return clients.get(0).print();
+        if(!clients.isEmpty()) {
+            return clients.get(0).print();
+        }//hacer pruebas
+        return "Client doesn't exist";
     }
+
+
 
 
     public String printDetailAccount(String accountNumber) {
         final List<Account> accounts = accountsList.stream().filter(account -> account.getAccountNumber() == accountNumber).collect(Collectors.toList());
-        return accounts.get(0).print();
+        if(!accounts.isEmpty()){
+            return accounts.get(0).print();
+        }//borrar y volver hacer pero con  pruebas
+        return "This ";
     }
 
 }

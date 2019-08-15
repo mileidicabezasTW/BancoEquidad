@@ -3,12 +3,13 @@ package com.bancoequidad;
 import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.*;
 import com.bancoequidad.models.*;
+import com.bancoequidad.services.BankDomainService;
 
 import java.util.Scanner;
 
 public class App {
     Scanner read = new Scanner(System.in);
-    Bank bank = new Bank();
+    BankDomainService bankDomainService = new BankDomainService();
 
     public void registerClient() {
         int maritalStatusOptions;
@@ -33,7 +34,7 @@ public class App {
         } else {
             maritalStatus = MaritalStatus.OTHERS;
         }
-        bank.createClient(id, name, maritalStatus);
+        bankDomainService.createClient(id, name, maritalStatus);
         System.out.println("Successful registration\n");
     }
 
@@ -41,7 +42,7 @@ public class App {
         System.out.println("-----------Enter the account detail-----------\\n");
         System.out.println("Enter the account number");
         String accountNumber = read.next();
-        bank.createSavingsAccount(accountNumber);
+        bankDomainService.createSavingsAccount(accountNumber);
         System.out.println("Successful registration");
     }
 
@@ -51,7 +52,7 @@ public class App {
         String id = read.next();
         System.out.println("Enter the account number");
         String accountNumber = read.next();
-        bank.assignAccountToTheClient(id, accountNumber);
+        bankDomainService.assignAccountToTheClient(id, accountNumber);
         System.out.println("The account was assign to the client with success");
     }
 
@@ -60,7 +61,7 @@ public class App {
         String accountNumber = read.next();
         System.out.println("Enter the deposit amount");
         double amount = read.nextDouble();
-        bank.deposit(accountNumber, amount);
+        bankDomainService.deposit(accountNumber, amount);
         System.out.println("         Successful deposit\n");
         System.out.println("-----------Deposit detail-----------");
         System.out.println("Amount deposit: " + amount + "\nAccount number destination: " + accountNumber + "\nActual balance account deposit destination: " + "\n");
@@ -71,7 +72,7 @@ public class App {
         String accountNumber = read.next();
         System.out.println("Enter the withdrawal amount");
         double amountWithdrawal = read.nextDouble();
-        bank.withdrawal(accountNumber, amountWithdrawal);
+        bankDomainService.withdrawal(accountNumber, amountWithdrawal);
         System.out.println("         Successful deposit\n");
     }
 //problems  here
@@ -83,9 +84,9 @@ public class App {
         System.out.println("Enter the transfer amount");
         double transferAmount = read.nextDouble();
 
-        Account accountOrigin = bank.createSavingsAccount(accountNumberDestination);
-        Account accountDestination = bank.createSavingsAccount(accountNumberDestination);
-        bank.transfer(accountOrigin, accountDestination, transferAmount);
+        Account accountOrigin = bankDomainService.findAccount(accountNumberDestination);
+        Account accountDestination = bankDomainService.findAccount(accountNumberDestination);
+        bankDomainService.transfer(accountOrigin, accountDestination, transferAmount);
         System.out.println("         Successful transfer\n");
         System.out.println("-----------Transfer Detail-----------");
         System.out.println("Amount transfer: " + transferAmount + "\nAccount number destination: " + accountNumberOrigin + "\nAccount number destination: " +
@@ -98,8 +99,7 @@ public class App {
         System.out.println("Client id");
         String id = read.next();
         System.out.println("-----------Client detail-----------");
-        System.out.println(bank.printDetailClient(id));
-
+        System.out.println(bankDomainService.printDetailClient(id));
     }
 
     public static void main(String[] args) throws RepeatedValuesExeptions, InvalidValuesException, NegativeValuesException, OutRangeValuesException, InsufficientValuesException, OnlyStringException {
@@ -124,7 +124,6 @@ public class App {
             switch (option) {
                 case 1:
                     appBank.registerClient();
-
                     break;
                 case 2:
                     appBank.registerAccount();

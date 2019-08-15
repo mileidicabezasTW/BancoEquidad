@@ -50,7 +50,7 @@ public class ClientTest {
         client.addAccount(account);
     }
 
-    @Test//problems here
+    @Test
     public void shouldPrintDetail() throws RepeatedValuesExeptions {
         String accountNumber = "12000483";
         Account account = new CurrentAccount(accountNumber);

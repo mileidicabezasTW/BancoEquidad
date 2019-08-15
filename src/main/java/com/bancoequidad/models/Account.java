@@ -26,10 +26,6 @@ public abstract class Account {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public double getInterest() {
         return interest;
     }

@@ -1,30 +1,35 @@
-package com.bancoequidad.models;
+package com.bancoequidad.services;
 
 import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.exceptions.*;
+import com.bancoequidad.models.Account;
+import com.bancoequidad.models.Client;
+import com.bancoequidad.models.CurrentAccount;
+import com.bancoequidad.models.SavingsAccount;
+import com.bancoequidad.services.BankDomainService;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class BankTest {
+public class BankDomainServiceTest {
     Account account1;
     Account account2;
     Client client;
-    Bank bank;
+    BankDomainService bankDomainService;
 
     @Before
     public void init() {
-        bank = new Bank();
+        bankDomainService = new BankDomainService();
     }
 
     @Test
     public void shouldHaveAllNecessaryAttributes() {
         final int EXPECTED_SIZE_VALUE = 0;
 
-        assertThat(bank.getAccountsList().size(), is(EXPECTED_SIZE_VALUE));
-        assertThat(bank.getClientList().size(), is(EXPECTED_SIZE_VALUE));
+        assertThat(bankDomainService.getAccountsList().size(), is(EXPECTED_SIZE_VALUE));
+        assertThat(bankDomainService.getClientList().size(), is(EXPECTED_SIZE_VALUE));
     }
 
     @Test
@@ -33,19 +38,19 @@ public class BankTest {
         String name = "marc";
         MaritalStatus maritalStatus = MaritalStatus.SINGLE;
 
-        bank.createClient(id, name, maritalStatus);
-        bank.getClientList().add(client);
+        bankDomainService.createClient(id, name, maritalStatus);
+        bankDomainService.getClientList().add(client);
 
-        assertTrue(bank.getClientList().contains(client));
+        assertTrue(bankDomainService.getClientList().contains(client));
     }
 
     @Test
     public void shouldHaveCreatedASavingsAccountWithAccountNumber() {
         final String accountNumber = "1123321100";
 
-        Account resultAccount = bank.createSavingsAccount(accountNumber);
+        Account resultAccount = bankDomainService.createSavingsAccount(accountNumber);
 
-        assertTrue(bank.getAccountsList().contains(resultAccount));
+        assertTrue(bankDomainService.getAccountsList().contains(resultAccount));
         assertThat(resultAccount.getAccountNumber(), is(accountNumber));
     }
 
@@ -53,9 +58,9 @@ public class BankTest {
     public void shouldHaveCreatedACurrentAccountWithAccountNumber() {
         final String accountNumber = "1123321100";
 
-        Account expectedAccount = bank.createCurrentAccount(accountNumber);
+        Account expectedAccount = bankDomainService.createCurrentAccount(accountNumber);
 
-        assertTrue(bank.getAccountsList().contains(expectedAccount));
+        assertTrue(bankDomainService.getAccountsList().contains(expectedAccount));
         assertThat(expectedAccount.getAccountNumber(), is(accountNumber));
     }
 
@@ -65,7 +70,7 @@ public class BankTest {
         Account account1 = new SavingsAccount("1223345");
         Account account2 = new SavingsAccount("13563345");
 
-        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+        bankDomainService.transfer(account1, account2, TRANSFER_AMOUNT);
     }
 
     @Test(expected = InvalidValuesException.class)
@@ -74,7 +79,7 @@ public class BankTest {
         Account account1 = new SavingsAccount("1234567");
         Account account2 = new SavingsAccount("53212345");
 
-        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+        bankDomainService.transfer(account1, account2, TRANSFER_AMOUNT);
     }
 
     @Test(expected = InsufficientValuesException.class)
@@ -82,7 +87,7 @@ public class BankTest {
         final double AMOUNT = 0.9;
         account1 = new CurrentAccount("1234576542");
         account2 = new SavingsAccount("111222001");
-        bank.transfer(account1, account2, AMOUNT);
+        bankDomainService.transfer(account1, account2, AMOUNT);
 
         account1.withdraw(AMOUNT);
     }
@@ -97,7 +102,7 @@ public class BankTest {
         final double TRANSFER_AMOUNT = 4000.0;
         account1.withdraw(AMOUNT);
         account2.deposit(AMOUNT);
-        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+        bankDomainService.transfer(account1, account2, TRANSFER_AMOUNT);
     }
 
     @Test(expected = OutRangeValuesException.class)
@@ -110,7 +115,7 @@ public class BankTest {
         final double DEPOSIT_AMOUNT = 3000.0;
 
         account1.deposit(DEPOSIT_AMOUNT);
-        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+        bankDomainService.transfer(account1, account2, TRANSFER_AMOUNT);
     }
 
     @Test(expected = RepeatedValuesExeptions.class)
@@ -120,7 +125,7 @@ public class BankTest {
         Account account1 = new SavingsAccount(ACCOUNT_NUMBER);
         Account account2 = new SavingsAccount(ACCOUNT_NUMBER);
         account1.deposit(AMOUNT);
-        bank.transfer(account1, account2, AMOUNT);
+        bankDomainService.transfer(account1, account2, AMOUNT);
     }
 
     @Test
@@ -130,7 +135,7 @@ public class BankTest {
         account2 = new SavingsAccount("111222333");
         account1.deposit(AMOUNT_DEPOSIT);
 
-        bank.transfer(account1, account2, AMOUNT_DEPOSIT);
+        bankDomainService.transfer(account1, account2, AMOUNT_DEPOSIT);
 
         assertThat(account2.getBalance(), is(AMOUNT_DEPOSIT));
     }
@@ -147,7 +152,7 @@ public class BankTest {
         final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT - DISCOUNTED_AMOUNT);
 
         account1.deposit(AMOUNT_DEPOSIT);
-        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
+        bankDomainService.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
@@ -164,7 +169,7 @@ public class BankTest {
         final double EXPECTED_BALANCE = 0.0;
 
         account1.deposit(AMOUNT_TO_DEPOSIT);
-        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
+        bankDomainService.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
         assertThat(account1.getBalance(), is(EXPECTED_BALANCE));
@@ -178,7 +183,7 @@ public class BankTest {
         final double EXPECTED_BALANCE = 0.0;
 
         account1.deposit(AMOUNT_TO_DEPOSIT);
-        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
+        bankDomainService.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
         assertThat(account2.getBalance(), is(AMOUNT_TO_DEPOSIT));
         assertThat(account1.getBalance(), is(EXPECTED_BALANCE));
@@ -197,7 +202,7 @@ public class BankTest {
         final double EXPECTED_BALANCE_AMOUNT_ACCOUNT1 = (AMOUNT_DEPOSIT - DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT) - AMOUNT_TO_DEPOSIT;
 
         account1.deposit(AMOUNT_DEPOSIT);
-        bank.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
+        bankDomainService.transfer(account1, account2, AMOUNT_TO_DEPOSIT);
 
         assertThat(account2.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
         assertThat(account1.getBalance(), is(EXPECTED_BALANCE_AMOUNT_ACCOUNT1));
@@ -209,9 +214,9 @@ public class BankTest {
         String id = "1222";
         String name = "marc";
         MaritalStatus maritalStatus = MaritalStatus.SINGLE;
-        bank.createClient(id, name, maritalStatus);
+        bankDomainService.createClient(id, name, maritalStatus);
 
-        bank.findClient(expectedId);
+        bankDomainService.findClient(expectedId);
     }
 
     @Test
@@ -219,9 +224,9 @@ public class BankTest {
         String id = "1222";
         String name = "marc";
         MaritalStatus maritalStatus = MaritalStatus.SINGLE;
-        Client expectedResult = bank.createClient(id, name, maritalStatus);
+        Client expectedResult = bankDomainService.createClient(id, name, maritalStatus);
 
-        Client client = bank.findClient(id);
+        Client client = bankDomainService.findClient(id);
 
         assertThat(client, is(expectedResult));
     }
@@ -230,18 +235,18 @@ public class BankTest {
     public void shouldThrowExceptionWhenDoNotFindElementInAccountsList() {
         final String EXPECTED_ACCOUNT_NUMBER = "1110002200";
         final String ACCOUNT_NUMBER = "1113302200";
-        bank.createSavingsAccount(EXPECTED_ACCOUNT_NUMBER);
+        bankDomainService.createSavingsAccount(EXPECTED_ACCOUNT_NUMBER);
 
-        bank.findAccount(ACCOUNT_NUMBER);
+        bankDomainService.findAccount(ACCOUNT_NUMBER);
     }
 
     @Test
     public void shouldFindAAccountFromTheListOfAccounts() {
         final String ACCOUNT_NUMBER = "1110002200";
-        Account expectedAccount = bank.createSavingsAccount(ACCOUNT_NUMBER);
+        Account expectedAccount = bankDomainService.createSavingsAccount(ACCOUNT_NUMBER);
         final String EXPECTED_ACCOUNT_NUMBER = expectedAccount.getAccountNumber();
 
-        Account actualAccount = bank.findAccount(EXPECTED_ACCOUNT_NUMBER);
+        Account actualAccount = bankDomainService.findAccount(EXPECTED_ACCOUNT_NUMBER);
         String ACTUAL_ACCOUNT_NUMBER = actualAccount.getAccountNumber();
 
         assertThat(ACTUAL_ACCOUNT_NUMBER, is(EXPECTED_ACCOUNT_NUMBER));
@@ -253,11 +258,11 @@ public class BankTest {
         final String ID = "1123";
         final String NAME = "name";
         MaritalStatus MARITAL_STATUS = MaritalStatus.SINGLE;
-        Account expectedAccount = bank.createCurrentAccount(ACCOUNT_NUMBER);
-        bank.createClient(ID, NAME, MARITAL_STATUS);
+        Account expectedAccount = bankDomainService.createCurrentAccount(ACCOUNT_NUMBER);
+        bankDomainService.createClient(ID, NAME, MARITAL_STATUS);
 
-        bank.assignAccountToTheClient(ID, ACCOUNT_NUMBER);
-        Client client = bank.findClient(ID);
+        bankDomainService.assignAccountToTheClient(ID, ACCOUNT_NUMBER);
+        Client client = bankDomainService.findClient(ID);
 
         assertTrue(client.getAccountsList().contains(expectedAccount));
     }
@@ -271,8 +276,8 @@ public class BankTest {
         final double DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
         final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT - DISCOUNTED_AMOUNT_AMOUNT_TO_DEPOSIT);
 
-        Account account = bank.createCurrentAccount(ACCOUNT_NUMBER);
-        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+        Account account = bankDomainService.createCurrentAccount(ACCOUNT_NUMBER);
+        bankDomainService.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
 
         assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
@@ -282,7 +287,7 @@ public class BankTest {
         final String ACCOUNT_NUMBER = "1110002200";
         final double EXPECTED_AMOUNT = 0.0;
 
-        bank.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
+        bankDomainService.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
     }
 
     @Test(expected = NegativeValuesException.class)
@@ -290,7 +295,7 @@ public class BankTest {
         final String ACCOUNT_NUMBER = "1110002200";
         final double EXPECTED_AMOUNT = -20.0;
 
-        bank.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
+        bankDomainService.deposit(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
     }
 
     @Test
@@ -298,8 +303,8 @@ public class BankTest {
         final String ACCOUNT_NUMBER = "1123321100";
         final double AMOUNT_TO_DEPOSIT = 46.9;
 
-        Account account = bank.createSavingsAccount(ACCOUNT_NUMBER);
-        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+        Account account = bankDomainService.createSavingsAccount(ACCOUNT_NUMBER);
+        bankDomainService.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
 
         assertThat(account.getBalance(), is(AMOUNT_TO_DEPOSIT));
     }
@@ -313,10 +318,10 @@ public class BankTest {
         final double AMOUNT_TO_WITHDRAWAL = 7.0;
         final double DISCOUNTED_AMOUNT = (AMOUNT_TO_DEPOSIT * DISCOUNT_DEPOSIT_PERCENTAGE) / TOTAL_AMOUNT_PERCENTAGE;
         final double EXPECTED_BALANCE_AMOUNT = (AMOUNT_TO_DEPOSIT - DISCOUNTED_AMOUNT) - AMOUNT_TO_WITHDRAWAL;
-        Account account = bank.createCurrentAccount(ACCOUNT_NUMBER);
+        Account account = bankDomainService.createCurrentAccount(ACCOUNT_NUMBER);
 
-        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
-        bank.withdrawal(ACCOUNT_NUMBER, AMOUNT_TO_WITHDRAWAL);
+        bankDomainService.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+        bankDomainService.withdrawal(ACCOUNT_NUMBER, AMOUNT_TO_WITHDRAWAL);
 
         assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
@@ -327,11 +332,11 @@ public class BankTest {
         String accountNumber2 = "576387900";
         final double TRANSFER_AMOUNT = 3000.0;
         final double DEPOSIT_AMOUNT = 3000.0;
-        Account account1 = bank.createSavingsAccount(accountNumber1);
-        Account account2 = bank.createSavingsAccount(accountNumber2);
+        Account account1 = bankDomainService.createSavingsAccount(accountNumber1);
+        Account account2 = bankDomainService.createSavingsAccount(accountNumber2);
 
-        bank.deposit(accountNumber1,DEPOSIT_AMOUNT);
-        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+        bankDomainService.deposit(accountNumber1,DEPOSIT_AMOUNT);
+        bankDomainService.transfer(account1, account2, TRANSFER_AMOUNT);
     }
 
     @Test(expected = OutRangeValuesException.class)
@@ -340,11 +345,11 @@ public class BankTest {
         String accountNumber2 = "576387900";
         final double TRANSFER_AMOUNT = 4000.0;
         final double DEPOSIT_AMOUNT = 5000.0;
-        Account account1 = bank.createCurrentAccount(accountNumber1);
-        Account account2 = bank.createCurrentAccount(accountNumber2);
+        Account account1 = bankDomainService.createCurrentAccount(accountNumber1);
+        Account account2 = bankDomainService.createCurrentAccount(accountNumber2);
 
-        bank.deposit(accountNumber1,DEPOSIT_AMOUNT);
-        bank.transfer(account1, account2, TRANSFER_AMOUNT);
+        bankDomainService.deposit(accountNumber1,DEPOSIT_AMOUNT);
+        bankDomainService.transfer(account1, account2, TRANSFER_AMOUNT);
     }
 
     @Test
@@ -353,10 +358,10 @@ public class BankTest {
         final double AMOUNT_TO_DEPOSIT = 60.0;
         final double AMOUNT_TO_WITHDRAWAL = 7.0;
         final double EXPECTED_BALANCE_AMOUNT = AMOUNT_TO_DEPOSIT - AMOUNT_TO_WITHDRAWAL;
-        Account account = bank.createSavingsAccount(ACCOUNT_NUMBER);
+        Account account = bankDomainService.createSavingsAccount(ACCOUNT_NUMBER);
 
-        bank.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
-        bank.withdrawal(ACCOUNT_NUMBER, AMOUNT_TO_WITHDRAWAL);
+        bankDomainService.deposit(ACCOUNT_NUMBER, AMOUNT_TO_DEPOSIT);
+        bankDomainService.withdrawal(ACCOUNT_NUMBER, AMOUNT_TO_WITHDRAWAL);
 
         assertThat(account.getBalance(), is(EXPECTED_BALANCE_AMOUNT));
     }
@@ -366,7 +371,7 @@ public class BankTest {
         final String ACCOUNT_NUMBER = "1123321100";
         final double WITHDRAWAL_AMOUNT = 0;
 
-        bank.withdrawal(ACCOUNT_NUMBER, WITHDRAWAL_AMOUNT);
+        bankDomainService.withdrawal(ACCOUNT_NUMBER, WITHDRAWAL_AMOUNT);
     }
 
     @Test(expected = NegativeValuesException.class)
@@ -374,28 +379,31 @@ public class BankTest {
         final String ACCOUNT_NUMBER = "1110002200";
         final double EXPECTED_AMOUNT = -20.0;
 
-        bank.withdrawal(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
+        bankDomainService.withdrawal(ACCOUNT_NUMBER, EXPECTED_AMOUNT);
     }
 
     //informacion de las cuentas asociadas al cliente falta
     @Test
     public void shouldPrintAccountDetail() {
         final String ACCOUNT_NUMBER = "1110002200";
-        Account account = bank.createSavingsAccount(ACCOUNT_NUMBER);
+        Account account = bankDomainService.createSavingsAccount(ACCOUNT_NUMBER);
 
-        String result = bank.printDetailAccount(ACCOUNT_NUMBER);
+        String result = bankDomainService.printDetailAccount(ACCOUNT_NUMBER);
 
         assertThat(result, is(account.print()));
     }
 
     @Test
     public void shouldPrintClientDetail() throws RepeatedValuesExeptions {
-        final String ID = "1123000001";
+        final String ACCOUNT_NUMBER = "1123000001";
+        final String ID = "1201";
         final String NAME = "name";
         MaritalStatus MARITAL_STATUS = MaritalStatus.SINGLE;
-        Client client = bank.createClient(ID, NAME, MARITAL_STATUS);
+        Client client = bankDomainService.createClient(ID, NAME, MARITAL_STATUS);
+        Account account = bankDomainService.createSavingsAccount(ACCOUNT_NUMBER);
+        client.addAccount(account);
 
-        String result = bank.printDetailClient(ID);
+        String result = bankDomainService.printDetailClient(ID);
 
         assertThat(result, is(client.print()));
     }

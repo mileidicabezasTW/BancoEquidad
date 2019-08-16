@@ -6,11 +6,11 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 public class BankService {
-
+    BankDomainService  bankDomainService;
     private PrintStream printStream;
     private Scanner scanner;
 
-    public BankService(PrintStream printStream, Scanner scanner) {
+    public BankService(PrintStream printStream, Scanner scanner, Client mockClient) {
         this.printStream = printStream;
         this.scanner = scanner;
     }
@@ -36,4 +36,15 @@ public class BankService {
     }
 
 
+    public void showMenuClientRegistration() {
+        System.out.println("-----------Enter your detail-----------\n");
+        System.out.println("Enter your Id");
+        System.out.println("Enter your name");
+        System.out.println("Choose your marital status");
+        System.out.println("1. Married");
+        System.out.println("2. Singled");
+        System.out.println("3. Divorced");
+        System.out.println("4. Others");
+
+    }
 }

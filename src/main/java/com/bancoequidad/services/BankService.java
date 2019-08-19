@@ -1,16 +1,17 @@
 package com.bancoequidad.services;
 
+import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.models.Client;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
 public class BankService {
-    BankDomainService  bankDomainService;
+    BankDomainService bankDomainService;
     private PrintStream printStream;
     private Scanner scanner;
 
-    public BankService(PrintStream printStream, Scanner scanner, Client mockClient) {
+    public BankService(PrintStream printStream, Scanner scanner, Client Client) {
         this.printStream = printStream;
         this.scanner = scanner;
     }
@@ -29,22 +30,41 @@ public class BankService {
 
         int option = scanner.nextInt();
 
-        if(option == 1){
-            printStream.println("-----------Enter your detail-----------\n");
+        if (option == 1) {
+            printStream.println("-----------Enter the detail-----------\n");
         }
 
     }
 
 
     public void showMenuClientRegistration() {
-        System.out.println("-----------Enter your detail-----------\n");
-        System.out.println("Enter your Id");
-        System.out.println("Enter your name");
-        System.out.println("Choose your marital status");
-        System.out.println("1. Married");
-        System.out.println("2. Singled");
-        System.out.println("3. Divorced");
-        System.out.println("4. Others");
+        printStream.println("-----------Enter the client detail-----------\n");
+        printStream.println("Enter your Id");
+      //  String id = scanner.next();
+        printStream.println("Enter your name");
+        //String name = scanner.next();
+        printStream.println("Choose your marital status");
+        printStream.println("1. Married");
+        printStream.println("2. Singled");
+        printStream.println("3. Divorced");
+        printStream.println("4. Others");
+        MaritalStatus maritalStatus;
+        int maritalStatusOptions = scanner.nextInt();
+        if (maritalStatusOptions == 1) {
+            maritalStatus = MaritalStatus.MARRIED;
+        } else if (maritalStatusOptions == 2) {
+            maritalStatus = MaritalStatus.SINGLE;
+        } else if (maritalStatusOptions == 3) {
+            maritalStatus = MaritalStatus.DIVORCED;
+        } else {
+            maritalStatus = MaritalStatus.OTHERS;
+        }
+        //bankDomainService.createClient(id,name,maritalStatus);
+    }
+
+    public void chooseMaritalStatus() {
+
 
     }
+
 }

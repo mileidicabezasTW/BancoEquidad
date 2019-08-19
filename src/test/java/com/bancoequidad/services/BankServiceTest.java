@@ -3,6 +3,7 @@ package com.bancoequidad.services;
 import com.bancoequidad.Enum.MaritalStatus;
 import com.bancoequidad.models.Client;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 import static org.mockito.Mockito.*;
 
 public class BankServiceTest {
+
     BankDomainService bankDomainService;
 
     @Test
@@ -17,7 +19,8 @@ public class BankServiceTest {
         PrintStream printStream = mock(PrintStream.class);
         Scanner mockScanner = mock(Scanner.class);
         Client mockClient = mock(Client.class);
-        BankService bankService = new BankService(printStream, mockScanner,mockClient);
+        MaritalStatus mockMaritalStatus = mock(MaritalStatus.class);
+        BankService bankService = new BankService(printStream, mockScanner, mockClient);
 
         bankService.showMenu();
 
@@ -33,36 +36,29 @@ public class BankServiceTest {
     }
 
     @Test
-    public void shouldRegisterClientWhenOption1IsInserted(){
+    public void shouldEnterInRegistrationClientOption() {
         PrintStream printStream = mock(PrintStream.class);
         Scanner mockScanner = mock(Scanner.class);
-        when(mockScanner.nextInt()).thenReturn(1);
+        MaritalStatus mockMaritalStatus = mock(MaritalStatus.class);
         Client mockClient = mock(Client.class);
-
-        when(mockScanner.next()).thenReturn("xyz");
-
         BankService bankService = new BankService(printStream, mockScanner, mockClient);
-
+        when(mockScanner.nextInt()).thenReturn(1);
         bankService.showMenu();
 
-        verify(printStream).println("------------Menu------------");
-
-        //verify(printStream).println("Enter your id");
-
-
+        verify(printStream).println("-----------Enter the detail-----------\n");
     }
 
     @Test
-    public void shouldDisplayAllAvailableOptionsForClientRegistration(){
+    public void shouldDisplayAllAvailableOptionsForInsertClient() {
         PrintStream printStream = mock(PrintStream.class);
         Scanner mockScanner = mock(Scanner.class);
         Client mockClient = mock(Client.class);
-        BankService bankService = new BankService(printStream, mockScanner,mockClient);
-        when(mockScanner.next()).thenReturn("-----------Enter your detail-----------\n");
+        MaritalStatus mockMaritalStatus = mock(MaritalStatus.class);
+        BankService bankService = new BankService(printStream, mockScanner, mockClient);
 
         bankService.showMenuClientRegistration();
 
-        verify(printStream).println("-----------Enter your detail-----------\n");
+        verify(printStream).println("-----------Enter the client detail-----------\n");
         verify(printStream).println("Enter your Id");
         verify(printStream).println("Enter your name");
         verify(printStream).println("Choose your marital status");
@@ -70,5 +66,20 @@ public class BankServiceTest {
         verify(printStream).println("2. Singled");
         verify(printStream).println("3. Divorced");
         verify(printStream).println("4. Others");
+    }
+
+    @Test
+    public void shouldChooseTheClientMaritalStatus() {
+        PrintStream printStream = mock(PrintStream.class);
+        Scanner mockScanner = mock(Scanner.class);
+        Client mockClient = mock(Client.class);
+        BankService bankService = new BankService(printStream, mockScanner, mockClient);
+        Mockito.doReturn(MaritalStatus.MARRIED).when(mockScanner.nextInt()).equals(1);
+        Mockito.doReturn(MaritalStatus.MARRIED).when(mockScanner.nextInt());
+
+        bankService.chooseMaritalStatus();
+
+        verify(printStream).println(MaritalStatus.MARRIED);
+
     }
 }

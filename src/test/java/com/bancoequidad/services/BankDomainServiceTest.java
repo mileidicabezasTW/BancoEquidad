@@ -6,7 +6,6 @@ import com.bancoequidad.models.Account;
 import com.bancoequidad.models.Client;
 import com.bancoequidad.models.CurrentAccount;
 import com.bancoequidad.models.SavingsAccount;
-import com.bancoequidad.services.BankDomainService;
 import org.junit.Before;
 import org.junit.Test;
 

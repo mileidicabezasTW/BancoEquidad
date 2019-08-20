@@ -13,7 +13,7 @@ public class Client {
     private MaritalStatus maritalStatus;
     private List<Account> accountsList = new ArrayList<>();
 
-    public Client( String idNumber,String name, MaritalStatus marital_status) {
+    public Client(String idNumber, String name, MaritalStatus marital_status) {
         this.idNumber = idNumber;
         this.name = name;
         this.maritalStatus = marital_status;

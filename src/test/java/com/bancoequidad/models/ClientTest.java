@@ -1,7 +1,6 @@
 package com.bancoequidad.models;
 
 import com.bancoequidad.Enum.MaritalStatus;
-import com.bancoequidad.exceptions.OnlyStringException;
 import com.bancoequidad.exceptions.RepeatedValuesExeptions;
 import org.junit.Before;
 import org.junit.Test;

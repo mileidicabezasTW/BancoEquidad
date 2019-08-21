@@ -34,6 +34,7 @@ public class App {
         } else {
             maritalStatus = MaritalStatus.OTHERS;
         }
+
         bankDomainService.createClient(id, name, maritalStatus);
         System.out.println("Successful registration\n");
     }

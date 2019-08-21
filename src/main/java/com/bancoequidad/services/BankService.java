@@ -1,7 +1,7 @@
 package com.bancoequidad.services;
 
 import com.bancoequidad.Enum.MaritalStatus;
-import com.bancoequidad.models.Client;
+import com.bancoequidad.models.Account;
 
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -35,23 +35,21 @@ public class BankService {
             showMenuClientRegistration();
 
         }
-
     }
 
-
     private void showMenuClientRegistration() {
-        int maritalStatusOptions = scanner.nextInt();
-        MaritalStatus maritalStatus;
-        printStream.println("-----------Enter the client detail-----------\n");
-        printStream.println("Enter your Id");
+        int maritalStatusOptions;
+        MaritalStatus maritalStatus = MaritalStatus.OTHERS;
+        System.out.println("-----------Enter your detail-----------\n");
+        System.out.println("Enter your Id");
         String id = scanner.next();
-        printStream.println("Enter your name");
+        System.out.println("Enter your name");
         String name = scanner.next();
-        printStream.println("Choose your marital status");
-        printStream.println("1. Married");
-        printStream.println("2. Singled");
-        printStream.println("3. Divorced");
-        printStream.println("4. Others");
+        System.out.println("Choose your marital status");
+        System.out.println("1. Married");
+        System.out.println("2. Singled");
+        System.out.println("3. Divorced");
+        System.out.println("4. Others");
         maritalStatusOptions = scanner.nextInt();
 
         if (maritalStatusOptions == 1) {
@@ -60,10 +58,10 @@ public class BankService {
             maritalStatus = MaritalStatus.SINGLE;
         }else if (maritalStatusOptions == 3) {
             maritalStatus = MaritalStatus.DIVORCED;
-        } else {
+        } else if(maritalStatusOptions >= 4){
             maritalStatus = MaritalStatus.OTHERS;
         }
-        //bankDomainService.createClient(id, name, maritalStatus);
-        System.out.println("Successful registration\n");
+        printStream.println("Successful registration\n");
     }
 }
+
